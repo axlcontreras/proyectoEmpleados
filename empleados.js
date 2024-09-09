@@ -11,7 +11,7 @@ class Empleado{
         this.sueldoMensual = this.calcularSueldoMensual(),
         this.bonoPorcentual = this.calcularBonoPorcentual(),
         this.sueldoTotal = this.calcularSueldoTotal(),
-        this.contratado = false      
+        this.contratado = false
     }//CONSULTAR SI DECLARA CON LET VAR CONST LOS ATRIBUTOS
     // ingresarNombre(){
     //     let nombre = prompt(`Por favor ingrese el nombre`)
@@ -79,7 +79,8 @@ class Empleado{
         alert(`${this.nombre} ${this.apellido}
             >Cantidad de horas trabajadas: ${this.cantHoras} horas
             >Por hora paga: $${this.valorHora}.-
-            >Tiene una antiguedad de: ${this.antiguedad} año/s`)
+            >Tiene una antiguedad de: ${this.antiguedad} año/s
+            >Empleado contratado: ${this.contratado}`)
     }
     contratarEmpleado(){
         let pregunta = prompt(`Desea contratar al empleado? Por mes el costo aproximados de sus servicios son: $${this.sueldoTotal}`)
@@ -196,11 +197,11 @@ function menu(){
                     alert(`El empleado se contrató previamente`)
                 }else{
                     empleado.contratarEmpleado()
+                    empleadosContratados.push(empleado)
                 }
             break
             case "5":
                 alert(`El ultimo empleado cargado es: ${(arrayEmpleados[(arrayEmpleados.length)-1].nombre)} ${(arrayEmpleados[(arrayEmpleados.length)-1].apellido)}`)
-                console.log(arrayEmpleados)
             break
             case "6":
                 let preguntaBorrar = prompt(`Esta seguro que desea borrar el empleado?`)
@@ -224,6 +225,8 @@ function menu(){
 }
 
 const arrayEmpleados = []
+const empleadosContratados = []
+
 const empleado1 = new Empleado ("Axel", "Contreras", 150)
 const empleado2 = new Empleado ("Lucas", "Suarez", 120)
 const empleado3 = new Empleado ("Ramon", "Ortigoza", 90)
@@ -231,8 +234,18 @@ const empleado4 = new Empleado ("Esteban", "Perez", 110)
 const empleado5 = new Empleado ("Camilo", "Salomon", 45)
 arrayEmpleados.push(empleado1, empleado2, empleado3, empleado4, empleado5)
 
-console.log(arrayEmpleados)
+//Cargar empleados contratados 
+// arrayEmpleados.forEach(function (empleado){
+//     if(empleado.contratado == true){
+//         empleadosContratados.push(empleado)
+//         console.log(`Se contrató empleado: ${empleado}`)
+//     }
+// })
+
 menu()
+console.log(arrayEmpleados)
+console.log(empleadosContratados)
+console.log(`Los empleados contratados son: ${empleadosContratados}`)
 
 //BUSCAR CON FILTER 
 // let buscarSueldoFilter = arrayEmpleados.filter((empleado)=> empleado.sueldoTotal < 500000)
