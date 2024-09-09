@@ -7,58 +7,55 @@ class Empleado{
         this.apellido = apellido, //this.ingresarApellido(),
         this.valorHora = 5000,
         this.cantHoras = cantHoras, //this.ingresarHoras(),
-        this.antiguedad = 0,
-        // this.valorHora = this.tasarHora(),
-        // this.cantHoras = this.ingresarHoras(),
-        // this.antiguedad = this.ingresarAntiguedad(),
+        this.antiguedad = 0, // this.ingresarAntiguedad()
         this.sueldoMensual = this.calcularSueldoMensual(),
         this.bonoPorcentual = this.calcularBonoPorcentual(),
         this.sueldoTotal = this.calcularSueldoTotal(),
         this.contratado = false      
     }//CONSULTAR SI DECLARA CON LET VAR CONST LOS ATRIBUTOS
-    ingresarNombre(){
-        let nombre = prompt(`Por favor ingrese el nombre`)
-        while(nombre == "" || isNaN(nombre) == false){
-            if (nombre == ""){
-                nombre = prompt(`Atención! El nombre no puede estar vacio, por favor ingrese el nombre correctamente`)
-            }else if(isNaN(nombre) == false){
-                nombre = prompt(`Atención! El nombre no puede ser un numero, por favor ingrese el nombre correctamente`)
-            }
-        }
-        return nombre
-    }
-    ingresarApellido(){
-        let apellido = prompt(`Por favor ingrese el apellido`)
-        while(apellido == "" || isNaN(apellido) == false){
-            if (apellido == ""){
-                apellido = prompt(`Atención! El apellido no puede estar vacio, por favor ingrese el apellido correctamente`)
-            }else if(isNaN(apellido) == false){
-                apellido = prompt(`Atención! El apellido no puede ser un numero, por favor ingrese el apellido correctamente`)
-            }
-        }
-        return apellido
-    }
-    tasarHora(){
-        let valorHora = Number(prompt("Por favor ingrese el valor de la hora"))
-        while(isNaN(valorHora) || valorHora <= 0 || valorHora == ""){
-            valorHora = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese el valor de la hora"))
-        }
-        return valorHora
-    }
-    ingresarHoras (){
-        let horas = Number(prompt("Por favor ingrese la cantidad de horas trabajadas en el mes"))
-        while(isNaN(horas) || horas <= 0 || horas == ""){
-             horas = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese la cantidad de horas trabajadas en el mes correctamente"))
-        }
-        return horas
-    }
-    ingresarAntiguedad(){
-        let antiguedad = Number(prompt(`Por favor ingrese los años de antigüedad`))
-        while(isNaN(antiguedad) || antiguedad > 80 || antiguedad < 0){
-            antiguedad = Number(prompt(`Atención, los años ingresados son incorrectos! Por favor ingrese los años de antigüedad`))
-        }
-        return antiguedad
-    }
+    // ingresarNombre(){
+    //     let nombre = prompt(`Por favor ingrese el nombre`)
+    //     while(nombre == "" || isNaN(nombre) == false){
+    //         if (nombre == ""){
+    //             nombre = prompt(`Atención! El nombre no puede estar vacio, por favor ingrese el nombre correctamente`)
+    //         }else if(isNaN(nombre) == false){
+    //             nombre = prompt(`Atención! El nombre no puede ser un numero, por favor ingrese el nombre correctamente`)
+    //         }
+    //     }
+    //     return nombre
+    // }
+    // ingresarApellido(){
+    //     let apellido = prompt(`Por favor ingrese el apellido`)
+    //     while(apellido == "" || isNaN(apellido) == false){
+    //         if (apellido == ""){
+    //             apellido = prompt(`Atención! El apellido no puede estar vacio, por favor ingrese el apellido correctamente`)
+    //         }else if(isNaN(apellido) == false){
+    //             apellido = prompt(`Atención! El apellido no puede ser un numero, por favor ingrese el apellido correctamente`)
+    //         }
+    //     }
+    //     return apellido
+    // }
+    // tasarHora(){
+    //     let valorHora = Number(prompt("Por favor ingrese el valor de la hora"))
+    //     while(isNaN(valorHora) || valorHora <= 0 || valorHora == ""){
+    //         valorHora = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese el valor de la hora"))
+    //     }
+    //     return valorHora
+    // }
+    // ingresarHoras (){
+    //     let horas = Number(prompt("Por favor ingrese la cantidad de horas trabajadas en el mes"))
+    //     while(isNaN(horas) || horas <= 0 || horas == ""){
+    //          horas = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese la cantidad de horas trabajadas en el mes correctamente"))
+    //     }
+    //     return horas
+    // }
+    // ingresarAntiguedad(){
+    //     let antiguedad = Number(prompt(`Por favor ingrese los años de antigüedad`))
+    //     while(isNaN(antiguedad) || antiguedad > 80 || antiguedad < 0){
+    //         antiguedad = Number(prompt(`Atención, los años ingresados son incorrectos! Por favor ingrese los años de antigüedad`))
+    //     }
+    //     return antiguedad
+    // } //TODO ESTO SE COMENTÓ PORQUE HAY UNA FUNCION FUERA DE LA CLASE QUE CARGA UN EMPLEADO
     calcularSueldoMensual(){
         let sueldoMensual = this.valorHora * this.cantHoras
         return sueldoMensual
@@ -99,22 +96,67 @@ class Empleado{
         }
     }
     borrarEmpleado(){
-        this.nombre = "",
-        this.apellido = "",
-        this.valorHora = "",
-        this.cantHoras = "",
-        this.antiguedad = "",
-        this.sueldoMensual = "",
-        this.bonoPorcentual = "",
-        this.sueldoTotal = "",
-        this.contratado = false,
-        this.activo = false      
     }//pensar funcion borrar el empleado ACTUALMENTE NO FUNCIONAL
-    //Este borrar se puede aplicar utilizando los metodos de los arrays!!!!
+    //Este borrar se puede aplicar utilizando los metodos de los arrays!!!! 
     exponerEmpleados(){
         console.log(this.nombre, this.apellido, this.sueldoTotal)
     }
 }
+function cargarEmpleado(){
+    let nombreCarg = ingresarNombre()
+    let apellidoCarg = ingresarApellido()
+//    let valorHoraCarg = tasarHora()
+    let cantHorasCarg = ingresarHoras()
+//    let antiguedadCarg = ingresarAntiguedad()
+    const empleado = new Empleado (nombreCarg, apellidoCarg, cantHorasCarg) 
+    function ingresarNombre(){
+        let nombre = prompt(`Por favor ingrese el nombre`)
+        while(nombre == "" || isNaN(nombre) == false){
+            if (nombre == ""){
+                nombre = prompt(`Atención! El nombre no puede estar vacio, por favor ingrese el nombre correctamente`)
+            }else if(isNaN(nombre) == false){
+                nombre = prompt(`Atención! El nombre no puede ser un numero, por favor ingrese el nombre correctamente`)
+            }
+        }
+        return nombre
+    }
+    function ingresarApellido(){
+        let apellido = prompt(`Por favor ingrese el apellido`)
+        while(apellido == "" || isNaN(apellido) == false){
+            if (apellido == ""){
+                apellido = prompt(`Atención! El apellido no puede estar vacio, por favor ingrese el apellido correctamente`)
+            }else if(isNaN(apellido) == false){
+                apellido = prompt(`Atención! El apellido no puede ser un numero, por favor ingrese el apellido correctamente`)
+            }
+        }
+        return apellido
+    }
+    // function tasarHora(){
+    //     let valorHora = Number(prompt("Por favor ingrese el valor de la hora"))
+    //     while(isNaN(valorHora) || valorHora <= 0 || valorHora == ""){
+    //         valorHora = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese el valor de la hora"))
+    //     }
+    //     return valorHora
+    // }
+    function ingresarHoras (){
+        let horas = Number(prompt("Por favor ingrese la cantidad de horas trabajadas en el mes"))
+        while(isNaN(horas) || horas <= 0 || horas == ""){
+             horas = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese la cantidad de horas trabajadas en el mes correctamente"))
+        }
+        return horas
+    }
+    // function ingresarAntiguedad(){
+    //     let antiguedad = Number(prompt(`Por favor ingrese los años de antigüedad`))
+    //     while(isNaN(antiguedad) || antiguedad > 80 || antiguedad < 0){
+    //         antiguedad = Number(prompt(`Atención, los años ingresados son incorrectos! Por favor ingrese los años de antigüedad`))
+    //     }
+    //     return antiguedad
+    // }
+    return empleado
+    
+}
+
+
 function menu(){
     let finalizarMenu = false
     let empleado = "vacio"
@@ -130,12 +172,8 @@ function menu(){
                             0 - Salir del menú`)
         switch(opcion){
             case "1":
-                // if(empleado != "vacio"){
-                //     alert(`Atención! Ya hay un empleado cargado. Borre el empleado actual con la opción 5 para poder cargar los datos nuevamente`)
-                // }else{
-                empleado = new Empleado()
+                empleado = cargarEmpleado()
                 arrayEmpleados.push(empleado)
-                // }
             break
             case "2":
                 if(empleado == "vacio"){
@@ -184,161 +222,26 @@ function menu(){
         }
     }
 }
-// menu()
 
 const arrayEmpleados = []
-let empleado1 = new Empleado ("Axel", "Contreras", 150)
-let empleado2 = new Empleado ("Lucas", "Suarez", 120)
-let empleado3 = new Empleado ("Ramon", "Ortigoza", 90)
-let empleado4 = new Empleado ("Esteban", "Perez", 110)
-let empleado5 = new Empleado ("Camilo", "Salomon", 45)
-
+const empleado1 = new Empleado ("Axel", "Contreras", 150)
+const empleado2 = new Empleado ("Lucas", "Suarez", 120)
+const empleado3 = new Empleado ("Ramon", "Ortigoza", 90)
+const empleado4 = new Empleado ("Esteban", "Perez", 110)
+const empleado5 = new Empleado ("Camilo", "Salomon", 45)
 arrayEmpleados.push(empleado1, empleado2, empleado3, empleado4, empleado5)
+
 console.log(arrayEmpleados)
+menu()
 
-let buscarSueldoFilter = arrayEmpleados.filter((empleado)=> empleado.sueldoTotal < 500000)
-console.log(buscarSueldoFilter)
+//BUSCAR CON FILTER 
+// let buscarSueldoFilter = arrayEmpleados.filter((empleado)=> empleado.sueldoTotal < 500000)
+// console.log(buscarSueldoFilter)
 
-if(buscarSueldoFilter.length == 0){
-    console.log(`No hay empleados que cobren menos de 300000`)
-}else{
-    buscarSueldoFilter.forEach(
-        (empleado)=>empleado.exponerEmpleados()
-    )
-}
-
-console.log("Probando modificar proyecto")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function ingresarNombre(){
-//     let nombre = prompt(`Por favor ingrese el nombre`)
-//     while(nombre == "" || isNaN(nombre) == false){
-//         if (nombre == ""){
-//             nombre = prompt(`Atención! El nombre no puede estar vacio, por favor ingrese el nombre correctamente`)
-//         }else if(isNaN(nombre) == false){
-//             nombre = prompt(`Atención! El nombre no puede ser un numero, por favor ingrese el nombre correctamente`)
-//         }
-//     }
-//     return nombre
+// if(buscarSueldoFilter.length == 0){
+//     console.log(`No hay empleados que cobren menos de 500000`)
+// }else{
+//     buscarSueldoFilter.forEach(
+//         (empleado)=>empleado.exponerEmpleados()
+//     )
 // }
-// function ingresarApellido(){
-//     let apellido = prompt(`Por favor ingrese el apellido`)
-//     while(apellido == "" || isNaN(apellido) == false){
-//         if (apellido == ""){
-//             apellido = prompt(`Atención! El apellido no puede estar vacio, por favor ingrese el apellido correctamente`)
-//         }else if(isNaN(apellido) == false){
-//             apellido = prompt(`Atención! El apellido no puede ser un numero, por favor ingrese el apellido correctamente`)
-//         }
-//     }
-//     return apellido
-// }
-// function tasarHora(){
-//     let valorHora = Number(prompt("Por favor ingrese el valor de la hora"))
-//     while(isNaN(valorHora) || valorHora <= 0 || valorHora == ""){
-//         valorHora = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese el valor de la hora"))
-//     }
-//     return valorHora
-// }
-// function ingresarHoras (){
-//     let horas = Number(prompt("Por favor ingrese la cantidad de horas trabajadas en el mes"))
-//     while(isNaN(horas) || horas <= 0 || horas == ""){
-//          horas = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese la cantidad de horas trabajadas en el mes correctamente"))
-//     }
-//     return horas
-// }
-// function ingresarAntiguedad(){
-//     let antiguedad = Number(prompt(`Por favor ingrese los años de antigüedad`))
-//     while(isNaN(antiguedad) || antiguedad > 80 || antiguedad < 0){// || antiguedad == "")(CONSULTAR SI ESTO ES == 0(IGUAL A CERO))
-//         antiguedad = Number(prompt(`Atención, los años ingresados son incorrectos! Por favor ingrese los años de antigüedad`))
-//     }
-//     return antiguedad
-// }
-// function cargarEmpleado(){ //funcion crea objeto litereal NO CONTRUCTORA
-//     let nombreCarg = ingresarNombre()
-//     let apellidoCarg = ingresarApellido()
-//     let valorHoraCarg = tasarHora()
-//     let cantHorasCarg = ingresarHoras()
-//     let antiguedadCarg = ingresarAntiguedad()
-//     let EmpleadoCargado = {
-//         nombre: nombreCarg,
-//         apellido: apellidoCarg,
-//         valorHora: valorHoraCarg,
-//         cantHoras: cantHorasCarg,
-//         antiguedad: antiguedadCarg
-//     }
-//     return EmpleadoCargado
-// }
-//CALCULAR SUELDO MENSUAL
-// function calcularSueldoMensual(valorHora, horasTrabajadas){
-//     let sueldoMensual = valorHora * horasTrabajadas
-//     return sueldoMensual
-// }
-//CALCULAR BONO
-// function calcularBonoPorcentual(antiguedad){
-//     let bonoPorcentual =  1.0
-//     for (let i = 0; i < antiguedad; i++){
-//         bonoPorcentual= bonoPorcentual + 0.05
-//     }
-//     return bonoPorcentual
-// }
-//CALCULAR SUELDO MENSUAL MAS BONO
-// function calcularSueldoTotal(sueldoMensual, porcentajeBono){
-//     let sueldoTotal = sueldoMensual * porcentajeBono
-//     return sueldoTotal
-// }
-
-// function mostrarSueldo(empleado){
-//     let sueldoMes = calcularSueldoMensual(empleado.valorHora,empleado.cantHoras)
-//     let sueldoTotal = calcularSueldoTotal(sueldoMes, calcularBonoPorcentual(empleado.antiguedad))
-//     alert(`El sueldo de ${empleado.nombre} ${empleado.apellido} es: $${sueldoTotal.toFixed(2)}.- `)
-//     return sueldoTotal
-// }
-// function mostrarDetalle(empleado){
-//     alert(`${empleado.nombre} ${empleado.apellido}
-//         >Cantidad de horas trabajadas: ${empleado.cantHoras} horas
-//         >Por hora paga: $${empleado.valorHora}.-
-//         >Tiene una antiguedad de: ${empleado.antiguedad} año/s`)
-// }
-
-
-
-
