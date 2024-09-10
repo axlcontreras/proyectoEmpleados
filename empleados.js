@@ -2,7 +2,8 @@
 //HAY OBJETOS // HAY MENU 
 
 class Empleado{
-    constructor(nombre, apellido, cantHoras){
+    constructor(id, nombre, apellido, cantHoras){
+        this.id = id,
         this.nombre = nombre,//this.ingresarNombre(),
         this.apellido = apellido, //this.ingresarApellido(),
         this.valorHora = 5000,
@@ -76,7 +77,7 @@ class Empleado{
 
     }
     mostrarDetalle(){
-        alert(`${this.nombre} ${this.apellido}
+        alert(`${this.nombre} ${this.apellido}    ID: ${this.id}
             >Cantidad de horas trabajadas: ${this.cantHoras} horas
             >Por hora paga: $${this.valorHora}.-
             >Tiene una antiguedad de: ${this.antiguedad} año/s
@@ -96,20 +97,19 @@ class Empleado{
             alert(`No se ha contratado al empleado`)
         }
     }
-    borrarEmpleado(){
-    }//pensar funcion borrar el empleado ACTUALMENTE NO FUNCIONAL
-    //Este borrar se puede aplicar utilizando los metodos de los arrays!!!! 
     exponerEmpleados(){
-        console.log(this.nombre, this.apellido, this.sueldoTotal)
+        let info = (`ID: ${this.id}.......Nombre: ${this.nombre} ${this.apellido} || Sueldo: $${this.sueldoTotal}`)
+        return info
     }
 }
 function cargarEmpleado(){
+    let id = arrayEmpleados.length+1
     let nombreCarg = ingresarNombre()
     let apellidoCarg = ingresarApellido()
 //    let valorHoraCarg = tasarHora()
     let cantHorasCarg = ingresarHoras()
 //    let antiguedadCarg = ingresarAntiguedad()
-    const empleado = new Empleado (nombreCarg, apellidoCarg, cantHorasCarg) 
+    const empleado = new Empleado (id, nombreCarg, apellidoCarg, cantHorasCarg) 
     function ingresarNombre(){
         let nombre = prompt(`Por favor ingrese el nombre`)
         while(nombre == "" || isNaN(nombre) == false){
@@ -156,24 +156,48 @@ function cargarEmpleado(){
     return empleado
     
 }
-
-
+function ordenarMenorMayorSueldo(array){
+    let arrayMenorMayor = [].concat(array)
+    arrayMenorMayor.sort((a,b)=>a.sueldoTotal - b.sueldoTotal)
+    console.log(arrayMenorMayor)
+    return arrayMenorMayor
+}
+function ordenarAlfabeticamente(array){
+    let arrayAlfabetico = [].concat(array)
+    arrayAlfabetico.sort((a, b)=>{
+        if (a.nombre < b.nombre){
+            return -1
+        }if (a.nombre < b.nombre){
+            return 1
+        }
+        return 0
+    })
+    return arrayAlfabetico
+}
+function buscarIndex(array, id){
+    let index = array.findIndex(empleado=>empleado.id == id)
+    return index
+}
 function menu(){
     let finalizarMenu = false
     let empleado = "vacio"
+    let seleccionEmpleado = arrayEmpleados.length-1
     while(finalizarMenu ==false){
-        let opcion = prompt(`CARGA DE EMPLEADOS
-                            Ingrese la opción que desea:
-                            1 - Cargar empleado
-                            2 - Mostrar Sueldo 
-                            3 - Mostrar Detalle
-                            4 - Contratar empleado
-                            5 - Mostrar ultimo empleado cargado
-                            6 - Borrar empleado
-                            0 - Salir del menú`)
+        let opcion = prompt(`PROYECTO EMPLEADOS
+    Ingrese la opción que desea:
+        1 - Cargar empleado
+        2 - Mostrar Sueldo
+        3 - Mostrar Detalle
+        4 - Contratar
+        5 - Mostrar empleados
+        6 - Borrar empleado
+        7 - Seleccionar Empleado
+        8 - Ordenar de menor a mayor sueldo
+        9 - Ordenar por nombre alfabeticamente
+        0 - Salir del menú`)
         switch(opcion){
             case "1":
-                empleado = cargarEmpleado()
+                empleado = cargarEmpleado(arrayEmpleados)
                 arrayEmpleados.push(empleado)
             break
             case "2":
@@ -201,18 +225,67 @@ function menu(){
                 }
             break
             case "5":
-                alert(`El ultimo empleado cargado es: ${(arrayEmpleados[(arrayEmpleados.length)-1].nombre)} ${(arrayEmpleados[(arrayEmpleados.length)-1].apellido)}`)
+                let infoTodos = ""
+                arrayEmpleados.forEach(
+                    function(empleado){
+                        infoTodos = infoTodos+empleado.exponerEmpleados()+`
+                        `
+                })
+                alert(`Los empleados cargados son: 
+                    
+                        ${infoTodos}`)
             break
             case "6":
-                let preguntaBorrar = prompt(`Esta seguro que desea borrar el empleado?`)
+                // let preguntaBorrar = prompt(`Esta seguro que desea borrar el empleado? Se borrara el ultimo empleado si no ha hecho una selección`)
+                // if (preguntaBorrar.toLowerCase() == "si"){
+                //     arrayEmpleados.splice(seleccionEmpleado-1, 1)
+                //     alert(`Se ha borrado la información del empleado correctamente`)
+                // }else{
+                //     alert(`No se ha borrado el empleado`)
+                // }
+                let preguntaBorrar = prompt(`Esta seguro que desea borrar el empleado? Se borrara el ultimo empleado si no ha hecho una selección`)
                 if (preguntaBorrar.toLowerCase() == "si"){
-                    empleado = "vacio"
+                    let index = buscarIndex(arrayEmpleados,seleccionEmpleado)
+                    arrayEmpleados.splice(index, 1)
                     alert(`Se ha borrado la información del empleado correctamente`)
                 }else{
                     alert(`No se ha borrado el empleado`)
                 }
             break
-
+            case "7":
+                //Seleccionar empleado segun su id
+                let info = ""
+                arrayEmpleados.forEach(
+                    function(empleado){
+                        info = info+empleado.exponerEmpleados()+`
+                        `
+                })
+                seleccionEmpleado = Number(prompt(`Por favor seleccione el empleado segun ID: 
+                    
+                        ${info}`))
+                indexEmpleado = buscarIndex(arrayEmpleados, seleccionEmpleado)
+                empleado = arrayEmpleados[indexEmpleado]
+            break
+            case "8":
+                let infOrdenada = "                        "
+                let arrayOrdenado = ordenarMenorMayorSueldo(arrayEmpleados)
+                arrayOrdenado.forEach(
+                    function(empleado){
+                        infOrdenada = infOrdenada+empleado.exponerEmpleados()+`
+                        `
+                })
+                alert(infOrdenada)
+            break
+            case "9":
+                let infAlfa = "                        "
+                let arrayAlfa = ordenarAlfabeticamente(arrayEmpleados)
+                arrayAlfa.forEach(
+                    function(empleado){
+                        infAlfa = infAlfa+empleado.exponerEmpleados()+`
+                        `
+                })
+                alert(infAlfa)
+            break
             case "0":
                 alert("Gracias por utilizar la aplicación")
                 finalizarMenu = true
@@ -227,11 +300,11 @@ function menu(){
 const arrayEmpleados = []
 const empleadosContratados = []
 
-const empleado1 = new Empleado ("Axel", "Contreras", 150)
-const empleado2 = new Empleado ("Lucas", "Suarez", 120)
-const empleado3 = new Empleado ("Ramon", "Ortigoza", 90)
-const empleado4 = new Empleado ("Esteban", "Perez", 110)
-const empleado5 = new Empleado ("Camilo", "Salomon", 45)
+const empleado1 = new Empleado (1, "Axel", "Contreras", 150)
+const empleado2 = new Empleado (2, "Lucas", "Suarez", 120)
+const empleado3 = new Empleado (3, "Ramon", "Ortigoza", 90)
+const empleado4 = new Empleado (4, "Esteban", "Perez", 110)
+const empleado5 = new Empleado (5, "Camilo", "Salomon", 45)
 arrayEmpleados.push(empleado1, empleado2, empleado3, empleado4, empleado5)
 
 //Cargar empleados contratados 
@@ -240,12 +313,13 @@ arrayEmpleados.push(empleado1, empleado2, empleado3, empleado4, empleado5)
 //         empleadosContratados.push(empleado)
 //         console.log(`Se contrató empleado: ${empleado}`)
 //     }
-// })
-
-menu()
+// }) //NO FUNCIONA PREGUNTAR PORQUE!!!
 console.log(arrayEmpleados)
+menu()
+console.log(`Los empleados contratados son:`)
 console.log(empleadosContratados)
-console.log(`Los empleados contratados son: ${empleadosContratados}`)
+
+
 
 //BUSCAR CON FILTER 
 // let buscarSueldoFilter = arrayEmpleados.filter((empleado)=> empleado.sueldoTotal < 500000)
@@ -258,3 +332,5 @@ console.log(`Los empleados contratados son: ${empleadosContratados}`)
 //         (empleado)=>empleado.exponerEmpleados()
 //     )
 // }
+
+//que pasa si el ideliminar ingresado no existe, hacer condicional que valide eso. 
