@@ -3,7 +3,7 @@
 
 class Empleado{
     constructor(id, nombre, apellido, cantHoras){
-        this.id = id,
+        this.id = id, //chequear como asignar una id mejor
         this.nombre = nombre,//this.ingresarNombre(),
         this.apellido = apellido, //this.ingresarApellido(),
         this.valorHora = 5000,
@@ -78,8 +78,8 @@ class Empleado{
     }
     mostrarDetalle(){
         alert(`${this.nombre} ${this.apellido}    ID: ${this.id}
-            >Cantidad de horas trabajadas: ${this.cantHoras} horas
-            >Por hora paga: $${this.valorHora}.-
+            >Horas trabajadas en el mes: ${this.cantHoras} horas
+            >Valor de hora: $${this.valorHora}.-
             >Tiene una antiguedad de: ${this.antiguedad} año/s
             >Empleado contratado: ${this.contratado}`)
     }
@@ -162,9 +162,27 @@ function ordenarMenorMayorSueldo(array){
     console.log(arrayMenorMayor)
     return arrayMenorMayor
 }
-function ordenarAlfabeticamente(array){
+function ordenarAlfaAz(array){
     let arrayAlfabetico = [].concat(array)
     arrayAlfabetico.sort((a, b)=>{
+        if (a.nombre < b.nombre){
+            return -1
+        }if (a.nombre < b.nombre){
+            return 1
+        }
+        return 0
+    })
+    return arrayAlfabetico
+}
+function ordenarMayorMenorSueldo(array){
+    let arrayMenorMayor = [].concat(array)
+    arrayMenorMayor.sort((b,a)=>a.sueldoTotal - b.sueldoTotal)
+    console.log(arrayMenorMayor)
+    return arrayMenorMayor
+}
+function ordenarAlfaZa(array){
+    let arrayAlfabetico = [].concat(array)
+    arrayAlfabetico.sort((b, a)=>{
         if (a.nombre < b.nombre){
             return -1
         }if (a.nombre < b.nombre){
@@ -180,79 +198,22 @@ function buscarIndex(array, id){
 }
 function menu(){
     let finalizarMenu = false
-    let empleado = "vacio"
+    let empleado = "vacio" //PENSAR FORMA PARA CUANDO NO HAYA NINGUN EMPLEADO EN EL ARRAY
     let seleccionEmpleado = arrayEmpleados.length-1
+    let indexEmpleado = 0
     while(finalizarMenu ==false){
-        let opcion = prompt(`PROYECTO EMPLEADOS
+        let opcion = prompt(`PROYECTO EMPLEADOS || Empleado seleccionado: ${arrayEmpleados[indexEmpleado].nombre} ${arrayEmpleados[indexEmpleado].apellido} 
     Ingrese la opción que desea:
-        1 - Cargar empleado
-        2 - Mostrar Sueldo
-        3 - Mostrar Detalle
-        4 - Contratar
-        5 - Mostrar empleados
-        6 - Borrar empleado
-        7 - Seleccionar Empleado
-        8 - Ordenar de menor a mayor sueldo
-        9 - Ordenar por nombre alfabeticamente
-        0 - Salir del menú`)
+        1 - Seleccionar Empleado
+        2 - Cargar nuevo empleado
+        3 - Mostrar Sueldo
+        4 - Mostrar Detalle
+        5 - Contratar
+        6 - Mostrar empleados
+        7 - Borrar empleado
+        0 - Salir del menú`) //SELECCIONA EMPLEADO 
         switch(opcion){
             case "1":
-                empleado = cargarEmpleado(arrayEmpleados)
-                arrayEmpleados.push(empleado)
-            break
-            case "2":
-                if(empleado == "vacio"){
-                    alert(`Atención! No está cargado el empleado`)
-                }else{
-                    empleado.mostrarSueldo()
-                }
-            break
-            case "3":
-                if(empleado == "vacio"){
-                    alert(`Atención! No está cargado el empleado`)
-                }else{
-                    empleado.mostrarDetalle()
-                }
-            break
-            case "4":
-                if(empleado == "vacio"){
-                    alert(`Atención! No está cargado el empleado`)
-                }else if(empleado.contratado == true){
-                    alert(`El empleado se contrató previamente`)
-                }else{
-                    empleado.contratarEmpleado()
-                    empleadosContratados.push(empleado)
-                }
-            break
-            case "5":
-                let infoTodos = ""
-                arrayEmpleados.forEach(
-                    function(empleado){
-                        infoTodos = infoTodos+empleado.exponerEmpleados()+`
-                        `
-                })
-                alert(`Los empleados cargados son: 
-                    
-                        ${infoTodos}`)
-            break
-            case "6":
-                // let preguntaBorrar = prompt(`Esta seguro que desea borrar el empleado? Se borrara el ultimo empleado si no ha hecho una selección`)
-                // if (preguntaBorrar.toLowerCase() == "si"){
-                //     arrayEmpleados.splice(seleccionEmpleado-1, 1)
-                //     alert(`Se ha borrado la información del empleado correctamente`)
-                // }else{
-                //     alert(`No se ha borrado el empleado`)
-                // }
-                let preguntaBorrar = prompt(`Esta seguro que desea borrar el empleado? Se borrara el ultimo empleado si no ha hecho una selección`)
-                if (preguntaBorrar.toLowerCase() == "si"){
-                    let index = buscarIndex(arrayEmpleados,seleccionEmpleado)
-                    arrayEmpleados.splice(index, 1)
-                    alert(`Se ha borrado la información del empleado correctamente`)
-                }else{
-                    alert(`No se ha borrado el empleado`)
-                }
-            break
-            case "7":
                 //Seleccionar empleado segun su id
                 let info = ""
                 arrayEmpleados.forEach(
@@ -262,29 +223,122 @@ function menu(){
                 })
                 seleccionEmpleado = Number(prompt(`Por favor seleccione el empleado segun ID: 
                     
-                        ${info}`))
+                    ${info}`))
                 indexEmpleado = buscarIndex(arrayEmpleados, seleccionEmpleado)
                 empleado = arrayEmpleados[indexEmpleado]
             break
-            case "8":
-                let infOrdenada = "                        "
-                let arrayOrdenado = ordenarMenorMayorSueldo(arrayEmpleados)
-                arrayOrdenado.forEach(
-                    function(empleado){
-                        infOrdenada = infOrdenada+empleado.exponerEmpleados()+`
-                        `
-                })
-                alert(infOrdenada)
+            case "2":
+                empleado = cargarEmpleado(arrayEmpleados)
+                arrayEmpleados.push(empleado)
             break
-            case "9":
-                let infAlfa = "                        "
-                let arrayAlfa = ordenarAlfabeticamente(arrayEmpleados)
-                arrayAlfa.forEach(
-                    function(empleado){
-                        infAlfa = infAlfa+empleado.exponerEmpleados()+`
-                        `
-                })
-                alert(infAlfa)
+            case "3":
+                if(empleado == "vacio"){
+                    alert(`Atención! No está cargado el empleado`)
+                }else{
+                    empleado.mostrarSueldo()
+                }
+            break
+            case "4":
+                if(empleado == "vacio"){
+                    alert(`Atención! No está cargado el empleado`)
+                }else{
+                    empleado.mostrarDetalle()
+                }
+            break
+            case "5":
+                if(empleado == "vacio"){
+                    alert(`Atención! No está cargado el empleado`)
+                }else if(empleado.contratado == true){
+                    alert(`El empleado se contrató previamente`)
+                }else{
+                    empleado.contratarEmpleado()
+                    empleadosContratados.push(empleado)
+                }
+            break
+            case "6":
+                    let volverAtras = false
+                    while(volverAtras == false){
+                        let opcionMostrar = prompt(`Ingrese la opcion que desea:
+                            1 - Mostrar por ID
+                            2 - Ordenar por mayor sueldo
+                            3 - Ordenar por menor sueldo
+                            4 - Ordenar alfabeticamente (A-Z)
+                            5 - Ordenar alfabeticamente (Z-A)
+                            0 - Volver al menu principal`)
+                        switch(opcionMostrar){
+                            case "1":                        
+                                let infoPorID = ""
+                                arrayEmpleados.forEach(
+                                function(empleado){
+                                    infoPorID = infoPorID+empleado.exponerEmpleados()+`
+`
+                            })
+                            alert(`Empleado segun ID: 
+                                
+                                    ${infoPorID}`)
+                            break
+                            case "2":
+                                let infoSueldoMayor = ""
+                                let arraySueldoMayorMenor = ordenarMayorMenorSueldo(arrayEmpleados)
+                                arraySueldoMayorMenor.forEach(
+                                    function(empleado){
+                                        infoSueldoMayor = infoSueldoMayor+empleado.exponerEmpleados()+`
+`
+                                    }
+                                )
+                                alert(infoSueldoMayor)
+                            break
+                            case "3":
+                                let inforSueldoMenor = ""
+                                let arraySueldoMenorMayor = ordenarMenorMayorSueldo(arrayEmpleados)
+                                arraySueldoMenorMayor.forEach(
+                                    function(empleado){
+                                        inforSueldoMenor = inforSueldoMenor+empleado.exponerEmpleados()+`
+`
+                                })
+                                alert(inforSueldoMenor)
+                            break
+                            case "4":
+                                let infoAlfaAz = ""
+                                let arrayAlfaAz = ordenarAlfaAz(arrayEmpleados)
+                                arrayAlfaAz.forEach(
+                                    function(empleado){
+                                        infoAlfaAz = infoAlfaAz+empleado.exponerEmpleados()+`
+`
+                                })
+                                alert(infoAlfaAz)
+                            break
+                            case "5":
+                                let infoAlfaZa = ""
+                                let arrayAlfaZa = ordenarAlfaZa(arrayEmpleados)
+                                arrayAlfaZa.forEach(
+                                    function(empleado){
+                                        infoAlfaZa = infoAlfaZa+empleado.exponerEmpleados()+`
+`
+                                })
+                                alert(infoAlfaZa)
+                            break
+                            case "0":
+                                volverAtras = true
+                            break
+                            default:
+                                alert(`La opción seleccionada ${opcionMostrar} no es valida`)
+                            break
+
+                        }
+                    }
+            break
+            case "7":
+               let preguntaBorrar = prompt(`Esta seguro que desea borrar el empleado ${arrayEmpleados[indexEmpleado].nombre} ${arrayEmpleados[indexEmpleado].apellido}?`)
+                if (preguntaBorrar.toLowerCase() == "si"){
+                    let index = buscarIndex(arrayEmpleados,seleccionEmpleado)
+                    arrayEmpleados.splice(index, 1)
+                    alert(`Se ha borrado la información del empleado correctamente`)
+                    seleccionEmpleado = 0
+                }else{
+                    alert(`No se ha borrado el empleado`)
+                }
+
             break
             case "0":
                 alert("Gracias por utilizar la aplicación")
