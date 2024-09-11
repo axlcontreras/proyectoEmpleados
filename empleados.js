@@ -14,49 +14,49 @@ class Empleado{
         this.sueldoTotal = this.calcularSueldoTotal(),
         this.contratado = false
     }//CONSULTAR SI DECLARA CON LET VAR CONST LOS ATRIBUTOS
-    // ingresarNombre(){
-    //     let nombre = prompt(`Por favor ingrese el nombre`)
-    //     while(nombre == "" || isNaN(nombre) == false){
-    //         if (nombre == ""){
-    //             nombre = prompt(`Atención! El nombre no puede estar vacio, por favor ingrese el nombre correctamente`)
-    //         }else if(isNaN(nombre) == false){
-    //             nombre = prompt(`Atención! El nombre no puede ser un numero, por favor ingrese el nombre correctamente`)
-    //         }
-    //     }
-    //     return nombre
-    // }
-    // ingresarApellido(){
-    //     let apellido = prompt(`Por favor ingrese el apellido`)
-    //     while(apellido == "" || isNaN(apellido) == false){
-    //         if (apellido == ""){
-    //             apellido = prompt(`Atención! El apellido no puede estar vacio, por favor ingrese el apellido correctamente`)
-    //         }else if(isNaN(apellido) == false){
-    //             apellido = prompt(`Atención! El apellido no puede ser un numero, por favor ingrese el apellido correctamente`)
-    //         }
-    //     }
-    //     return apellido
-    // }
-    // tasarHora(){
-    //     let valorHora = Number(prompt("Por favor ingrese el valor de la hora"))
-    //     while(isNaN(valorHora) || valorHora <= 0 || valorHora == ""){
-    //         valorHora = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese el valor de la hora"))
-    //     }
-    //     return valorHora
-    // }
-    // ingresarHoras (){
-    //     let horas = Number(prompt("Por favor ingrese la cantidad de horas trabajadas en el mes"))
-    //     while(isNaN(horas) || horas <= 0 || horas == ""){
-    //          horas = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese la cantidad de horas trabajadas en el mes correctamente"))
-    //     }
-    //     return horas
-    // }
-    // ingresarAntiguedad(){
-    //     let antiguedad = Number(prompt(`Por favor ingrese los años de antigüedad`))
-    //     while(isNaN(antiguedad) || antiguedad > 80 || antiguedad < 0){
-    //         antiguedad = Number(prompt(`Atención, los años ingresados son incorrectos! Por favor ingrese los años de antigüedad`))
-    //     }
-    //     return antiguedad
-    // } //TODO ESTO SE COMENTÓ PORQUE HAY UNA FUNCION FUERA DE LA CLASE QUE CARGA UN EMPLEADO
+    ingresarNombre(){
+        let nombre = prompt(`Por favor ingrese el nombre`)
+        while(nombre == "" || isNaN(nombre) == false){
+            if (nombre == ""){
+                nombre = prompt(`Atención! El nombre no puede estar vacio, por favor ingrese el nombre correctamente`)
+            }else if(isNaN(nombre) == false){
+                nombre = prompt(`Atención! El nombre no puede ser un numero, por favor ingrese el nombre correctamente`)
+            }
+        }
+        return nombre
+    }
+    ingresarApellido(){
+        let apellido = prompt(`Por favor ingrese el apellido`)
+        while(apellido == "" || isNaN(apellido) == false){
+            if (apellido == ""){
+                apellido = prompt(`Atención! El apellido no puede estar vacio, por favor ingrese el apellido correctamente`)
+            }else if(isNaN(apellido) == false){
+                apellido = prompt(`Atención! El apellido no puede ser un numero, por favor ingrese el apellido correctamente`)
+            }
+        }
+        return apellido
+    }
+    tasarHora(){
+        let valorHora = Number(prompt("Por favor ingrese el valor de la hora"))
+        while(isNaN(valorHora) || valorHora <= 0 || valorHora == ""){
+            valorHora = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese el valor de la hora"))
+        }
+        return valorHora
+    }
+    ingresarHoras (){
+        let horas = Number(prompt("Por favor ingrese la cantidad de horas trabajadas en el mes"))
+        while(isNaN(horas) || horas <= 0 || horas == ""){
+             horas = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese la cantidad de horas trabajadas en el mes correctamente"))
+        }
+        return horas
+    }
+    ingresarAntiguedad(){
+        let antiguedad = Number(prompt(`Por favor ingrese los años de antigüedad`))
+        while(isNaN(antiguedad) || antiguedad > 80 || antiguedad < 0){
+            antiguedad = Number(prompt(`Atención, los años ingresados son incorrectos! Por favor ingrese los años de antigüedad`))
+        }
+        return antiguedad
+    } 
     calcularSueldoMensual(){
         let sueldoMensual = this.valorHora * this.cantHoras
         return sueldoMensual
@@ -81,6 +81,7 @@ class Empleado{
             >Horas trabajadas en el mes: ${this.cantHoras} horas
             >Valor de hora: $${this.valorHora}.-
             >Tiene una antiguedad de: ${this.antiguedad} año/s
+            >El sueldo mensual es: $${this.sueldoMensual}
             >Empleado contratado: ${this.contratado}`)
     }
     contratarEmpleado(){
@@ -208,7 +209,7 @@ function mostrarEmpleadosLista(array){
 }
 function menu(){
     let finalizarMenu = false //dato bandera
-    let empleado = "vacio"
+    let empleado = arrayEmpleados[0]
     let seleccionEmpleado = 0
     let indexEmpleado = 0
     let configID = arrayEmpleados.length
@@ -217,11 +218,12 @@ function menu(){
     Ingrese la opción que desea:
         1 - Seleccionar Empleado
         2 - Cargar nuevo empleado
-        3 - Mostrar Sueldo
-        4 - Mostrar Detalle
-        5 - Contratar
-        6 - Mostrar empleados
-        7 - Borrar empleado
+        3 - Editar empleado
+        4 - Ver Sueldo
+        5 - Ver Detalle
+        6 - Contratar
+        7 - Mostrar empleados
+        8 - Borrar empleado
         0 - Salir del menú`)
         switch(opcion){
             case "1":
@@ -239,30 +241,74 @@ ${info}`))
                 configID ++
             break
             case "3":
-                if(empleado == "vacio"){
-                    alert(`Atención! No está cargado el empleado`)
-                }else{
-                    empleado.mostrarSueldo()
+                //editar empleado
+                let volverMenu = false
+                while (volverMenu == false){
+                    let opcionEditar = prompt(`Se editará empleado: ${arrayEmpleados[indexEmpleado].nombre} ${arrayEmpleados[indexEmpleado].apellido}
+            Ingrese la opción a editar:
+                1 - Nombre
+                2 - Apellido
+                3 - Cantidad de horas
+                4 - Contratación (Solo si está contratado)
+                0 - Volver al menu principal`)
+                        switch(opcionEditar){
+                            case "1":
+                                arrayEmpleados[indexEmpleado].nombre = arrayEmpleados[indexEmpleado].ingresarNombre()
+                            break
+                            case "2":
+                                arrayEmpleados[indexEmpleado].apellido = arrayEmpleados[indexEmpleado].ingresarApellido()
+                            break
+                            case "3":
+                                arrayEmpleados[indexEmpleado].cantHoras = arrayEmpleados[indexEmpleado].ingresarHoras()
+                            break
+                            case "4":
+                                let preguntaDescontratar = prompt(`Esta seguro que desea descontratar a ${arrayEmpleados[indexEmpleado].nombre} ${arrayEmpleados[indexEmpleado].apellido}?`)
+                                if (preguntaDescontratar.toLowerCase() == "si"){
+                                    arrayEmpleados[indexEmpleado].contratado = false
+                                    let index = buscarIndex(empleadosContratados,arrayEmpleados[indexEmpleado].id)
+                                    if (index == -1){
+                                    alert(`El empleado no está contratado`)
+                                    }else{
+                                    empleadosContratados.splice(index, 1)
+                                    alert(`Se ha descontratado ${arrayEmpleados[indexEmpleado].nombre} ${arrayEmpleados[indexEmpleado].apellido}`)
+                                    }
+                                }
+                                alert(`No se han realizado cambios`)
+                            break
+                            case "0":
+                                volverMenu = true
+                            break
+                            default:
+                                alert(`La opción seleccionada ${opcionEditar} no es valida`)
+                            break
+                        }
                 }
             break
             case "4":
                 if(empleado == "vacio"){
                     alert(`Atención! No está cargado el empleado`)
                 }else{
-                    empleado.mostrarDetalle()
+                    empleado.mostrarSueldo()
                 }
             break
             case "5":
                 if(empleado == "vacio"){
                     alert(`Atención! No está cargado el empleado`)
+                }else{
+                    empleado.mostrarDetalle()
+                }
+            break
+            case "6":
+                if(empleado == "vacio"){
+                    alert(`Atención! No está cargado el empleado`)
                 }else if(empleado.contratado == true){
-                    alert(`El empleado se contrató previamente`)
+                    alert(`El empleado ya está contratado`)
                 }else{
                     empleado.contratarEmpleado()
                     empleadosContratados.push(empleado)
                 }
             break
-            case "6":
+            case "7":
                     let volverAtras = false
                     while(volverAtras == false){
                         let opcionMostrar = prompt(`Ingrese la opcion que desea:
@@ -317,7 +363,7 @@ ${infoAlfaZa}`)
                         }
                     }
             break
-            case "7":
+            case "8":
                let preguntaBorrar = prompt(`Esta seguro que desea borrar el empleado ${arrayEmpleados[indexEmpleado].nombre} ${arrayEmpleados[indexEmpleado].apellido}?`)
                 if (preguntaBorrar.toLowerCase() == "si"){
                     let index = buscarIndex(arrayEmpleados,seleccionEmpleado)
@@ -357,7 +403,7 @@ console.log(`Los empleados contratados son:`)
 console.log(empleadosContratados)
 
 //IDEAS PARA AGREGAR:
-// ------------ Función editar empleado >Nombre > Apellido >Cant Horas (SUBMENU)
+// ------------ Función editar empleado >Nombre > Apellido >Cant Horas (SUBMENU) REALIZADO!!
 // ------------ Función contratar empleado con un monto inincial fijo (se puede editar)ir restando a medida que se contratan empleados
 // ------------ Mostrar empleados contratados
 // ------------ Pensar y crear una función que sirva para mostrar. REALIZADO!!
