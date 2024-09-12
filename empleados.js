@@ -1,5 +1,5 @@
 // )) Realizar un sistema para sueldos de una empresa. Se le solicita que nombre y apellido de la persona, junto al valor de la hora, la cantidad de horas trabajadas en el mes y los años de antigüedad en la empresa. Realice el algoritmo para calcular e informar el sueldo mensual del empleado/a, teniendo en cuenta que se le asigna un bono mensual de 5% del sueldo por año cada año de antigüedad (por 1 año de antigüedad plus de 5%, 2 años plus de 10%, 3 años plus de 15%... etc)
-//HAY OBJETOS // HAY MENU 
+//HAY OBJETOS // HAY MENU
 
 class Empleado{
     constructor(id, nombre, apellido, cantHoras){
@@ -207,7 +207,7 @@ function mostrarEmpleadosLista(array){
 
 }
 function ingresarPresupuesto(){
-    let presupuesto = Number(prompt("Por favor ingrese lel presupuesto disponible"))
+    let presupuesto = Number(prompt("Por favor actualice el presupuesto disponible"))
     while(isNaN(presupuesto) || presupuesto <= 0 || presupuesto == ""){
          presupuesto = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese el presupuesto disponible correctamente"))
     }
@@ -379,7 +379,7 @@ ${infoAlfaZa}`)
             case "8":
                 let volverAtras2 = false
                 while (volverAtras2 == false){
-                    let opcionContratar = prompt(`El presupuesto disponible es: $${presupuestoDisponible}      Empleado: ${empleado.nombre} ${empleado.apellido} ID ${empleado.id}
+                    let opcionContratar = prompt(`El presupuesto disponible es: $${presupuestoDisponible}      Empleado: ${empleado.nombre} ${empleado.apellido} ID:${empleado.id}
                 Ingrese la opcion que desea:
                     1 - Modificar presupuesto disponible
                     2 - Contratar
@@ -447,7 +447,7 @@ console.log(empleadosContratados)
 
 //IDEAS PARA AGREGAR:
 // ------------ Función editar empleado >Nombre > Apellido >Cant Horas (SUBMENU) REALIZADO!!
-// ------------ Función contratar empleado con un monto inincial fijo (se puede editar)ir restando a medida que se contratan empleados. 
+// ------------ Función contratar empleado con un monto inincial fijo (se puede editar)ir restando a medida que se contratan empleados. REALIZADO!!
 // ------------ Mostrar empleados contratados. REALIZADO!!
 // ------------ Pensar y crear una función que sirva para mostrar. REALIZADO!!
 // ------------ Pensar forma (seguramente if) para cuando no haya empleados 
