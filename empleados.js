@@ -160,7 +160,6 @@ function cargarEmpleado(id){
 function ordenarMenorMayorSueldo(array){
     let arrayMenorMayor = [].concat(array)
     arrayMenorMayor.sort((a,b)=>a.sueldoTotal - b.sueldoTotal)
-    console.log(arrayMenorMayor)
     return arrayMenorMayor
 }
 function ordenarAlfaAz(array){
@@ -178,7 +177,6 @@ function ordenarAlfaAz(array){
 function ordenarMayorMenorSueldo(array){
     let arrayMenorMayor = [].concat(array)
     arrayMenorMayor.sort((b,a)=>a.sueldoTotal - b.sueldoTotal)
-    console.log(arrayMenorMayor)
     return arrayMenorMayor
 }
 function ordenarAlfaZa(array){
@@ -238,6 +236,8 @@ ${info}`))
             case "2":
                 empleado = cargarEmpleado(configID)
                 arrayEmpleados.push(empleado)
+                indexEmpleado = buscarIndex(arrayEmpleados, empleado.id)
+                empleado = arrayEmpleados[indexEmpleado]
                 configID ++
             break
             case "3":
@@ -369,7 +369,7 @@ ${infoAlfaZa}`)
                     let index = buscarIndex(arrayEmpleados,seleccionEmpleado)
                     arrayEmpleados.splice(index, 1)
                     alert(`Se ha borrado la información del empleado correctamente`)
-                    seleccionEmpleado = 0
+                    indexEmpleado = 0
                 }else{
                     alert(`No se ha borrado el empleado`)
                 }
@@ -398,6 +398,7 @@ arrayEmpleados.push(empleado1, empleado2, empleado3, empleado4, empleado5)
 
 
 menu()
+console.log(`Los empleados cargados son:`)
 console.log(arrayEmpleados)
 console.log(`Los empleados contratados son:`)
 console.log(empleadosContratados)
