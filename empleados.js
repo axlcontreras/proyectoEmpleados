@@ -82,6 +82,7 @@ class Empleado{
             >Valor de hora: $${this.valorHora}.-
             >Tiene una antiguedad de: ${this.antiguedad} año/s
             >El sueldo mensual es: $${this.sueldoMensual}
+            >El sueldo mensual es: $${this.sueldoMensual}
             >Empleado contratado: ${this.contratado}`)
     }
     contratarEmpleado(presupuestoDisponible){
@@ -454,12 +455,7 @@ console.log(empleadosContratados)
 // ------------ Pensar verificacion para cuando en seleccion de empleados esté mal seleccionado
 // ------------ Que pasa si el ideliminar ingresado no existe, hacer condicional que valide eso. 
 // ------------ Pensar forma de crear id que no se repita REALIDAZO!!
-// ------------ Se podria hacer un array de empleados borrados para poder hacer un backup (ver borrados, recuperar, limpiar array)
 
-
-//BUSCAR CON FILTER 
-// let buscarSueldoFilter = arrayEmpleados.filter((empleado)=> empleado.sueldoTotal < 500000)
-// console.log(buscarSueldoFilter)
 
 // if(buscarSueldoFilter.length == 0){
 //     console.log(`No hay empleados que cobren menos de 500000`)
