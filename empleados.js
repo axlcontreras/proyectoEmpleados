@@ -205,12 +205,15 @@ function mostrarEmpleadosLista(array){
     return info
 
 }
-function ingresarPresupuesto(totalContratos){
-    let presupuesto = Number(prompt("Por favor actualice el presupuesto disponible"))
-    while(isNaN(presupuesto) || presupuesto <= 0 || presupuesto == ""){
-         presupuesto = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese el presupuesto disponible correctamente"))
+function ingresarFondos(arrayContratados){
+    let fondos= Number(prompt("Por favor actualice los fondos disponibles"))
+    while(isNaN(fondos) || fondos <= 0 || fondos == ""){
+        fondos = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese los fondos disponibles correctamente"))
     }
-    return presupuesto - totalContratos
+    while(fondos < calcularPresupuesto(arrayContratados)){
+        fondos = Number(prompt(`Atención, los fondos no pueden ser menores al presupuesto de empleados a contratar ($${calcularPresupuesto(arrayContratados)}.-)! Por favor ingrese los fondos disponibles correctamente`))
+    }
+    return fondos
 }
 function borrarEmpleado(empleado, array){
     let preguntaBorrar = prompt(`Esta seguro que desea borrar el empleado ${empleado.nombre} ${empleado.apellido}?`)
@@ -225,40 +228,66 @@ function borrarEmpleado(empleado, array){
     }
     return empleado
 }
-function contratarEmpleado(presupuestoDisponible, empleado, arrayContratados){
+function descontratarEmpleado(fondos, empleado, array){
+    let preguntaDescontratar = prompt(`Esta seguro que desea descontratar a ${empleado.nombre} ${empleado.apellido}?`)
+    if (preguntaDescontratar.toLowerCase() == "si"){
+        empleado.contratado = false
+        let index = buscarIndex(array,empleado.id)
+        if (index == -1){
+        alert(`El empleado no está contratado`)
+        }else{
+        array.splice(index, 1)
+        alert(`Se ha descontratado ${empleado.nombre} ${empleado.apellido}`)
+        fondos += empleado.sueldoTotal
+        }
+    }else{
+        alert(`No se han realizado cambios`)
+    }
+    return fondos
+}
+function contratarEmpleado(fondos, empleado, arrayContratados){
     if(empleado.contratado == true){
         alert(`El empleado ya se encuentra contratado`)
         }else{
             let pregunta = prompt(`Desea contratar al empleado ${empleado.nombre} ${empleado.apellido}? Por mes el costo aproximados de sus servicios son: $${empleado.sueldoTotal}`)
             if(pregunta.toLowerCase() == "si"){
-                if(presupuestoDisponible >= empleado.sueldoTotal){
+                if(fondos >= empleado.sueldoTotal){
                     alert(`Excelente, el empleado ${empleado.nombre} ${empleado.apellido} ha si contratado!`)
                     empleado.contratado = true
-                    presupuestoDisponible = presupuestoDisponible - empleado.sueldoTotal
                     arrayContratados.push(empleado)
-                    gastado += empleado.sueldoMensual
-                    console.log(gastado)
+                    fondos = fondos - calcularPresupuesto(arrayContratados)
                 }else{
-                    alert(`El presupuesto no es suficiente para contratar al empleado`)
+                    alert(`Los fondos no son suficientes para contratar al empleado`)
                 }
         }else{
             alert(`No se ha contratado al empleado`)
     }
     }
-    return presupuestoDisponible
+    return fondos
 }
-function calcularGastado(array){
-    let gastado = 0
-    array.forEach((empleado)=>gastado += empleado.sueldoMensual)
-    return gastado
+function calcularPresupuesto(array){
+    let presupuesto = 0
+    array.forEach((empleado)=>presupuesto += empleado.sueldoMensual)
+    return presupuesto
+}
+function buscarEmpleado(array){
+    let infoBuscar = prompt(`Por favor ingrese el nombre o apellido del empleado`)
+    let busqueda = array.filter((empleado)=>empleado.nombre.toLowerCase().includes(infoBuscar.toLowerCase()) || empleado.apellido.toLowerCase().includes(infoBuscar.toLowerCase))
+    if (busqueda.length == 0){
+        alert(`No se encontraron coincidencias`)
+    }else{
+        alert(`Los empleados encontrados son:
+
+${mostrarEmpleadosLista(busqueda)}`)
+    }
 }
 function menuSinEmpleado(){
     let finalizarMenu = false //dato bandera
     let empleado = arrayEmpleados[0]
     let configID = arrayEmpleados.length
 
-    while(finalizarMenu == false){ 
-        let opcion = prompt(`EMPLEADOS || No hay empleados Cargados 
+    while(finalizarMenu == false && arrayEmpleados.length <= 0){ 
+        let opcion = prompt(`EMPLEADOS || No hay empleados cargados 
     Ingrese la opción que desea:
         1 - Cargar nuevo empleado
         0 - Salir del menú`)
@@ -288,9 +317,9 @@ function menu(){
     let finalizarMenu = false //dato bandera
     let empleado = arrayEmpleados[0]
     let configID = arrayEmpleados.length
-    let presupuestoDisponible = 1000000
+    let fondosDisponibles = 1000000
 
-    while(finalizarMenu == false){ 
+    while(finalizarMenu == false && arrayEmpleados.length >= 1){ 
         let opcion = prompt(`EMPLEADOS || Empleado seleccionado: ${empleado.nombre} ${empleado.apellido} 
     Ingrese la opción que desea:
         1 - Seleccionar Empleado
@@ -301,7 +330,7 @@ function menu(){
         6 - Mostrar empleados
         7 - Borrar empleado
         8 - Contratar
-        9 - **sin usar**
+        9 - Buscar empleados
         0 - Salir del menú`)
         switch(opcion){
             case "1":
@@ -321,7 +350,6 @@ function menu(){
                 1 - Nombre
                 2 - Apellido
                 3 - Cantidad de horas
-                4 - Contratación (Solo si está contratado)
                 0 - Volver al menu principal`)
                         switch(opcionEditar){
                             case "1":
@@ -334,20 +362,6 @@ function menu(){
                                 empleado.cantHoras = empleado.ingresarHoras()
                                 empleado.sueldoMensual = empleado.calcularSueldoMensual()
                                 empleado.sueldoTotal = empleado.calcularSueldoTotal()
-                            break
-                            case "4":
-                                let preguntaDescontratar = prompt(`Esta seguro que desea descontratar a ${empleado.nombre} ${empleado.apellido}?`)
-                                if (preguntaDescontratar.toLowerCase() == "si"){
-                                    empleado.contratado = false
-                                    let index = buscarIndex(empleadosContratados,empleado.id)
-                                    if (index == -1){
-                                    alert(`El empleado no está contratado`)
-                                    }else{
-                                    empleadosContratados.splice(index, 1)
-                                    alert(`Se ha descontratado ${empleado.nombre} ${empleado.apellido}`)
-                                    }
-                                }
-                                alert(`No se han realizado cambios`)
                             break
                             case "0":
                                 volverMenu = true
@@ -416,29 +430,29 @@ ${mostrarEmpleadosLista(ordenarAlfaZa(arrayEmpleados))}`)
             case "8":
                 let volverAtras2 = false
                 while (volverAtras2 == false){
-                    let opcionContratar = prompt(`El presupuesto disponible es:            $${presupuestoDisponible}     
+                    let opcionContratar = prompt(`Los fondos disponibles son:            $${fondosDisponibles}     
 Empleado: ${empleado.nombre} ${empleado.apellido}                   ID (${empleado.id})
 Ingrese la opcion que desea:
-        1 - Modificar presupuesto disponible
-        2 - Contratar
+        1 - Contratar
+        2 - Descontratar
         3 - Mostrar empleados contratados
-        4 - Total gastado
+        4 - Modificar presupuesto disponible
         0 - Volver atras`)
                     switch (opcionContratar){
                         case "1":
-                            presupuestoDisponible = ingresarPresupuesto(gastado)
+                            fondosDisponibles = contratarEmpleado(fondosDisponibles, empleado, empleadosContratados)
                         break
                         case "2":
-                            presupuestoDisponible = contratarEmpleado(presupuestoDisponible, empleado, empleadosContratados)
+                            fondosDisponibles = descontratarEmpleado(fondosDisponibles, empleado, empleadosContratados)
                         break
                         case "3":
                             alert(`Los empleados contratados son: 
                                 
 ${mostrarEmpleadosLista(empleadosContratados)}
-Presupuesto mensual de contratos: $${calcularGastado(empleadosContratados)}`)
+Presupuesto mensual de contratos: $${calcularPresupuesto(empleadosContratados)}`)
                         break
                         case "4":
-                            alert(`El costo total de los contratos es: $${gastado}`)
+                            fondosDisponibles = ingresarFondos(empleadosContratados) - calcularPresupuesto(empleadosContratados)
                         break
                         case "0":
                             volverAtras2 = true
@@ -450,6 +464,7 @@ Presupuesto mensual de contratos: $${calcularGastado(empleadosContratados)}`)
                 //buscar
                 //menu buscar: buscar por nombre/apellido
                 //buscar 
+                buscarEmpleado(arrayEmpleados)
             break
             case "0":
                 alert("Gracias por utilizar la aplicación")
@@ -462,49 +477,41 @@ Presupuesto mensual de contratos: $${calcularGastado(empleadosContratados)}`)
     }
     return finalizarMenu
 }
-// function iniciar(){
-//     let largoDeArray = arrayEmpleados.length
-//     let cerrar = false
-//     while (cerrar == false){
-//         if (largoDeArray > 0){
-//             cerrar = menu() //mientras haya almenos 1 empleado mostar menu normal
-//             largoDeArray = arrayEmpleados.length
-//         }else if(largoDeArray == 0){
-//             cerrar = menuSinEmpleado()
-//             largoDeArray = arrayEmpleados.length
-//         }
-//     }
-// }
 function iniciar(){
-    let largoDeArray = arrayEmpleados.length
     let cerrar = false
     while (cerrar == false){
-        while (largoDeArray > 0){
-            cerrar = menu()
-            largoDeArray = arrayEmpleados.length
+        let opcionIniciar = "1"
+        if (arrayEmpleados.length > 0){
+            opcionIniciar = "menuFull"
+        }else if (arrayEmpleados.length <= 0){
+            opcionIniciar = "menuSinEmpleado"
         }
-       while(largoDeArray <= 0){
-            cerrar = menuSinEmpleado()
-            largoDeArray = arrayEmpleados.length
-            console.log(largoDeArray)
+        switch (opcionIniciar){
+            case "menuFull":
+                cerrar = menu()
+            break
+            case "menuSinEmpleado":
+                cerrar = menuSinEmpleado()
+            break
         }
     }
 }
 
+
 const arrayEmpleados = []
 const empleadosContratados = []
 
-let gastado = 0
 
 const empleado1 = new Empleado (1, "Andres", "Martinez", 110)
 const empleado2 = new Empleado (2, "Daniel", "Fernandez", 150)
 const empleado3 = new Empleado (3, "Gustavo", "Kupinski", 95)
 const empleado4 = new Empleado (4, "Daniel", "Buira", 63)
 const empleado5 = new Empleado (5, "Miguel", "Rodriguez", 45)
-// arrayEmpleados.push(empleado1, empleado2, empleado3, empleado4, empleado5)
+arrayEmpleados.push(empleado1, empleado2, empleado3, empleado4, empleado5)
 
 
 iniciar()
+
 console.log(`Los empleados cargados son:`)
 console.log(arrayEmpleados)
 console.log(`Los empleados contratados son:`)
@@ -515,7 +522,7 @@ console.log(empleadosContratados)
 // ------------ Función contratar empleado con un monto inincial fijo (se puede editar)ir restando a medida que se contratan empleados. REALIZADO!!
 // ------------ Mostrar empleados contratados. REALIZADO!!
 // ------------ Pensar y crear una función que sirva para mostrar. REALIZADO!!
-// ------------ Pensar forma (seguramente if) para cuando no haya empleados 
+// ------------ Pensar forma (seguramente if) para cuando no haya empleados REALIZADO!! 
 // ------------ Pensar verificacion para cuando en seleccion de empleados esté mal seleccionado REALIZADO!!
 // ------------ Que pasa si el ideliminar ingresado no existe, hacer condicional que valide eso. REALIZADO!! 
 // ------------ Pensar forma de crear id que no se repita REALIDAZO!!}
