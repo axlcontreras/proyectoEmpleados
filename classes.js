@@ -159,12 +159,83 @@ class Empleado{
 }
 
 class EmpresaCliente{
-    constructor(id, nombre, cuil, tel, ciudad){
-        this.id = 1
-        this.nombre = this.ingreseNombreEmpresa()
-        this.cuit = this.ingreseCUILEmpresa()
-        this.telefono = this.ingreseTelefonoEmpresa()
-        this.ciudad = this.ingreseCiudad()
+    constructor(id, nombre, cuit, tel, ciudad){
+        this.id = id
+        this.nombre = nombre
+        this.cuit = cuit
+        this.telefono = tel
+        this.ciudad = ciudad
+    }
+
+    ingresarNombre(){
+        let nombre = prompt(`Por favor ingrese el nombre de la empresa`)
+        while(nombre == "" || isNaN(nombre) == false){
+            if (nombre == ""){
+                nombre = prompt(`Atención! El nombre no puede estar vacio, por favor ingrese el nombre correctamente`)
+            }else if(isNaN(nombre) == false){
+                nombre = prompt(`Atención! El nombre no puede ser un numero, por favor ingrese el nombre correctamente`)
+            }
+        }
+        return nombre
+    }
+    ingresarCuit (){
+        let cuit = Number(prompt("Por favor ingrese el CUIT de la empresa(Debe tener 11 digitos, sin guiones)"))
+        while(isNaN(cuit) || cuit.toString().length != 11){
+            if (isNaN(cuit)){
+                cuit = Number(prompt("Atención! El Cuit debe ser un numero. Por favor ingrese el CUIT de la empresa(Debe tener 11 digitos, sin guiones)"))
+            }else if (cuit.toString().length != 11){
+                cuit = Number(prompt("Atención! El CUIT debe tener 11 Digitos. Por favor ingrese el CUIT de la empresa(Debe tener 11 digitos, sin guiones) "))
+            }
+        }
+        return cuit
+    }
+    ingresarTel (){
+        let tel = Number(prompt("Por favor ingrese el numero telefónico de la empresa(Sin 0 ni 15, sin guiones (10 Digitos). Ej: 1150503333)"))
+        while(isNaN(tel) || tel.toString().length != 10){
+            if (isNaN(tel)){
+                tel = Number(prompt("Atención! El numero telefónico debe ser un numero. Por favor ingrese el telefono de la empresa(Sin 0 ni 15, sin guiones (10 Digitos). Ej: 1150503333)"))
+            }else if (tel.toString().length != 10){
+                tel = Number(prompt("Atención! El numero telefónico debe tener 10 Digitos. Por favor ingrese el telefono de la empresa(Sin 0 ni 15, sin guiones (10 Digitos). Ej: 1150503333)"))
+            }
+        }
+        return tel
+    }
+    ingresarCiudad(){
+        let ciudad = ""
+        while (ciudad == ""){
+            let ciudadOpcion = prompt(`Por favor ingrese el numero de la ciudad correspondiente
+1 - CABA
+2 - Buenos Aires
+3 - La Plata
+4 - Cordoba
+5 - Santa Fe`)
+            switch(ciudadOpcion){
+                case "1": 
+                    ciudad = "CABA"
+                break
+                case "2":
+                    ciudad = "Buenos Aires"
+                break
+                case "3":
+                    ciudad = "La Plata"
+                break
+                case "4":
+                    ciudad = "Cordoba"
+                break
+                case "5":
+                    ciudad = "Santa Fe"
+                break
+                default:
+                    ciudad = ""
+                    alert("El numero ingresado no corresponde a una ciudad")
+                break
+            }
+        }
+        return ciudad
+    }
+    exponerEmpresa(){
+        infoEmpresa = (`Empresa: ${this.nombre}  CUIT: ${this.cuit}`)
+        return infoEmpresa
     }
 }
 

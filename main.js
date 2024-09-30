@@ -22,6 +22,7 @@
 
 //carga de arrays. 
 const arrayEmpleados = []
+const arrayEmpresas = []
 const empleadosContratados = []
 
 //instanciar empleados. 
@@ -43,9 +44,11 @@ if (arrayEmpleados.length == 0){
 }
 
 
-iniciar()
+menuPrincipal()
 
 console.log(`Los empleados cargados son:`)
 console.log(arrayEmpleados)
 console.log(`Los empleados contratados son:`)
 console.log(empleadosContratados)
+
+//el id para empresa: buscar el id mas grande y a ese numero agregarle 1. pensarlo! 
