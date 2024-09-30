@@ -29,6 +29,8 @@ function menuPrincipal(){
             break
         }
     }
+    localStorage.setItem("empleadosCargados", JSON.stringify(arrayEmpleados))
+    localStorage.setItem("empresasCargadas", JSON.stringify(arrayEmpresas))
 }
 
 //Funciones de MENU EMPRESAS
@@ -42,14 +44,14 @@ function menuEmpresas(){
             1 - Cargar Empresa
             0 - Volver al menu principal`)
             if (opcion == "1"){
-                cargarEmpresa() //funcion no creada todavia
+                empresa = cargarEmpresa()
             }else if(opcion == "0"){
                 cerrar = true
             }else{
                 alert("La opción indicada no es correcta")
             }
         }else{
-            opcion = prompt(`EMPRESAS || Empresa seleccionada: ${empresa.nombre} ${empresa.cuit} 
+            opcion = prompt(`EMPRESAS || Empresa seleccionada: ${empresa.nombre} CUIT:${empresa.cuit} 
             Ingrese la opcion que desea:
                 1 - Seleccionar empresa
                 2 - Cargar Empresa
@@ -59,10 +61,10 @@ function menuEmpresas(){
                 0 - Volver al menu principal`)
             switch(opcion){
                 case "1":
-                    seleccionarEmpresa(arrayEmpresas)
+                    empresa = seleccionarEmpresa(arrayEmpresas)
                 break
                 case "2":
-                    //cargar empresa
+                    empresa = cargarEmpresa(arrayEmpresas)
                 break
                 case "3"://editar empresa
                 let volverMenu = false
@@ -97,7 +99,7 @@ function menuEmpresas(){
                 }
                 break
                 case "4":
-                    //borrar empresa
+                    empresa = borrarEmpresa(empresa, arrayEmpresas)
                 break
                 case "5":
                     //Ver contratos de esta empresa
@@ -113,10 +115,129 @@ function menuEmpresas(){
 
 //Funciones de MENU EMPRESA
 function cargarEmpresa(){
+    let idEmpresaCarg = asignarID(arrayEmpresas)
+    let nombreEmpresaCarg = ingresarNombre()
+    let cuitEmpresaCarg = ingresarCuit()
+    let telEmpresaCarg = ingresarTel()
+    let ciudadEmpresaCarg = ingresarCiudad()
     alert("Se carga empresa")
-}
-function buscarYSeleccionarEmpresa(){
+    const empresa = new EmpresaCliente(idEmpresaCarg, nombreEmpresaCarg, cuitEmpresaCarg, telEmpresaCarg, ciudadEmpresaCarg)
+    arrayEmpresas.push(empresa)
 
+    function ingresarNombre(){
+        let nombre = prompt(`Por favor ingrese el nombre de la empresa`)
+        while(nombre == "" || isNaN(nombre) == false){
+            if (nombre == ""){
+                nombre = prompt(`Atención! El nombre no puede estar vacio, por favor ingrese el nombre correctamente`)
+            }else if(isNaN(nombre) == false){
+                nombre = prompt(`Atención! El nombre no puede ser un numero, por favor ingrese el nombre correctamente`)
+            }
+        }
+        return nombre
+    }
+    function ingresarCuit (){
+        let cuit = Number(prompt("Por favor ingrese el CUIT de la empresa(Debe tener 11 digitos, sin guiones)"))
+        while(isNaN(cuit) || cuit.toString().length != 11){
+            if (isNaN(cuit)){
+                cuit = Number(prompt("Atención! El Cuit debe ser un numero. Por favor ingrese el CUIT de la empresa(Debe tener 11 digitos, sin guiones)"))
+            }else if (cuit.toString().length != 11){
+                cuit = Number(prompt("Atención! El CUIT debe tener 11 Digitos. Por favor ingrese el CUIT de la empresa(Debe tener 11 digitos, sin guiones) "))
+            }
+        }
+        return cuit
+    }
+    function ingresarTel (){
+        let tel = Number(prompt("Por favor ingrese el numero telefónico de la empresa(Sin 0 ni 15, sin guiones (10 Digitos). Ej: 1150503333)"))
+        while(isNaN(tel) || tel.toString().length != 10){
+            if (isNaN(tel)){
+                tel = Number(prompt("Atención! El numero telefónico debe ser un numero. Por favor ingrese el telefono de la empresa(Sin 0 ni 15, sin guiones (10 Digitos). Ej: 1150503333)"))
+            }else if (tel.toString().length != 10){
+                tel = Number(prompt("Atención! El numero telefónico debe tener 10 Digitos. Por favor ingrese el telefono de la empresa(Sin 0 ni 15, sin guiones (10 Digitos). Ej: 1150503333)"))
+            }
+        }
+        return tel
+    }
+    function ingresarCiudad(){
+        let ciudad = ""
+        while (ciudad == ""){
+            let ciudadOpcion = prompt(`Por favor ingrese el numero de la ciudad correspondiente
+1 - CABA
+2 - Buenos Aires
+3 - La Plata
+4 - Cordoba
+5 - Santa Fe`)
+            switch(ciudadOpcion){
+                case "1": 
+                    ciudad = "CABA"
+                break
+                case "2":
+                    ciudad = "Buenos Aires"
+                break
+                case "3":
+                    ciudad = "La Plata"
+                break
+                case "4":
+                    ciudad = "Cordoba"
+                break
+                case "5":
+                    ciudad = "Santa Fe"
+                break
+                default:
+                    ciudad = ""
+                    alert("El numero ingresado no corresponde a una ciudad")
+                break
+            }
+        }
+        return ciudad
+    }
+    return empresa
+}
+function mostrarEmpresaLista(array){
+    let info = ""
+    array.forEach(
+        function(empresa){
+            info = info+empresa.exponerEmpresa()+`
+`
+    })
+    return info
+}
+function seleccionarEmpresa(array){
+    let seleccionID = Number(prompt(`Por favor seleccione el empresa segun ID: 
+                    
+${mostrarEmpresaLista(array)}`))
+    let empresaSeleccionada = array.find((empresa)=>empresa.id == seleccionID)
+    while (empresaSeleccionada == undefined){
+        alert(`El valor ingresado no corresponde al ID de ninguna empresa`)
+        seleccionID = Number(prompt(`Por favor seleccione la empresa segun ID: 
+                    
+${mostrarEmpresaLista(array)}`))
+        empresaSeleccionada = array.find((empresa)=>empresa.id == seleccionID)
+    }
+    return empresaSeleccionada
+}
+function asignarID(array){
+    //el id para empresa: buscar el id mas grande y a ese numero agregarle 1. pensarlo! 
+    let idNuevo = 1
+    if (array.length == 0){
+        idNuevo = 1
+    }else{
+        idNuevo = array[array.length-1].id + 1
+    }
+    return idNuevo
+
+}
+function borrarEmpresa(empresa, array){
+    let preguntaBorrar = prompt(`Esta seguro que desea borrar la empresa ${empresa.nombre}?`)
+    if (preguntaBorrar.toLowerCase() == "si"){
+        let index = buscarIndex(array,empresa.id)
+        array.splice(index, 1)
+        alert(`Se ha borrado la información de la empresa correctamente`)
+        empresa = array[0]
+    }else{
+        alert(`No se ha borrado la empresa`)
+    }
+    localStorage.setItem("empresasCargadas", JSON.stringify(arrayEmpresas))
+    return empresa
 }
 
 //Funciones de MENU EMPLEADOS
@@ -139,7 +260,7 @@ function menuEmpleados(){
         }
     }
     alert("Se actualizará la base de datos de empleados si hubo cambios")
-    localStorage.setItem("empleadosCargados", JSON.stringify(arrayEmpleados))
+
 }
 function subMenuSinEmpleados(){
     let finalizarMenu = false //dato bandera
@@ -330,31 +451,6 @@ Presupuesto mensual de contratos: $${calcularPresupuesto(empleadosContratados)}`
                 }
             }
             return finalizarMenu
-}
-
-//Funciones para EMPRESAS GRAL
-function mostrarEmpresaLista(array){
-    let info = ""
-    array.forEach(
-        function(empresa){
-            info = info+empresa.exponerEmpresa()+`
-`
-    })
-    return info
-}
-function seleccionarEmpresa(array){
-    let seleccionID = Number(prompt(`Por favor seleccione el empresa segun ID: 
-                    
-${mostrarEmpresaLista(array)}`))
-    let empresaSeleccionada = array.find((empresa)=>empresa.id == seleccionID)
-    while (empresaSeleccionado == undefined){
-        alert(`El valor ingresado no corresponde al ID de ningun empleado`)
-        seleccionID = Number(prompt(`Por favor seleccione el empleado segun ID: 
-                    
-${mostrarEmpresaLista(array)}`))
-        empresaSeleccionada = array.find((empresa)=>empresa.id == seleccionID)
-    }
-    return empleadoSeleccionado
 }
 
 
@@ -594,7 +690,7 @@ function calcularPresupuesto(array){
 
 
 //Funciones para cargar desde STORAGE
-function instanciarStorage(array){
+function instanciarStorageEmpleados(array){
     if (localStorage.getItem("empleadosCargados")){
         console.log("Se cargan empleados desde Storage")
         let empleadosStorage = JSON.parse(localStorage.getItem("empleadosCargados"))
@@ -608,7 +704,21 @@ function instanciarStorage(array){
         console.log("No hay empleados cargados en el storage")
     )
 }
-function precargarContratados(array){
+function instanciarStorageEmpresas(array){
+    if (localStorage.getItem("empresasCargadas")){
+        console.log("Se cargan empresas desde Storage")
+        let empresasStorage = JSON.parse(localStorage.getItem("empresasCargadas"))
+        empresasStorage.forEach((empresa) => 
+            {
+            const empConClass = new EmpresaCliente (empresa.id, empresa.nombre, empresa.cuit, empresa.telefono, empresa.ciudad)
+            array.push(empConClass)
+            }
+        )
+    }else(
+        console.log("No hay empresas cargadas en el storage")
+    )
+}
+function precargarContratados(array){ //sin terminar
     let consulta = prompt("Desea continuar con las contrataciones realizadas?")
     if (consulta.toLowerCase() == "si"){
         alert("Se continuará con las contrataciones")

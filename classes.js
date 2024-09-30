@@ -160,10 +160,10 @@ class Empleado{
 
 class EmpresaCliente{
     constructor(id, nombre, cuit, tel, ciudad){
-        this.id = id
-        this.nombre = nombre
-        this.cuit = cuit
-        this.telefono = tel
+        this.id = id,
+        this.nombre = nombre,
+        this.cuit = cuit,
+        this.telefono = tel,
         this.ciudad = ciudad
     }
 
@@ -234,7 +234,7 @@ class EmpresaCliente{
         return ciudad
     }
     exponerEmpresa(){
-        infoEmpresa = (`Empresa: ${this.nombre}  CUIT: ${this.cuit}`)
+        let infoEmpresa = (`ID:....${this.id}Empresa: ${this.nombre}  CUIT: ${this.cuit}`)
         return infoEmpresa
     }
 }

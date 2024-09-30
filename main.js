@@ -35,11 +35,19 @@ const empleado6 = new Empleado (6, "Sebastian", "Cardero", 15, "Santa Fe")
 
 //carga desde storage o main
 if (arrayEmpleados.length == 0){
-    instanciarStorage(arrayEmpleados)
+    instanciarStorageEmpleados(arrayEmpleados)
     if(arrayEmpleados.length == 0){
         console.log("En el Storage no hay ningun empleado se cargan desde MAIN")
         arrayEmpleados.push(empleado1, empleado2, empleado3, empleado4, empleado5, empleado6)
         localStorage.setItem("empleadosCargados", JSON.stringify(arrayEmpleados))
+    }
+}
+if (arrayEmpresas.length == 0){
+    instanciarStorageEmpresas(arrayEmpresas)
+    if(arrayEmpresas.length == 0){
+        console.log("En el Storage no hay ninguna empresa, se cargan desde MAIN")
+        arrayEmpresas.push()
+        localStorage.setItem("empresasCargadas", JSON.stringify(arrayEmpresas))
     }
 }
 
@@ -50,5 +58,6 @@ console.log(`Los empleados cargados son:`)
 console.log(arrayEmpleados)
 console.log(`Los empleados contratados son:`)
 console.log(empleadosContratados)
+console.log(`Las empresas cargadas son: `)
+console.log(arrayEmpresas)
 
-//el id para empresa: buscar el id mas grande y a ese numero agregarle 1. pensarlo! 
