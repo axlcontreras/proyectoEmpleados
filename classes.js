@@ -11,7 +11,8 @@ class Empleado{
         this.sueldoMensual = this.calcularSueldoMensual(),
         this.sueldoTotal = this.calcularSueldoTotal(),
         this.contratado = false,
-        this.ciudad = ciudad
+        this.ciudad = ciudad,
+        this.empresaAsignada = 0
     }//CONSULTAR SI DECLARA CON LET VAR CONST LOS ATRIBUTOS
     ingresarNombre(){
         let nombre = prompt(`Por favor ingrese el nombre`)
@@ -237,6 +238,39 @@ class EmpresaCliente{
         let infoEmpresa = (`ID:....${this.id}Empresa: ${this.nombre}  CUIT: ${this.cuit}`)
         return infoEmpresa
     }
+}
+
+class Contratacion{
+    constructor(id, empresa, arrayContratados){
+        idContrato = id,
+        fechaContrato = new Date().toLocaleDateString()
+        empresaContrato = empresa,
+        empleadosAsignados = arrayContratados,
+        presupuestoTotal = this.calcularPresupuesto()
+    }
+
+    calcularPresupuesto(){
+
+    }
+    mostrarDetalleContratados(){
+
+    }
+    mostrarResumenContrato(){
+        //tiene que mostrar
+        //id: con cinco 0 a la izquierda     fecha:
+        //empresa:
+        // 
+        //lista de contratados: 
+        //nombre ID nombre...........//$sueldo.-
+        //  "     "   "   ...........//$   "  .-
+        //total......................//$      .-
+    }
+    iniciarContrato(){
+        let idIniciar = asignarID(arrayContrataciones)
+        let empresaIniciar = empresa
+        const arrayContratados = [].concat(empleadosContratados)
+    }
+
 }
 
 

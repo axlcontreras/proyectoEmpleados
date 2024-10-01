@@ -240,6 +240,57 @@ function borrarEmpresa(empresa, array){
     return empresa
 }
 
+//Funciones de MENU CONTRATAR
+function menuContrataciones(){
+    let cerrar = false
+    let contrato = undefined
+    while (cerrar == false){
+        if (localStorage.getItem("contratacion")){
+            let consultaContrataciones = prompt(`Se ha encontrado una contratación previa desea continuar?`)
+            if (consultaContrataciones.toLowerCase() == "si"){
+                let contratoStorage = localStorage.getItem("contratacion")
+                contrato = new Contratacion(contratoStorage.empresaContrato, contratoStorage.empleadosAsignados)
+            }
+        }else{
+            alert(`No se han encontrado contrataciones deberá generar una nueva contratación`)
+        }
+        opcionContrato = prompt(`Contrato seleccionado n°: ${contrato.id}
+            Ingrese la opción que desea: 
+                1 - Crear nuevo contrato
+                2 - Cancelar contrato
+                3 - Ver detalle de contrato
+                4 - Ver contratos anteriores
+                5 - Elegir otro contrato
+                6 - CONFIRMAR CONTRATO
+                0 - Volver al menu principal`)
+        switch(opcionContrato){
+            case "1":
+
+            break
+            case "2":
+
+            break
+            case "3":
+
+            break
+            case "4":
+
+            break
+            case "5":
+
+            break
+            case "0":
+                alert("Volviendo al menu principal")
+                cerrar = true
+            break
+            default:
+                alert("La opción ingresada es incorrecta")
+            break
+        }
+    }
+}
+
+
 //Funciones de MENU EMPLEADOS
 function menuEmpleados(){
     let cerrar = false
@@ -271,7 +322,7 @@ function subMenuSinEmpleados(){
         let opcion = prompt(`EMPLEADOS || No hay empleados cargados 
     Ingrese la opción que desea:
         1 - Cargar nuevo empleado
-        0 - Salir del menú`)
+        0 - Volver al menu principal`)
         switch(opcion){
             case "1":
                 empleado = cargarEmpleado(configID)
@@ -308,7 +359,7 @@ function subMenuConEmpleados(){
                 7 - Borrar empleado
                 8 - Contratar
                 9 - Buscar empleados
-                0 - Salir del menú`)
+                0 - Volver al menu principal`)
                 switch(opcion){
                     case "1":
                         empleado = seleccionarEmpleado(arrayEmpleados)
@@ -327,7 +378,7 @@ function subMenuConEmpleados(){
                         1 - Nombre
                         2 - Apellido
                         3 - Cantidad de horas
-                        0 - Volver al menu principal`)
+                        0 - Volver`)
                                 switch(opcionEditar){
                                     case "1":
                                         empleado.nombre = empleado.ingresarNombre()
@@ -364,7 +415,7 @@ function subMenuConEmpleados(){
                                     3 - Ordenar por mayor sueldo
                                     4 - Ordenar alfabeticamente (A-Z)
                                     5 - Ordenar alfabeticamente (Z-A)
-                                    0 - Volver al menu principal`)
+                                    0 - Volver`)
                                 switch(opcionMostrar){
                                     case "1":                        
                                         alert(`Empleado segun ID: 
@@ -414,7 +465,7 @@ ${mostrarEmpleadosLista(ordenarAlfaZa(arrayEmpleados))}`)
                 2 - Descontratar
                 3 - Mostrar empleados contratados
                 4 - Modificar presupuesto disponible
-                0 - Volver atras`)
+                0 - Volver`)
                             switch (opcionContratar){
                                 case "1":
                                     fondosDisponibles = contratarEmpleado(fondosDisponibles, empleado, empleadosContratados)
