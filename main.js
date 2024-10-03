@@ -23,7 +23,7 @@
 //carga de arrays. 
 const arrayEmpleados = []
 const arrayEmpresas = []
-const empleadosContratados = []
+const arrayContrataciones = []
 
 //instanciar empleados. 
 const empleado1 = new Empleado (1, "Andres", "Martinez", 0, "CABA")
@@ -56,9 +56,9 @@ menuPrincipal()
 
 console.log(`Los empleados cargados son:`)
 console.log(arrayEmpleados)
-console.log(`Los empleados contratados son:`)
-console.log(empleadosContratados)
 console.log(`Las empresas cargadas son: `)
 console.log(arrayEmpresas)
+console.log(`Las contrataciones relizadas son:`)
+console.log(arrayContrataciones)
 
 

@@ -37,9 +37,9 @@ class Empleado{
         return apellido
     }
     ingresarHoras (){
-        let horas = Number(prompt("Por favor ingrese la cantidad de horas trabajadas en el mes"))
+        let horas = Number(prompt("Por favor ingrese la cantidad de horas que el empleado trabajará en el mes"))
         while(isNaN(horas) || horas <= 0 || horas == ""){
-             horas = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese la cantidad de horas trabajadas en el mes correctamente"))
+             horas = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese la cantidad de horas que el empleado trabajará en el mes correctamente"))
         }
         return horas
     }
@@ -157,6 +157,10 @@ class Empleado{
         let info = (`ID: ${this.id}| Nombre: ${this.nombre} ${this.apellido} | Valor Hora: $${this.valorHora.toFixed(2)}.-`)
         return info
     }
+    exponerEmpleadoContrato(){
+        let info = (`${this.id}     ${this.nombre} ${this.apellido}          $${this.sueldoTotal}`)
+        return info
+    }
 }
 
 class EmpresaCliente{
@@ -241,12 +245,13 @@ class EmpresaCliente{
 }
 
 class Contratacion{
-    constructor(id, empresa, arrayContratados){
-        idContrato = id,
-        fechaContrato = new Date().toLocaleDateString()
-        empresaContrato = empresa,
-        empleadosAsignados = arrayContratados,
-        presupuestoTotal = this.calcularPresupuesto()
+    constructor(id, empresa, fondos, arrayContratados){
+        this.idContrato = id,
+        this.fechaContrato = ""
+        this.empresaContrato = empresa,
+        this.fondos = fondos,
+        this.empleadosAsignados = arrayContratados,
+        this.presupuestoTotal = calcularPresupuesto(arrayContratados)
     }
 
     calcularPresupuesto(){
@@ -255,16 +260,7 @@ class Contratacion{
     mostrarDetalleContratados(){
 
     }
-    mostrarResumenContrato(){
-        //tiene que mostrar
-        //id: con cinco 0 a la izquierda     fecha:
-        //empresa:
-        // 
-        //lista de contratados: 
-        //nombre ID nombre...........//$sueldo.-
-        //  "     "   "   ...........//$   "  .-
-        //total......................//$      .-
-    }
+
     iniciarContrato(){
         let idIniciar = asignarID(arrayContrataciones)
         let empresaIniciar = empresa

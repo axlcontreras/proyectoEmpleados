@@ -15,7 +15,7 @@ function menuPrincipal(){
                 menuEmpresas()
             break
             case "3":
-                alert("Sección de la aplicación en contrucción x.x")
+                menuContrataciones()
             break
             case "4":
                 alert("Sección de la aplicación en contrucción x.x")
@@ -32,6 +32,9 @@ function menuPrincipal(){
     localStorage.setItem("empleadosCargados", JSON.stringify(arrayEmpleados))
     localStorage.setItem("empresasCargadas", JSON.stringify(arrayEmpresas))
 }
+
+//-------------------------------------------------------------------------------------------------------
+
 
 //Funciones de MENU EMPRESAS
 function menuEmpresas(){
@@ -240,10 +243,12 @@ function borrarEmpresa(empresa, array){
     return empresa
 }
 
+//-------------------------------------------------------------------------------------------------------
+
 //Funciones de MENU CONTRATAR
 function menuContrataciones(){
     let cerrar = false
-    let contrato = undefined
+    let contrato = new Contratacion(0, "Sin empresa", 0, arrayEmpleados)
     while (cerrar == false){
         if (localStorage.getItem("contratacion")){
             let consultaContrataciones = prompt(`Se ha encontrado una contratación previa desea continuar?`)
@@ -252,7 +257,9 @@ function menuContrataciones(){
                 contrato = new Contratacion(contratoStorage.empresaContrato, contratoStorage.empleadosAsignados)
             }
         }else{
-            alert(`No se han encontrado contrataciones deberá generar una nueva contratación`)
+            alert(`No se han encontrado una contratación previa deberá generar una nueva contratación`)
+        } //todo este menu deberá estar en 
+        if(contrato == undefined){
         }
         opcionContrato = prompt(`Contrato seleccionado n°: ${contrato.id}
             Ingrese la opción que desea: 
@@ -265,19 +272,19 @@ function menuContrataciones(){
                 0 - Volver al menu principal`)
         switch(opcionContrato){
             case "1":
-
+                iniciarContrato()
             break
             case "2":
-
+                alert("En contrucción")
             break
             case "3":
-
+                alert("En contrucción")
             break
             case "4":
-
+                alert("En contrucción")
             break
             case "5":
-
+                alert("En contrucción")
             break
             case "0":
                 alert("Volviendo al menu principal")
@@ -289,7 +296,183 @@ function menuContrataciones(){
         }
     }
 }
+function iniciarContrato(){
+    let idIniciar = asignarID(arrayContrataciones)
+    let empresaIniciar = ""
+    let fechaIniciar = new Date().toLocaleDateString()
+    let fondosDisponibles = 0
+    let empleado = ""
+    const arrayAsignados = []
+    let cancelar = false
+    let aceptar = false
+    while (cancelar == false && aceptar == false){
+        let opcionContrato = prompt(`Contratación N°: ${idIniciar.toString().padStart(6,'0')}
+        Por favor ingrese la opcion que desea:
+            1 - Elegir Empresa
+            2 - Configurar fondos  Fondos Actuales: $${fondosDisponibles}
+            3 - Agregar empleado
+            4 - Descontratar empleado
+            5 - Ver resumen de contrato
+            6 - Aceptar contrato
+            7 - Cancelar contrato `)
+        switch(opcionContrato){
+                case "1":
+                    let empresaIniciar = seleccionarEmpresa(arrayEmpresas)
+                break
+                case "2":
+                    fondosDisponibles = actualizarFondos(fondosDisponibles, arrayAsignados)
+                break
+                case "3":
+                    alert("Seleccione empleado para agregar al contrato")
+                    empleado = seleccionarEmpleado(arrayEmpleados)
+                    fondosDisponibles = agregarEmpleado(fondosDisponibles, empleado, arrayAsignados)
+                break
+                case "4":
+                    alert("Seleccione empleado para quitar del contrato")
+                    empleado = seleccionarEmpleado(arrayAsignados)
+                    fondosDisponibles = quitarEmpleado(fondosDisponibles, empleado, arrayAsignados)
+                break
+                case "5":
+                    mostrarResumenContrato()
+                break
+                case "6":
+                    //dar aceptar tiene que asignar empresa a empleado y contrato=true
+                    //
+                    const contrato = new Contratacion(idIniciar, empresaIniciar, fondosDisponibles, arrayAsignados)
+                    arrayContrataciones.push(contrato)
+                break
+                case "7":
+                    let consultaCerrar = prompt("Esta seguro que desea cancelar el contrato? (responder: si o no)")
+                    if (consultaCerrar.toLowerCase() == "si"){
+                        alert("Se ha cancelado el contrato")
+                        cancelar = true
+                    }else{
+                        alert("Se continuará con el contrato")
+                    }
+                break
+                default:
+                    alert("La opción ingresada es incorrecta")
+                break
+        }
+        
+            
+    }
+    function mostrarResumenContrato(){
+        alert(`CONTRATATO N°: ${idIniciar.toString().padStart(6, '0')}    Fecha: ${fechaIniciar}
+        Cliente: ${empresaIniciar}
+        
+        Lista de contratados:
+ID   NOMBRE                SUELDO
+${listarEmpleadoContrato(arrayAsignados)}
+TOTAL:                           $${calcularPresupuesto(arrayAsignados)}.-`)
+    }
+}
 
+
+    
+
+//Funciones EMPLEADOS CONTRATAR
+function agregarEmpleado(fondos, empleado, arrayContratados){
+    if(empleado.contratado == true){
+        alert(`El empleado ya se encuentra contratado`)
+        }else{
+            empleado.cantHoras = empleado.ingresarHoras()
+            empleado.sueldoTotal = empleado.calcularSueldoTotal()
+            let pregunta = prompt(`Desea agregar al empleado ${empleado.nombre} ${empleado.apellido}? Por mes el costo aproximados de sus servicios son: $${empleado.sueldoTotal}`)
+            if(pregunta.toLowerCase() == "si"){
+                if(fondos >= empleado.sueldoTotal){
+                    alert(`El empleado ${empleado.nombre} ${empleado.apellido} se ha agregado!`)
+                    arrayContratados.push(empleado)
+                    fondos -= empleado.sueldoTotal
+                }else{
+                    alert(`Los fondos no son suficientes para contratar al empleado`)
+                }
+        }else{
+            alert(`No se ha contratado al empleado`)
+    }
+    }
+    return fondos
+}
+function quitarEmpleado(fondos, empleado, array){
+    let preguntaQuitar = prompt(`Esta seguro que desea quitar empleado ${empleado.nombre} ${empleado.apellido}?`)
+    if (preguntaQuitar.toLowerCase() == "si"){
+        let index = buscarIndex(array,empleado.id)
+        if (index == -1){
+        alert(`El empleado no está añadido al contrato`)
+        }else{
+        array.splice(index, 1)
+        alert(`Se ha quitado empleado ${empleado.nombre} ${empleado.apellido}`)
+        }
+        fondos += empleado.sueldoTotal
+    }else{
+        alert(`No se han realizado cambios`)
+    }
+    return fondos
+}
+function listarEmpleadoContrato(array){
+    let info = ""
+    array.forEach(
+        function(empleado){
+            info = info+empleado.exponerEmpleadoContrato()+`
+`
+    })
+    return info
+}
+function actualizarFondos(fondos, arrayContratados){
+    let fondoAct= Number(prompt("Por favor actualice los fondos disponibles"))
+    while(isNaN(fondoAct) || fondoAct <= 0 || fondoAct == ""){
+        fondoAct = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese los fondos disponibles correctamente"))
+    }
+    while(fondoAct < calcularPresupuesto(arrayContratados)){
+        fondoAct = Number(prompt(`Atención, los fondos no pueden ser menores al presupuesto de empleados a contratar ($${calcularPresupuesto(arrayContratados)}.-)! Por favor ingrese los fondos disponibles correctamente`))
+    }
+    fondos = fondoAct - calcularPresupuesto(arrayContratados)
+    return fondos
+}
+function descontratarEmpleado(fondos, empleado, array){
+    let preguntaDescontratar = prompt(`Esta seguro que desea descontratar a ${empleado.nombre} ${empleado.apellido}?`)
+    if (preguntaDescontratar.toLowerCase() == "si"){
+        empleado.contratado = false
+        let index = buscarIndex(array,empleado.id)
+        if (index == -1){
+        alert(`El empleado no está contratado`)
+        }else{
+        array.splice(index, 1)
+        alert(`Se ha descontratado ${empleado.nombre} ${empleado.apellido}`)
+        }
+        fondos += empleado.sueldoTotal
+    }else{
+        alert(`No se han realizado cambios`)
+    }
+    return fondos
+}
+function contratarEmpleado(fondos, empleado, arrayContratados){
+    if(empleado.contratado == true){
+        alert(`El empleado ya se encuentra contratado`)
+        }else{
+            let pregunta = prompt(`Desea contratar al empleado ${empleado.nombre} ${empleado.apellido}? Por mes el costo aproximados de sus servicios son: $${empleado.sueldoTotal}`)
+            if(pregunta.toLowerCase() == "si"){
+                if(fondos >= empleado.sueldoTotal){
+                    alert(`El empleado ${empleado.nombre} ${empleado.apellido} se ha agregado!`)
+                    empleado.contratado = true
+                    arrayContratados.push(empleado)
+                    fondos -= empleado.sueldoTotal
+                }else{
+                    alert(`Los fondos no son suficientes para contratar al empleado`)
+                }
+        }else{
+            alert(`No se ha contratado al empleado`)
+    }
+    }
+    return fondos
+}
+function calcularPresupuesto(array){
+    let presupuesto = 0
+    array.forEach((empleado)=>presupuesto += empleado.sueldoTotal)
+    return presupuesto
+}
+
+//-------------------------------------------------------------------------------------------------------
 
 //Funciones de MENU EMPLEADOS
 function menuEmpleados(){
@@ -357,7 +540,7 @@ function subMenuConEmpleados(){
                 5 - Ver Detalle
                 6 - Mostrar empleados
                 7 - Borrar empleado
-                8 - Contratar
+                8 - Contratar 
                 9 - Buscar empleados
                 0 - Volver al menu principal`)
                 switch(opcion){
@@ -505,7 +688,7 @@ Presupuesto mensual de contratos: $${calcularPresupuesto(empleadosContratados)}`
 }
 
 
-//Funciones dentro de para EMPLEADOS
+//Funciones para EMPLEADOS
 //GRAL
 function seleccionarEmpleado(array){
     let seleccionID = Number(prompt(`Por favor seleccione el empleado segun ID: 
@@ -684,61 +867,9 @@ function ordenarAlfaZa(array){
     return arrayAlfabetico
 }
 
-//Funciones EMPLEADOS CONTRATAR
-function actualizarFondos(fondos, arrayContratados){
-    let fondoAct= Number(prompt("Por favor actualice los fondos disponibles"))
-    while(isNaN(fondoAct) || fondoAct <= 0 || fondoAct == ""){
-        fondoAct = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese los fondos disponibles correctamente"))
-    }
-    while(fondoAct < calcularPresupuesto(arrayContratados)){
-        fondoAct = Number(prompt(`Atención, los fondos no pueden ser menores al presupuesto de empleados a contratar ($${calcularPresupuesto(arrayContratados)}.-)! Por favor ingrese los fondos disponibles correctamente`))
-    }
-    fondos = fondoAct - calcularPresupuesto(arrayContratados)
-    return fondos
-}
-function descontratarEmpleado(fondos, empleado, array){
-    let preguntaDescontratar = prompt(`Esta seguro que desea descontratar a ${empleado.nombre} ${empleado.apellido}?`)
-    if (preguntaDescontratar.toLowerCase() == "si"){
-        empleado.contratado = false
-        let index = buscarIndex(array,empleado.id)
-        if (index == -1){
-        alert(`El empleado no está contratado`)
-        }else{
-        array.splice(index, 1)
-        alert(`Se ha descontratado ${empleado.nombre} ${empleado.apellido}`)
-        }
-        fondos += empleado.sueldoTotal
-    }else{
-        alert(`No se han realizado cambios`)
-    }
-    return fondos
-}
-function contratarEmpleado(fondos, empleado, arrayContratados){
-    if(empleado.contratado == true){
-        alert(`El empleado ya se encuentra contratado`)
-        }else{
-            let pregunta = prompt(`Desea contratar al empleado ${empleado.nombre} ${empleado.apellido}? Por mes el costo aproximados de sus servicios son: $${empleado.sueldoTotal}`)
-            if(pregunta.toLowerCase() == "si"){
-                if(fondos >= empleado.sueldoTotal){
-                    alert(`Excelente, el empleado ${empleado.nombre} ${empleado.apellido} ha si contratado!`)
-                    empleado.contratado = true
-                    arrayContratados.push(empleado)
-                    fondos -= empleado.sueldoTotal
-                }else{
-                    alert(`Los fondos no son suficientes para contratar al empleado`)
-                }
-        }else{
-            alert(`No se ha contratado al empleado`)
-    }
-    }
-    return fondos
-}
-function calcularPresupuesto(array){
-    let presupuesto = 0
-    array.forEach((empleado)=>presupuesto += empleado.sueldoTotal)
-    return presupuesto
-}
 
+
+//-------------------------------------------------------------------------------------------------------
 
 //Funciones para cargar desde STORAGE
 function instanciarStorageEmpleados(array){
