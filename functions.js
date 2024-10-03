@@ -15,7 +15,13 @@ function menuPrincipal(){
                 menuEmpresas()
             break
             case "3":
-                menuContrataciones()
+                if (arrayEmpleados.length == 0){
+                    alert("No hay empleados cargados, debe cargar empleados")
+                }else if(arrayEmpresas.length == 0){
+                    alert("No hay empresas cargadas, debe cargar al menos una empresa")
+                }else{
+                    menuContrataciones()
+                }
             break
             case "4":
                 alert("Sección de la aplicación en contrucción x.x")
@@ -116,7 +122,7 @@ function menuEmpresas(){
     }
 }
 
-//Funciones de MENU EMPRESA
+
 function cargarEmpresa(){
     let idEmpresaCarg = asignarID(arrayEmpresas)
     let nombreEmpresaCarg = ingresarNombre()
@@ -296,6 +302,8 @@ function menuContrataciones(){
         }
     }
 }
+
+
 function iniciarContrato(){
     let idIniciar = asignarID(arrayContrataciones)
     let empresaIniciar = ""
@@ -308,11 +316,11 @@ function iniciarContrato(){
     while (cancelar == false && aceptar == false){
         let opcionContrato = prompt(`Contratación N°: ${idIniciar.toString().padStart(6,'0')}
         Por favor ingrese la opcion que desea:
-            1 - Elegir Empresa
-            2 - Configurar fondos  Fondos Actuales: $${fondosDisponibles}
+            1 - Elegir Empresa     Empresa: ${nombre}
+            2 - Configurar fondos  Fondos:$${fondosDisponibles}
             3 - Agregar empleado
-            4 - Descontratar empleado
-            5 - Ver resumen de contrato
+            4 - Quitar empleado
+            5 - Ver resumen
             6 - Aceptar contrato
             7 - Cancelar contrato `)
         switch(opcionContrato){
@@ -321,6 +329,7 @@ function iniciarContrato(){
                 break
                 case "2":
                     fondosDisponibles = actualizarFondos(fondosDisponibles, arrayAsignados)
+                    fondosIniciar = fondosDisponibles
                 break
                 case "3":
                     alert("Seleccione empleado para agregar al contrato")
@@ -338,8 +347,10 @@ function iniciarContrato(){
                 case "6":
                     //dar aceptar tiene que asignar empresa a empleado y contrato=true
                     //
-                    const contrato = new Contratacion(idIniciar, empresaIniciar, fondosDisponibles, arrayAsignados)
+                    const contrato = new Contratacion(idIniciar, empresaIniciar, fondosIniciar, arrayAsignados)
+                    contrato.fechaContrato = fechaIniciar
                     arrayContrataciones.push(contrato)
+                    aceptar = true
                 break
                 case "7":
                     let consultaCerrar = prompt("Esta seguro que desea cancelar el contrato? (responder: si o no)")
@@ -371,7 +382,7 @@ TOTAL:                           $${calcularPresupuesto(arrayAsignados)}.-`)
 
     
 
-//Funciones EMPLEADOS CONTRATAR
+//Funciones CONTRATACIONES con empleado
 function agregarEmpleado(fondos, empleado, arrayContratados){
     if(empleado.contratado == true){
         alert(`El empleado ya se encuentra contratado`)
@@ -687,9 +698,7 @@ Presupuesto mensual de contratos: $${calcularPresupuesto(empleadosContratados)}`
             return finalizarMenu
 }
 
-
-//Funciones para EMPLEADOS
-//GRAL
+//Funciones para empleados
 function seleccionarEmpleado(array){
     let seleccionID = Number(prompt(`Por favor seleccione el empleado segun ID: 
                     

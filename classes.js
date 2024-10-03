@@ -253,20 +253,6 @@ class Contratacion{
         this.empleadosAsignados = arrayContratados,
         this.presupuestoTotal = calcularPresupuesto(arrayContratados)
     }
-
-    calcularPresupuesto(){
-
-    }
-    mostrarDetalleContratados(){
-
-    }
-
-    iniciarContrato(){
-        let idIniciar = asignarID(arrayContrataciones)
-        let empresaIniciar = empresa
-        const arrayContratados = [].concat(empleadosContratados)
-    }
-
 }
 
 
