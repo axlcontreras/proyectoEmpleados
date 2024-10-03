@@ -23,9 +23,6 @@ function menuPrincipal(){
                     menuContrataciones()
                 }
             break
-            case "4":
-                alert("Sección de la aplicación en contrucción x.x")
-            break
             case "0":
                 alert("Cerrando aplicación")
                 cerrar = true
@@ -111,7 +108,7 @@ function menuEmpresas(){
                     empresa = borrarEmpresa(empresa, arrayEmpresas)
                 break
                 case "5":
-                    //Ver contratos de esta empresa
+                    verContratos(empresa)
                 break
                 case "0":
                     alert("Volviendo al menu principal")
@@ -248,6 +245,26 @@ function borrarEmpresa(empresa, array){
     localStorage.setItem("empresasCargadas", JSON.stringify(arrayEmpresas))
     return empresa
 }
+function verContratos(empresa){
+    let contratos = arrayContrataciones.filter((contrato)=>contrato.empresa == empresa)
+    if (contratos.length == 0){
+        alert(`La empresa no tiene contratos`)
+    }else{
+        alert(`Los contratos de la empresa ${empresa} son:
+
+${mostrarContratosLista(contratos)}`) //cambiar esto
+    }
+}
+function mostrarContratosLista(array){
+    let info = ""
+    array.forEach(
+        function(contrato){
+            info = info+contrato.exponerContrato()+`
+`
+    })
+    return info
+
+}
 
 //-------------------------------------------------------------------------------------------------------
 
@@ -306,9 +323,10 @@ function menuContrataciones(){
 
 function iniciarContrato(){
     let idIniciar = asignarID(arrayContrataciones)
-    let empresaIniciar = ""
+    let empresaIniciar = arrayEmpresas[0]
     let fechaIniciar = new Date().toLocaleDateString()
     let fondosDisponibles = 0
+    let fondosIniciar = 0
     let empleado = ""
     const arrayAsignados = []
     let cancelar = false
@@ -316,7 +334,7 @@ function iniciarContrato(){
     while (cancelar == false && aceptar == false){
         let opcionContrato = prompt(`Contratación N°: ${idIniciar.toString().padStart(6,'0')}
         Por favor ingrese la opcion que desea:
-            1 - Elegir Empresa     Empresa: ${nombre}
+            1 - Elegir Empresa     Empresa: ${empresaIniciar.nombre}
             2 - Configurar fondos  Fondos:$${fondosDisponibles}
             3 - Agregar empleado
             4 - Quitar empleado
@@ -325,7 +343,7 @@ function iniciarContrato(){
             7 - Cancelar contrato `)
         switch(opcionContrato){
                 case "1":
-                    let empresaIniciar = seleccionarEmpresa(arrayEmpresas)
+                    empresaIniciar = seleccionarEmpresa(arrayEmpresas)
                 break
                 case "2":
                     fondosDisponibles = actualizarFondos(fondosDisponibles, arrayAsignados)
@@ -350,7 +368,9 @@ function iniciarContrato(){
                     const contrato = new Contratacion(idIniciar, empresaIniciar, fondosIniciar, arrayAsignados)
                     contrato.fechaContrato = fechaIniciar
                     arrayContrataciones.push(contrato)
+                    empresaIniciar.contratos.push(contrato)
                     aceptar = true
+                    alert(`Se ha generado el contrato exitosamente`)
                 break
                 case "7":
                     let consultaCerrar = prompt("Esta seguro que desea cancelar el contrato? (responder: si o no)")
@@ -370,7 +390,7 @@ function iniciarContrato(){
     }
     function mostrarResumenContrato(){
         alert(`CONTRATATO N°: ${idIniciar.toString().padStart(6, '0')}    Fecha: ${fechaIniciar}
-        Cliente: ${empresaIniciar}
+        Cliente: ${empresaIniciar.nombre}
         
         Lista de contratados:
 ID   NOMBRE                SUELDO
@@ -380,7 +400,9 @@ TOTAL:                           $${calcularPresupuesto(arrayAsignados)}.-`)
 }
 
 
-    
+
+
+//-------------------------------------------------------------------------------------------------------
 
 //Funciones CONTRATACIONES con empleado
 function agregarEmpleado(fondos, empleado, arrayContratados){

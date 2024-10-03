@@ -169,7 +169,8 @@ class EmpresaCliente{
         this.nombre = nombre,
         this.cuit = cuit,
         this.telefono = tel,
-        this.ciudad = ciudad
+        this.ciudad = ciudad,
+        this.contratos = []
     }
 
     ingresarNombre(){
@@ -252,6 +253,9 @@ class Contratacion{
         this.fondos = fondos,
         this.empleadosAsignados = arrayContratados,
         this.presupuestoTotal = calcularPresupuesto(arrayContratados)
+    }
+    exponerContrato(){
+        infoContrato = (`Contrato N°: ${this.idContrato.toString().padStart(6, '0')}  Fecha${this.fechaContrato}`)
     }
 }
 
