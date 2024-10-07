@@ -5,7 +5,7 @@ class Empleado{
         this.apellido = apellido, //this.ingresarApellido(),
         this.cantHoras = 1, //this.ingresarHoras(),
         this.antiguedad = antiguedad,
-        this.experiencia = this.indicarExperiencia(),
+        this.perfil = this.indicarPerfil(),
         this.bonoPorcentual = this.calcularBonoPorcentual(), // a partir de los 10 años de experiencia
         this.valorHora = this.tasarHora(),
         this.sueldoMensual = this.calcularSueldoMensual(),
@@ -50,22 +50,22 @@ class Empleado{
         }
         return antiguedad
     }
-    indicarExperiencia(){
-        let experiencia = "Trainee"
+    indicarPerfil(){
+        let perfil = "Trainee"
             if(this.antiguedad == 0){
-                experiencia = "Trainee"
-            }else if(this.antiguedad == 1){
-                experiencia = "Junior"
-            }else if(this.antiguedad > 1 && this.antiguedad < 4){
-                experiencia = "Semi-Senior"
-            }else if(this.antiguedad >= 4){
-                experiencia = "Senior"
+                perfil = "Trainee"
+            }else if(this.antiguedad > 0 && this.antiguedad <= 2){
+                perfil = "Junior"
+            }else if(this.antiguedad > 2 && this.antiguedad < 6){
+                perfil = "Semi-Senior"
+            }else if(this.antiguedad >= 6){
+                perfil = "Senior"
             }
-        return experiencia
+        return perfil
     } 
     tasarHora(){
         let valorHora = 0
-        let exp = this.experiencia
+        let exp = this.perfil
         if(exp == "Trainee"){
             valorHora = 2500
         }else if(exp == "Junior"){
@@ -75,7 +75,7 @@ class Empleado{
         }else if(exp == "Senior"){
             valorHora = 10000 * this.bonoPorcentual
         }else{
-            console.log(`tasar hora no ingresó a tra, jun, ssr, ni sr siendo que experiencia es: ${exp}`)
+            console.log(`tasar hora no ingresó a tra, jun, ssr, ni sr siendo que pefil es: ${exp}`)
         }
         return valorHora
     }
@@ -131,7 +131,7 @@ class Empleado{
         return sueldoTotal
     }
     mostrarSueldo(){
-        alert(`El sueldo de ${this.nombre} ${this.apellido} es: $${this.sueldoTotal.toFixed(2)}.- `)
+        alert(`El sueldo bruto de ${this.nombre} ${this.apellido} por 160hs mensuales es: $${(this.sueldoTotal*160).toFixed(2)}.- `)
 
     }
     infoContratado(){
@@ -145,13 +145,13 @@ class Empleado{
     }
     mostrarDetalle(){
         let contratado = this.infoContratado()
-        alert(`${this.nombre} ${this.apellido}    ID: ${this.id}
-            >Tiene una antiguedad de: ${this.antiguedad} año/s
-            >El empleado es: ${this.experiencia}
+        alert(`            ID: ${this.id}                EMPLEADO: ${this.nombre} ${this.apellido}    
+            >Antigüedad: ${this.antiguedad} año/s
+            >Perfil: ${this.perfil}
             >Valor de hora: $${this.valorHora.toFixed(2)}.-
-            >El sueldo mensual aprox. es: $${this.sueldoTotal.toFixed(2)}
+            >Sueldo mensual(160hs): $${(this.sueldoTotal*160).toFixed(2)}.-
             >Ciudad: ${this.ciudad}
-            >Estado: ${contratado}`)
+            >Estado: ${this.infoContratado()}`)
     }
     exponerEmpleados(){
         let info = (`ID: ${this.id}| Nombre: ${this.nombre} ${this.apellido} | Valor Hora: $${this.valorHora.toFixed(2)}.-`)
@@ -195,7 +195,7 @@ class EmpresaCliente{
         }
         return cuit
     }
-    ingresarTel (){
+    ingresarTel(){
         let tel = Number(prompt("Por favor ingrese el numero telefónico de la empresa(Sin 0 ni 15, sin guiones (10 Digitos). Ej: 1150503333)"))
         while(isNaN(tel) || tel.toString().length != 10){
             if (isNaN(tel)){
@@ -240,14 +240,14 @@ class EmpresaCliente{
         return ciudad
     }
     exponerEmpresa(){
-        let infoEmpresa = (`ID:....${this.id}Empresa: ${this.nombre}  CUIT: ${this.cuit}`)
+        let infoEmpresa = (`ID:....${this.id}       Empresa: ${this.nombre}  CUIT: ${this.cuit}`)
         return infoEmpresa
     }
 }
 
 class Contratacion{
     constructor(id, empresa, fondos, arrayContratados){
-        this.idContrato = id,
+        this.id = id,
         this.fechaContrato = ""
         this.empresaContrato = empresa,
         this.fondos = fondos,
@@ -255,9 +255,7 @@ class Contratacion{
         this.presupuestoTotal = calcularPresupuesto(arrayContratados)
     }
     exponerContrato(){
-        infoContrato = (`Contrato N°: ${this.idContrato.toString().padStart(6, '0')}  Fecha${this.fechaContrato}`)
+        let infoContrato = (`Contrato N°: ${this.id.toString().padStart(6, '0')}  Fecha ${this.fechaContrato}`)
+        return infoContrato
     }
 }
-
-
-

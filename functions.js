@@ -93,7 +93,7 @@ function menuEmpresas(){
                                 empresa.ciudad = empresa.ingresarCiudad()
                             break
                             case "4":   
-                                empresa.telefono = empresa.ingresarTelefono()
+                                empresa.telefono = empresa.ingresarTel()
                             break
                             case "0":
                                 volverMenu = true
@@ -246,11 +246,11 @@ function borrarEmpresa(empresa, array){
     return empresa
 }
 function verContratos(empresa){
-    let contratos = arrayContrataciones.filter((contrato)=>contrato.empresa == empresa)
+    let contratos = arrayContrataciones.filter((contrato)=>contrato.empresaContrato.nombre == empresa.nombre)
     if (contratos.length == 0){
         alert(`La empresa no tiene contratos`)
     }else{
-        alert(`Los contratos de la empresa ${empresa} son:
+        alert(`Los contratos de la empresa ${empresa.nombre} son:
 
 ${mostrarContratosLista(contratos)}`) //cambiar esto
     }
@@ -284,14 +284,12 @@ function menuContrataciones(){
         } //todo este menu deberá estar en 
         if(contrato == undefined){
         }
-        opcionContrato = prompt(`Contrato seleccionado n°: ${contrato.id}
+        opcionContrato = prompt(`Contrato seleccionado n°: ${contrato.id.toString().padStart(6,'0')}
             Ingrese la opción que desea: 
                 1 - Crear nuevo contrato
-                2 - Cancelar contrato
-                3 - Ver detalle de contrato
-                4 - Ver contratos anteriores
-                5 - Elegir otro contrato
-                6 - CONFIRMAR CONTRATO
+                2 - Ver detalle de contrato
+                3 - Ver contratos anteriores
+                4 - Elegir otro contrato
                 0 - Volver al menu principal`)
         switch(opcionContrato){
             case "1":
@@ -304,9 +302,6 @@ function menuContrataciones(){
                 alert("En contrucción")
             break
             case "4":
-                alert("En contrucción")
-            break
-            case "5":
                 alert("En contrucción")
             break
             case "0":
@@ -329,6 +324,7 @@ function iniciarContrato(){
     let fondosIniciar = 0
     let empleado = ""
     const arrayAsignados = []
+    const arrayContrato = [] //se creó para poder concat al array de empresa (daba error circular structure)
     let cancelar = false
     let aceptar = false
     while (cancelar == false && aceptar == false){
@@ -368,7 +364,9 @@ function iniciarContrato(){
                     const contrato = new Contratacion(idIniciar, empresaIniciar, fondosIniciar, arrayAsignados)
                     contrato.fechaContrato = fechaIniciar
                     arrayContrataciones.push(contrato)
-                    empresaIniciar.contratos.push(contrato)
+                    arrayContrato.push(contrato)
+                    empresaIniciar.contratos.concat(arrayContrato)
+                    //buscar todos los empleado que esten el arraycontrataciones y arrayempelados y asignarle contratado = true
                     aceptar = true
                     alert(`Se ha generado el contrato exitosamente`)
                 break
@@ -406,10 +404,14 @@ TOTAL:                           $${calcularPresupuesto(arrayAsignados)}.-`)
 
 //Funciones CONTRATACIONES con empleado
 function agregarEmpleado(fondos, empleado, arrayContratados){
-    if(empleado.contratado == true){
-        alert(`El empleado ya se encuentra contratado`)
-        }else{
+        if(empleado.contratado == true){
+            alert(`El empleado ya se encuentra contratado`)
+        }else if(arrayContratados.find((empleadoEnCont) => empleadoEnCont.id == empleado.id)){
+            alert(`El empleado ya se está agregado al contrato`)
+        }
+        else{
             empleado.cantHoras = empleado.ingresarHoras()
+            empleado.sueldoMensual = empleado.calcularSueldoMensual()
             empleado.sueldoTotal = empleado.calcularSueldoTotal()
             let pregunta = prompt(`Desea agregar al empleado ${empleado.nombre} ${empleado.apellido}? Por mes el costo aproximados de sus servicios son: $${empleado.sueldoTotal}`)
             if(pregunta.toLowerCase() == "si"){
@@ -505,7 +507,7 @@ function calcularPresupuesto(array){
     return presupuesto
 }
 
-//-------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
 
 //Funciones de MENU EMPLEADOS
 function menuEmpleados(){
@@ -569,12 +571,10 @@ function subMenuConEmpleados(){
                 1 - Seleccionar Empleado
                 2 - Cargar nuevo empleado
                 3 - Editar empleado
-                4 - Ver Sueldo
-                5 - Ver Detalle
-                6 - Mostrar empleados
-                7 - Borrar empleado
-                8 - Contratar 
-                9 - Buscar empleados
+                4 - Ver Detalle
+                5 - Mostrar empleados
+                6 - Borrar empleado
+                7 - Buscar empleados
                 0 - Volver al menu principal`)
                 switch(opcion){
                     case "1":
@@ -617,21 +617,18 @@ function subMenuConEmpleados(){
                         }
                     break
                     case "4":
-                        empleado.mostrarSueldo()
-                    break
-                    case "5":
                         empleado.mostrarDetalle()
                     break
-                    case "6":
+                    case "5":
                             let volverAtras = false
                             while(volverAtras == false){
                                 let opcionMostrar = prompt(`Ingrese la opcion que desea:
-                                    1 - Mostrar por ID
-                                    2 - Ordenar por menor sueldo
-                                    3 - Ordenar por mayor sueldo
-                                    4 - Ordenar alfabeticamente (A-Z)
-                                    5 - Ordenar alfabeticamente (Z-A)
-                                    0 - Volver`)
+        1 - Mostrar por ID
+        2 - Ordenar por menor sueldo
+        3 - Ordenar por mayor sueldo
+        4 - Ordenar por apellido alfabeticamente (A-Z)
+        5 - Ordenar por apellido alfabeticamente (Z-A)
+        0 - Volver`)
                                 switch(opcionMostrar){
                                     case "1":                        
                                         alert(`Empleado segun ID: 
@@ -649,12 +646,12 @@ ${mostrarEmpleadosLista(ordenarMenorMayorSueldo(arrayEmpleados))}`)
 ${mostrarEmpleadosLista(ordenarMayorMenorSueldo(arrayEmpleados))}`)
                                     break
                                     case "4":
-                                        alert(`Ordenado alfabeticamente (A-Z):
+                                        alert(`Ordenado alfabeticamente por apellido (A-Z):
                                             
 ${mostrarEmpleadosLista(ordenarAlfaAz(arrayEmpleados))}`)
                                     break
                                     case "5":
-                                        alert(`Ordenado alfabeticamente (Z-A):
+                                        alert(`Ordenado alfabeticamente por apellido (Z-A):
                                             
 ${mostrarEmpleadosLista(ordenarAlfaZa(arrayEmpleados))}`)
                                     break
@@ -668,44 +665,10 @@ ${mostrarEmpleadosLista(ordenarAlfaZa(arrayEmpleados))}`)
                                 }
                             }
                     break
-                    case "7":
+                    case "6":
                         empleado = borrarEmpleado(empleado, arrayEmpleados)
                     break
-                    case "8":
-                        let volverAtras2 = false
-                        while (volverAtras2 == false){
-                            let opcionContratar = prompt(`Los fondos disponibles son:            $${fondosDisponibles}     
-        Empleado: ${empleado.nombre} ${empleado.apellido}                   ID (${empleado.id})
-        Ingrese la opcion que desea:
-                1 - Contratar
-                2 - Descontratar
-                3 - Mostrar empleados contratados
-                4 - Modificar presupuesto disponible
-                0 - Volver`)
-                            switch (opcionContratar){
-                                case "1":
-                                    fondosDisponibles = contratarEmpleado(fondosDisponibles, empleado, empleadosContratados)
-                                break
-                                case "2":
-                                    fondosDisponibles = descontratarEmpleado(fondosDisponibles, empleado, empleadosContratados)
-                                break
-                                case "3":
-                                    alert(`Los empleados contratados son: 
-                                        
-${mostrarEmpleadosLista(empleadosContratados)}
-
-Presupuesto mensual de contratos: $${calcularPresupuesto(empleadosContratados)}`)
-                                break
-                                case "4":
-                                    fondosDisponibles = actualizarFondos(fondosDisponibles, empleadosContratados)
-                                break
-                                case "0":
-                                    volverAtras2 = true
-                                break
-                            }
-                        }
-                    break
-                    case "9":
+                    case "7":
                         buscarEmpleado(arrayEmpleados)
                     break
                     case "0":
@@ -871,9 +834,9 @@ function ordenarMenorMayorSueldo(array){
 function ordenarAlfaAz(array){
     let arrayAlfabetico = [].concat(array)
     arrayAlfabetico.sort((a, b)=>{
-        if (a.nombre.toLowerCase() < b.nombre.toLowerCase()){
+        if (a.apellido.toLowerCase() < b.apellido.toLowerCase()){
             return -1
-        }if (a.nombre.toLowerCase() < b.nombre.toLowerCase()){
+        }if (a.apellido.toLowerCase() < b.apellido.toLowerCase()){
             return 1
         }
         return 0
@@ -888,9 +851,9 @@ function ordenarMayorMenorSueldo(array){
 function ordenarAlfaZa(array){
     let arrayAlfabetico = [].concat(array)
     arrayAlfabetico.sort((b, a)=>{
-        if (a.nombre.toLowerCase() < b.nombre.toLowerCase()){
+        if (a.apellido.toLowerCase() < b.apellido.toLowerCase()){
             return -1
-        }if (a.nombre.toLowerCase() < b.nombre.toLowerCase()){
+        }if (a.apellido.toLowerCase() < b.apellido.toLowerCase()){
             return 1
         }
         return 0

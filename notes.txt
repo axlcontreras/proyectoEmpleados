@@ -1,0 +1,51 @@
+******************** EJERCICIO SISTEMA DE SUELDOS **************************
+Realizar un sistema para sueldos de una empresa. Se le solicita que nombre y apellido de la persona, junto al valor de la hora, la cantidad de horas trabajadas en el mes y los años de antigüedad en la empresa. Realice el algoritmo para calcular e informar el sueldo mensual del empleado/a, teniendo en cuenta que se le asigna un bono mensual de 5% del sueldo por año cada año de antigüedad (por 1 año de antigüedad plus de 5%, 2 años plus de 10%, 3 años plus de 15%... etc)
+//HAY OBJETOS // HAY MENU
+//El bono porcentual va a ser a partir de los 10 años de experiencia
+
+**************************IDEAS PARA AGREGAR***************************
+// ------------ Función editar empleado >Nombre > Apellido >Cant Horas (SUBMENU) REALIZADO!!
+// ------------ Función contratar empleado con un monto inincial fijo (se puede editar)ir restando a medida que se contratan empleados. REALIZADO!!
+// ------------ Mostrar empleados contratados. REALIZADO!!
+// ------------ Pensar y crear una función que sirva para mostrar. REALIZADO!!
+// ------------ Pensar forma (seguramente if) para cuando no haya empleados REALIZADO!! 
+// ------------ Pensar verificacion para cuando en seleccion de empleados esté mal seleccionado REALIZADO!!
+// ------------ Que pasa si el ideliminar ingresado no existe, hacer condicional que valide eso. REALIZADO!! 
+// ------------ Pensar forma de crear id que no se repita REALIDAZO!!
+// ------------ Utilizar funciones de buscar REALIZADO!!
+// ------------ Aplicar el storage tanto para carrito como para empleados cargados. REALIZADO!!
+// ------------ Crear un parametro que indique la experiencia jr ssr sr REALIZADO!!
+// ------------ Mostrar empleado que tenga si es sr /jr/sr REALIZADO!!
+
+//Se puede pensar el programa como si fuera para una consultora a la que le asigna un empleado o un grupo de empleados a una empresa. 
+//la empresa: se debe iniciar indicando el nombre, "cuit", y el presupuesto para la contratación. 
+//finalizar contrataciones debe devolver una array con los empleados, total, empresa a asignar. 
+
+
+*************** ERRORES ENCONTRADOS ********************
+
+- En menu empRESAS ver contratos de la empresa no muestra contratos{
+    posibles soluciones: change function vercontratos que lea el largo
+
+}
+- En el segundo contrato a realizar la id no se coloca correctamente > Solucionado. 
+- No cambia el estado de los empleados al aceptar el contrato >
+- Verificar en contratos cuando se agrega empleado y se indica hora no calcula el sueldo mensual >SOLUCIONADO
+- consola muestra error de ciclo es posible que esto sea porque estoy poniendo un objeto definido como empresa en otro objeto y viceversa! Pensar como solucionar esto!! {
+    >SOLUCIÓN: se creó una array para pushearle el contrato y despues ese array se concatena con el array de los contratos en la empresa.CONSULTAR UNA MEJOR SOLUCION. 
+}
+- Empleado se puede agregar varias veces en el contrato >SOLUCIONADO
+
+
+
+************** IDEAS A REALIZAR ***********************
+
+-Quitar de menu empleados, la seccion contrataciones >HECHO
+-Sueldo mensual en menu empleados que indique una aproximado trabajando 160 horas >HECHO
+-Si Al contratar la empresa y el empleado son de distinta ciudades hacer la aclaración 
+-Mostrar los empleados que sean de la misma ciudad
+-SOLO SE PUEDE CONTRATAR EMPLEADOS DE LA MISMA CIUDAD: 
+-las contrataciones deberian almacenarse en storage(hacer esto una vez que quede correctamente configurada)
+-las contrataciones podrian recibir un tiempo estimado (3 meses, 6 meses, 1 año, 2 años, 3años)
+
+
