@@ -29,12 +29,13 @@ Realizar un sistema para sueldos de una empresa. Se le solicita que nombre y ape
 
 }
 - En el segundo contrato a realizar la id no se coloca correctamente > Solucionado. 
-- No cambia el estado de los empleados al aceptar el contrato >
+- No cambia el estado de los empleados al aceptar el contrato > Solucionado.
 - Verificar en contratos cuando se agrega empleado y se indica hora no calcula el sueldo mensual >SOLUCIONADO
 - consola muestra error de ciclo es posible que esto sea porque estoy poniendo un objeto definido como empresa en otro objeto y viceversa! Pensar como solucionar esto!! {
     >SOLUCIÓN: se creó una array para pushearle el contrato y despues ese array se concatena con el array de los contratos en la empresa.CONSULTAR UNA MEJOR SOLUCION. 
 }
 - Empleado se puede agregar varias veces en el contrato >SOLUCIONADO
+- Sueldo total de empleado se muestra mal en detalle >
 
 
 
@@ -49,3 +50,8 @@ Realizar un sistema para sueldos de una empresa. Se le solicita que nombre y ape
 -las contrataciones podrian recibir un tiempo estimado (3 meses, 6 meses, 1 año, 2 años, 3años)
 
 
+
+
+**********************PASAMOS AL DOM!!!!************************
+Ejercicios:
+1) Recorrer un array y mostrar la info en cards > 

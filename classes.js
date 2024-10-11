@@ -1,5 +1,5 @@
 class Empleado{
-    constructor(id, nombre, apellido, antiguedad, ciudad){
+    constructor(id, nombre, apellido, antiguedad, ciudad, img){
         this.id = id, //chequear como asignar una id mejor
         this.nombre = nombre,//this.ingresarNombre(),
         this.apellido = apellido, //this.ingresarApellido(),
@@ -12,7 +12,9 @@ class Empleado{
         this.sueldoTotal = this.calcularSueldoTotal(),
         this.contratado = false,
         this.ciudad = ciudad,
-        this.empresaAsignada = 0
+        // this.contrato = 0
+        // this.empresaAsignada = contrato.empresaContrato,
+        this.imagen = img
     }//CONSULTAR SI DECLARA CON LET VAR CONST LOS ATRIBUTOS
     ingresarNombre(){
         let nombre = prompt(`Por favor ingrese el nombre`)
@@ -123,7 +125,7 @@ class Empleado{
                 bonoPorcentual= bonoPorcentual + 0.05
             }
         }
-        return bonoPorcentual
+        return bonoPorcentual.toFixed(2)
 
     }
     calcularSueldoTotal(){

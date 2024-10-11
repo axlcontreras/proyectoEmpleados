@@ -367,6 +367,7 @@ function iniciarContrato(){
                     arrayContrato.push(contrato)
                     empresaIniciar.contratos.concat(arrayContrato)
                     //buscar todos los empleado que esten el arraycontrataciones y arrayempelados y asignarle contratado = true
+                    actualizarEstadoTrue(contrato.empleadosAsignados, arrayEmpleados)
                     aceptar = true
                     alert(`Se ha generado el contrato exitosamente`)
                 break
@@ -464,48 +465,79 @@ function actualizarFondos(fondos, arrayContratados){
     fondos = fondoAct - calcularPresupuesto(arrayContratados)
     return fondos
 }
-function descontratarEmpleado(fondos, empleado, array){
-    let preguntaDescontratar = prompt(`Esta seguro que desea descontratar a ${empleado.nombre} ${empleado.apellido}?`)
-    if (preguntaDescontratar.toLowerCase() == "si"){
-        empleado.contratado = false
-        let index = buscarIndex(array,empleado.id)
-        if (index == -1){
-        alert(`El empleado no está contratado`)
-        }else{
-        array.splice(index, 1)
-        alert(`Se ha descontratado ${empleado.nombre} ${empleado.apellido}`)
-        }
-        fondos += empleado.sueldoTotal
-    }else{
-        alert(`No se han realizado cambios`)
-    }
-    return fondos
-}
-function contratarEmpleado(fondos, empleado, arrayContratados){
-    if(empleado.contratado == true){
-        alert(`El empleado ya se encuentra contratado`)
-        }else{
-            let pregunta = prompt(`Desea contratar al empleado ${empleado.nombre} ${empleado.apellido}? Por mes el costo aproximados de sus servicios son: $${empleado.sueldoTotal}`)
-            if(pregunta.toLowerCase() == "si"){
-                if(fondos >= empleado.sueldoTotal){
-                    alert(`El empleado ${empleado.nombre} ${empleado.apellido} se ha agregado!`)
-                    empleado.contratado = true
-                    arrayContratados.push(empleado)
-                    fondos -= empleado.sueldoTotal
-                }else{
-                    alert(`Los fondos no son suficientes para contratar al empleado`)
-                }
-        }else{
-            alert(`No se ha contratado al empleado`)
-    }
-    }
-    return fondos
-}
+// function descontratarEmpleado(fondos, empleado, array){
+//     let preguntaDescontratar = prompt(`Esta seguro que desea descontratar a ${empleado.nombre} ${empleado.apellido}?`)
+//     if (preguntaDescontratar.toLowerCase() == "si"){
+//         empleado.contratado = false
+//         let index = buscarIndex(array,empleado.id)
+//         if (index == -1){
+//         alert(`El empleado no está contratado`)
+//         }else{
+//         array.splice(index, 1)
+//         alert(`Se ha descontratado ${empleado.nombre} ${empleado.apellido}`)
+//         }
+//         fondos += empleado.sueldoTotal
+//     }else{
+//         alert(`No se han realizado cambios`)
+//     }
+//     return fondos
+// }
+// function contratarEmpleado(fondos, empleado, arrayContratados){
+//     if(empleado.contratado == true){
+//         alert(`El empleado ya se encuentra contratado`)
+//         }else{
+//             let pregunta = prompt(`Desea contratar al empleado ${empleado.nombre} ${empleado.apellido}? Por mes el costo aproximados de sus servicios son: $${empleado.sueldoTotal}`)
+//             if(pregunta.toLowerCase() == "si"){
+//                 if(fondos >= empleado.sueldoTotal){
+//                     alert(`El empleado ${empleado.nombre} ${empleado.apellido} se ha agregado!`)
+//                     empleado.contratado = true
+//                     arrayContratados.push(empleado)
+//                     fondos -= empleado.sueldoTotal
+//                 }else{
+//                     alert(`Los fondos no son suficientes para contratar al empleado`)
+//                 }
+//         }else{
+//             alert(`No se ha contratado al empleado`)
+//     }
+//     }
+//     return fondos
+// }
 function calcularPresupuesto(array){
     let presupuesto = 0
     array.forEach((empleado)=>presupuesto += empleado.sueldoTotal)
     return presupuesto
 }
+function actualizarEstadoTrue(arrayEmpleadosEnContrato, arrayEmpleadosCargados){
+    arrayEmpleadosEnContrato.forEach((empleadoEnContrato) => {
+        arrayEmpleadosCargados.forEach((empleadoCargado) => {
+            if(empleadoEnContrato.id == empleadoCargado.id){
+                empleadoCargado.contratado = true
+                console.log(`El empleado contratado ahora figura como contratado`)
+            }
+        })
+    })
+}
+function actualizarEstadoFalse(arrayEmpleadosEnContrato, arrayEmpleadosCargados){
+    arrayEmpleadosEnContrato.forEach((empleadoEnContrato) => {
+        arrayEmpleadosCargados.forEach((empleadoCargado) => {
+            if(empleadoEnContrato.id == empleadoCargado.id){
+                empleadoCargado.contratado = false
+                console.log(`El empleado contratado ahora figura como NO contratado`)
+            }
+        })
+    })
+}
+function asignarContrato(arrayEmpleadosEnContrato, arrayEmpleadosCargados){
+    arrayEmpleadosEnContrato.forEach((empleadoEnContrato) => {
+        arrayEmpleadosCargados.forEach((empleadoCargado) => {
+            if(empleadoEnContrato.id == empleadoCargado.id){
+                empleadoCargado.contratado = true
+                console.log(`El empleado contratado ahora figura como contratado`)
+            }
+        })
+    })
+}
+
 
 //------------------------------------------------------------------------------------------------------
 
