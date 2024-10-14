@@ -41,21 +41,32 @@ console.log(arrayEmpresas)
 console.log(`Las contrataciones relizadas son:`)
 console.log(arrayContrataciones)
 
-let containerEmpleados = document.getElementById("containerEmpleados")
+
+//agregar empleados a la tabla
+let tablaEmpleados = document.getElementById("tablaEmpleados")
 
 for(let empleado of arrayEmpleados){
-    let empleadoNuevoDiv = document.createElement("div")
-    empleadoNuevoDiv.className = "col-12, col-md-6 col-lg-4"
-    empleadoNuevoDiv.innerHTML = `<div id="${empleado.id}" class="card" style="width: 18rem;">
-    <img class="card-img-top img-fluid" style="height: 200px;"src="assets/img/${empleado.imagen}" alt="Foto perfil">
-    <div class="card-body">
-        <h4 class="card-title">${empleado.nombre} ${empleado.apellido}</h4>
-        <p>Perfil: ${empleado.perfil}</p>
-        <p class="">Valor de hora: $${empleado.valorHora}</p>
-    <button id="" class="btn btn-outline-success">Contratar</button>
-    </div>
-    </div>`
-    containerEmpleados.append(empleadoNuevoDiv)
+    let empleadoNuevoDiv = document.createElement("tr")
+    empleadoNuevoDiv.innerHTML = `
+            <tr id="${empleado.id}">
+                <th>
+                  <button type="button" class="btn btn-outline-secondary">Ver detalle</button>
+                </th>
+                <th><img src="assets/img/${empleado.imagen}" alt="Foto perfil de ${empleado.nombre} ${empleado.apellido}" style="max-width:50px;"></th>
+                <th>${empleado.id}</th>
+                <th>${empleado.nombre} ${empleado.apellido}</th>
+                <th>${empleado.perfil}</th>
+                <th>$${empleado.valorHora}</th>
+                <th>${empleado.infoContratado()}</th>
+                <th>
+                  <button type="button" class="btn btn-secondary">Editar</button>
+                </th>
+                <th>
+                  <button type="button" class="btn btn-danger">Eliminar</button>
+                </th>
+
+            </tr>`
+    tablaEmpleados.append(empleadoNuevoDiv)
 }
 
 
