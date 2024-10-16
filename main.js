@@ -42,31 +42,31 @@ console.log(`Las contrataciones relizadas son:`)
 console.log(arrayContrataciones)
 
 
-//agregar empleados a la tabla
-let tablaEmpleados = document.getElementById("tablaEmpleados")
+// //agregar empleados a la tabla
+// let tablaEmpleados = document.getElementById("tablaEmpleados")
 
-for(let empleado of arrayEmpleados){
-    let empleadoNuevoDiv = document.createElement("tr")
-    empleadoNuevoDiv.innerHTML = `
-            <tr id="${empleado.id}">
-                <th>
-                  <button type="button" class="btn btn-outline-secondary">Ver detalle</button>
-                </th>
-                <th><img src="assets/img/${empleado.imagen}" alt="Foto perfil de ${empleado.nombre} ${empleado.apellido}" style="max-width:50px;"></th>
-                <th>${empleado.id}</th>
-                <th>${empleado.nombre} ${empleado.apellido}</th>
-                <th>${empleado.perfil}</th>
-                <th>$${empleado.valorHora}</th>
-                <th>${empleado.infoContratado()}</th>
-                <th>
-                  <button type="button" class="btn btn-secondary">Editar</button>
-                </th>
-                <th>
-                  <button type="button" class="btn btn-danger">Eliminar</button>
-                </th>
+// for(let empleado of arrayEmpleados){
+//     let empleadoNuevoDiv = document.createElement("tr")
+//     empleadoNuevoDiv.innerHTML = `
+//             <tr id="${empleado.id}">
+//                 <th>
+//                   <button type="button" class="btn btn-outline-secondary">Ver detalle</button>
+//                 </th>
+//                 <th><img src="assets/img/${empleado.imagen}" alt="Foto perfil de ${empleado.nombre} ${empleado.apellido}" style="max-width:50px;"></th>
+//                 <th>${empleado.id}</th>
+//                 <th>${empleado.nombre} ${empleado.apellido}</th>
+//                 <th>${empleado.perfil}</th>
+//                 <th>$${empleado.valorHora}</th>
+//                 <th>${empleado.infoContratado()}</th>
+//                 <th>
+//                   <button type="button" class="btn btn-secondary">Editar</button>
+//                 </th>
+//                 <th>
+//                   <button type="button" class="btn btn-danger">Eliminar</button>
+//                 </th>
 
-            </tr>`
-    tablaEmpleados.append(empleadoNuevoDiv)
-}
+//             </tr>`
+//     tablaEmpleados.append(empleadoNuevoDiv)
+// }
 
 
