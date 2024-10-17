@@ -146,7 +146,6 @@ class Empleado{
         return contratado
     }
     mostrarDetalle(){
-        let contratado = this.infoContratado()
         alert(`            ID: ${this.id}                EMPLEADO: ${this.nombre} ${this.apellido}    
             >Antigüedad: ${this.antiguedad} año/s
             >Perfil: ${this.perfil}

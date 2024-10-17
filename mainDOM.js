@@ -36,25 +36,25 @@ function imprimirEmpleados(array){
                 <th>
                   <button id = "btnVerDetalle${empleado.id}" type="button" class="btn btn-outline-secondary">Ver detalle</button>
                 </th>
-                <th><img src="assets/img/${empleado.imagen}" alt="Foto perfil de ${empleado.nombre} ${empleado.apellido}" style="max-width:50px;"></th>
+                <th><img src="assets/img/empleados/${empleado.imagen}" alt="Foto perfil de ${empleado.nombre} ${empleado.apellido}" style="max-width:50px;"></th>
                 <th>${empleado.id}</th>
                 <th>${empleado.nombre} ${empleado.apellido}</th>
                 <th>${empleado.perfil}</th>
                 <th>$${empleado.valorHora}</th>
                 <th>${empleado.infoContratado()}</th>
                 <th>
-                  <button id = "btnEditar${empleado.id}" type="button" class="btn btn-secondary data-bs-toggle="modal" data-bs-target="#formEditar">Editar</button>
+                  <button id = "btnEditar${empleado.id}" type="button" class="btn btn-outline.secondary" data-bs-toggle="tooltip" data-bs-title="Editar"><i class="fa-solid fa-pen-to-square"></i></button>
                 </th>
                 <th>
-                  <button id = "btnBorrar${empleado.id}" type="button" class="btn btn-danger ">Eliminar</button>
+                  <button id = "btnBorrar${empleado.id}" type="button" class="btn btn-outline-link" data-bs-toggle="tooltip" data-bs-title="Eliminar"><i class="fa-solid fa-trash" style="color: #f00505;"></i></button>
                 </th>
 
             </tr>`
         tablaEmpleados.append(trNuevoEmpleado)
         //capturar dentro del forEah y pasarle evento. 
-        document.getElementById(`btnEditar${empleado.id}`).addEventListener("click", ()=>{
-            editarEmpleado(empleado)
-        })
+        // document.getElementById(`btnEditar${empleado.id}`).addEventListener("click", ()=>{
+        //     editarEmpleado(empleado)
+        // })
         })
 }
 
