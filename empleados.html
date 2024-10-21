@@ -24,6 +24,10 @@
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav  align-items-center">
+              <form class="d-flex mx-3">
+                <input id="busqueda" class="form-control me-2 form-file-button-hover-bg" placeholder="Buscar" aria-label="Search">
+                
+              </form> 
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="empleados.html"><h5>Empleados</h5></a>
               </li>
@@ -37,16 +41,26 @@
           </div>
         </div>
     </nav>
+    <h3 id="coincidencias" ></h3>
     <div class="container">
       <div class="row ">
         <div class="col">
           <div class="row">
             <div class="col d-inline-flex p-2">
               <h4>Empleados</h4>
+              <ul>
+                <select id="selectOrden" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                  <option selected value="0">Ordenar por:</option>
+                  <option value="1">Mayor sueldo</option>
+                  <option value="2">Menor sueldo</option>
+                  <option value="3">Alfabeticamente Apellido A-Z</option>
+                  <option value="4">Alfabeticamente Apellido Z-A</option>
+                </select>
+              </ul>
             </div>
             <div class="col d-inline-flex p-2 justify-content-end">
                <!-- btn de agregar empleado modal -->
-              <button type="button" class="btn btn-dark btn-lg " data-bs-toggle="modal" data-bs-target="#agregarEmpleado" >Agregar empleado</button>
+              <button type="button" class="btn btn-dark btn-lg " data-bs-toggle="modal" data-bs-target="#agregarEmpleado">Agregar empleado</button>
             </div>
           </div>
           <table class="table table-hover table-light">
@@ -88,20 +102,7 @@
         </div>
       </div>
     </div>
-
-
-
-    <script src="classes.js"></script>
-    <script src="functions.js"></script>
-    <script src="main.js"></script>
-    <script src="mainDOM.js"></script>
-    <!--JS Boostrap-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="utilitiesbs.js"></script>
-
-    <!-- <script src="DOMTeoria.js"></script> -->
-</body>
-    <div class="container-fluid bottom-0 end-0">
+    <div id="footer"  class="footer">
       <div class="row p-5 pb-2 bg-dark text-secondary">
         <div class="col-xs-12 col-md-6 col-lg-3">
           <a class="navbar-brand mb-1 h1" href="index.html">
@@ -152,4 +153,17 @@
           </div>
       </div>
     </div>
+
+
+    <script src="classes.js"></script>
+    <script src="functions.js"></script>
+    <script src="main.js"></script>
+    <script src="mainDOM.js"></script>
+    <!--JS Boostrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="utilitiesbs.js"></script>
+
+    <!-- <script src="DOMTeoria.js"></script> -->
+</body>
+
 </html>
