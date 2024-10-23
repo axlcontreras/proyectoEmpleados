@@ -56,6 +56,7 @@ Realizar un sistema para sueldos de una empresa. Se le solicita que nombre y ape
 Ejercicios:
 1) Recorrer un array y mostrar la info en cards > 
 
+Volver a añadir las funciones de storage
 
 
 IMPORTANTE! > agregar ciudad cuando 

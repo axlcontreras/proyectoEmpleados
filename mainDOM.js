@@ -42,6 +42,7 @@ function imprimirEmpleados(array){
         // })
         })
 }
+
 function editarEmpleado(empleado){
 
     const myModal = new bootstrap.Modal('#myModal', {
@@ -69,18 +70,80 @@ function editarEmpleado(empleado){
         </div>
     `
 }//no funciona aun
+
+
+
 function buscarEmpleado(array,valor){
     let busqueda = array.filter((empleado)=> empleado.nombre.toLowerCase().includes(valor.toLowerCase()) || empleado.apellido.toLowerCase().includes(valor.toLowerCase()))
+    switch(selectOrden.value){
+        case "0":
+            imprimirEmpleados(busqueda)
+        break
+        case "1":
+            busqueda=ordenarMayorMenorSueldo(busqueda)
+        break
+        case "2":
+            busqueda=ordenarMenorMayorSueldo(busqueda)
+        break
+        case "3":
+            busqueda=ordenarAlfaAz(busqueda)
+        break
+        case "4":
+            busqueda=ordenarAlfaZa(busqueda)
+        break
+    }
     //CONDICIONAL COINCIDENCIAS
     if(busqueda.length == 0){
-        console.log(`No se encontraron coincidencias con: ${valor}`)
         coincidencias.innerText = `Sin coincidencias buscando empleado: ${valor}`
         tablaEmpleados.innerHTML = ""
     }else{
         coincidencias.innerText = ""
-        imprimirEmpleados(busqueda)
+        // imprimirEmpleados(busqueda)
     }
+    return busqueda
 }
+
+//ordenar empleados
+function ordenarMenorMayorSueldo(array){
+    let arrayMenorMayor = [].concat(array)
+    arrayMenorMayor.sort((a,b)=>a.sueldoTotal - b.sueldoTotal)
+    imprimirEmpleados(arrayMenorMayor)    
+}
+
+function ordenarAlfaAz(array){
+    let arrayAlfabetico = [].concat(array)
+    arrayAlfabetico.sort((a, b)=>{
+        if (a.apellido.toLowerCase() < b.apellido.toLowerCase()){
+            return -1
+        }if (a.apellido.toLowerCase() < b.apellido.toLowerCase()){
+            return 1
+        }
+        return 0
+    })
+    imprimirEmpleados(arrayAlfabetico)
+}
+
+function ordenarMayorMenorSueldo(array){
+    let arrayMenorMayor = [].concat(array)
+    arrayMenorMayor.sort((b,a)=>a.sueldoTotal - b.sueldoTotal)
+    imprimirEmpleados(arrayMenorMayor)
+}
+
+function ordenarAlfaZa(array){
+    let arrayAlfabetico = [].concat(array)
+    arrayAlfabetico.sort((b, a)=>{
+        if (a.apellido.toLowerCase() < b.apellido.toLowerCase()){
+            return -1
+        }if (a.apellido.toLowerCase() < b.apellido.toLowerCase()){
+            return 1
+        }
+        return 0
+    })
+    imprimirEmpleados(arrayAlfabetico)
+}
+
+
+
 //cargar empleado
 function cargarEmpleado(array){
     const empleado = new Empleado (array.length+1, nombreInput.value, apellidoInput.value, antiguedadInput.value, ciudadInput.value, "NuevoEmpleado.png")
@@ -90,6 +153,8 @@ function cargarEmpleado(array){
     ciudadInput.value="0"
     array.push(empleado)
     imprimirEmpleados(array)
+    localStorage.setItem("empleadosCargados", JSON.stringify(arrayEmpleados))
+    console.log("Se actualiza plantilla del storage")
 //     function ingresarNombre(){
 //         let nombre = prompt(`Por favor ingrese el nombre`)
 //         while(nombre == "" || isNaN(nombre) == false){
@@ -169,41 +234,7 @@ function cargarEmpleado(array){
 
     
 }
-//ordenar empleados
-function ordenarMenorMayorSueldo(array){
-    let arrayMenorMayor = [].concat(array)
-    arrayMenorMayor.sort((a,b)=>a.sueldoTotal - b.sueldoTotal)
-    imprimirEmpleados(arrayMenorMayor)    
-}
-function ordenarAlfaAz(array){
-    let arrayAlfabetico = [].concat(array)
-    arrayAlfabetico.sort((a, b)=>{
-        if (a.apellido.toLowerCase() < b.apellido.toLowerCase()){
-            return -1
-        }if (a.apellido.toLowerCase() < b.apellido.toLowerCase()){
-            return 1
-        }
-        return 0
-    })
-    imprimirEmpleados(arrayAlfabetico)
-}
-function ordenarMayorMenorSueldo(array){
-    let arrayMenorMayor = [].concat(array)
-    arrayMenorMayor.sort((b,a)=>a.sueldoTotal - b.sueldoTotal)
-    imprimirEmpleados(arrayMenorMayor)
-}
-function ordenarAlfaZa(array){
-    let arrayAlfabetico = [].concat(array)
-    arrayAlfabetico.sort((b, a)=>{
-        if (a.apellido.toLowerCase() < b.apellido.toLowerCase()){
-            return -1
-        }if (a.apellido.toLowerCase() < b.apellido.toLowerCase()){
-            return 1
-        }
-        return 0
-    })
-    imprimirEmpleados(arrayAlfabetico)
-}
+
 
 
 
@@ -212,33 +243,22 @@ function ordenarAlfaZa(array){
 
 
 //eventos
-busqueda.oninput= ()=>{ //oninput es = cada vez que cambie el valor de input 
-    buscarEmpleado(arrayEmpleados,busqueda.value)
+busqueda.oninput = ()=>{ //oninput es = cada vez que cambie el valor de input 
+    let filterArray = buscarEmpleado(arrayEmpleados,busqueda.value)
+    imprimirEmpleados(filterArray)
 }
+//evento ordenar
 selectOrden.addEventListener("change", ()=>{
-    console.log(selectOrden.value)
-    switch(selectOrden.value){
-        case "0":
-            imprimirEmpleados(arrayEmpleados)
-        break
-        case "1":
-            ordenarMayorMenorSueldo(arrayEmpleados)
-        break
-        case "2":
-            ordenarMenorMayorSueldo(arrayEmpleados)
-        break
-        case "3":
-            ordenarAlfaAz(arrayEmpleados)
-        break
-        case "4":
-            ordenarAlfaZa(arrayEmpleados)
-        break
-    }
+    let arrayFilt = buscarEmpleado(arrayEmpleados, busqueda.value)
+    imprimirEmpleados(arrayFilt)
 })
+
 
 //evento de cargar empleado
 btnCargarEmpleado.addEventListener("click", ()=>{
     cargarEmpleado(arrayEmpleados)
 })
+
+
 //codigo
 imprimirEmpleados(arrayEmpleados)
