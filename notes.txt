@@ -55,3 +55,8 @@ Realizar un sistema para sueldos de una empresa. Se le solicita que nombre y ape
 **********************PASAMOS AL DOM!!!!************************
 Ejercicios:
 1) Recorrer un array y mostrar la info en cards > 
+
+
+
+IMPORTANTE! > agregar ciudad cuando 
+verificar el fusionado de filtrar/buscar y ordenar. 

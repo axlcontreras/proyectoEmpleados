@@ -60,7 +60,7 @@
             </div>
             <div class="col d-inline-flex p-2 justify-content-end">
                <!-- btn de agregar empleado modal -->
-              <button type="button" class="btn btn-dark btn-lg " data-bs-toggle="modal" data-bs-target="#agregarEmpleado">Agregar empleado</button>
+              <button type="button" class="btn btn-dark btn-lg " data-bs-toggle="modal" data-bs-target="#modalCargarEmpleado">Agregar empleado</button>
             </div>
           </div>
           <table class="table table-hover table-light">
@@ -83,21 +83,45 @@
         </div>
       </div>
     </div>
-    <!-- Button trigger modal -->
     <!-- Modal -->
-    <div class="modal fade" id="agregarEmpleado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalCargarEmpleado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir nuevo empleado</h1>
+            <h1 class="modal-title fs-5" id="agregarEmpleado">Cargar nuevo empleado</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            Aqui se cargará un form con las especificaciones para añadir un usuario nuevo
+            <form id="formCargarEmpleado">
+              <div class="mb-3">
+                <label for="nombreInput" class="form-label">Nombre</label>
+                <input type="email" class="form-control" id="nombreInput" placeholder="Ingrese su nombre">
+              </div>
+              <div class="mb-3">
+                <label for="apellidoInput" class="form-label">Apellido</label>
+                <input type="email" class="form-control" id="apellidoInput" placeholder="Ingrese su apellido">
+              </div>
+              <div class="mb-3">
+                <label for="antiguedadInput" class="form-label">Antigüedad</label>
+                <input type="email" class="form-control" id="antiguedadInput" placeholder="Ingrese antiguedad en años">
+              </div>
+              <div class="mb-3">
+                <label for="ciudadInput" class="form-label">Ciudad</label>
+                <select class="form-select" aria-label="Default select example" id="ciudadInput">
+                  <option selected value="0">Seleccione su ciudad</option>
+                  <option value="1">CABA</option>
+                  <option value="2">Buenos Aires</option>
+                  <option value="3">La Plata</option>
+                  <option value="4">Cordoba</option>
+                  <option value="5">Santa Fe</option>
+                </select>
+              </div>
+
+            </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-dark">Añadir</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarCargarEmpleado">Cerrar</button>
+            <button type="text" class="btn btn-dark" data-bs-dismiss="modal" id="btnCargarEmpleado">Cargar</button>
           </div>
         </div>
       </div>
@@ -156,7 +180,7 @@
 
 
     <script src="classes.js"></script>
-    <script src="functions.js"></script>
+    <!-- <script src="functions.js"></script> -->
     <script src="main.js"></script>
     <script src="mainDOM.js"></script>
     <!--JS Boostrap-->

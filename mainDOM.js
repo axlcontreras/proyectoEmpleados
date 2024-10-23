@@ -3,7 +3,12 @@ let tablaEmpleados = document.getElementById("tablaEmpleados")
 let busqueda = document.getElementById("busqueda")
 let coincidencias = document.getElementById("coincidencias")
 let selectOrden = document.getElementById("selectOrden")
-
+let btnCargarEmpleado = document.getElementById("btnCargarEmpleado")
+//capturas input cargar empleado
+let nombreInput = document.getElementById("nombreInput")
+let apellidoInput = document.getElementById("apellidoInput")
+let antiguedadInput = document.getElementById("antiguedadInput")
+let ciudadInput = document.getElementById("ciudadInput")
 //funciones para empleados: 
 function imprimirEmpleados(array){
     tablaEmpleados.innerHTML = ""
@@ -69,12 +74,100 @@ function buscarEmpleado(array,valor){
     //CONDICIONAL COINCIDENCIAS
     if(busqueda.length == 0){
         console.log(`No se encontraron coincidencias con: ${valor}`)
-        coincidencias.innerText = `Sin coincidencias buscando empeado: ${valor}`
+        coincidencias.innerText = `Sin coincidencias buscando empleado: ${valor}`
         tablaEmpleados.innerHTML = ""
     }else{
         coincidencias.innerText = ""
         imprimirEmpleados(busqueda)
     }
+}
+//cargar empleado
+function cargarEmpleado(array){
+    const empleado = new Empleado (array.length+1, nombreInput.value, apellidoInput.value, antiguedadInput.value, ciudadInput.value, "NuevoEmpleado.png")
+    nombreInput.value=""
+    apellidoInput.value=""
+    antiguedadInput.value=""
+    ciudadInput.value="0"
+    array.push(empleado)
+    imprimirEmpleados(array)
+//     function ingresarNombre(){
+//         let nombre = prompt(`Por favor ingrese el nombre`)
+//         while(nombre == "" || isNaN(nombre) == false){
+//             if (nombre == ""){
+//                 nombre = prompt(`Atención! El nombre no puede estar vacio, por favor ingrese el nombre correctamente`)
+//             }else if(isNaN(nombre) == false){
+//                 nombre = prompt(`Atención! El nombre no puede ser un numero, por favor ingrese el nombre correctamente`)
+//             }
+//         }
+//         return nombre
+//     }
+//     function ingresarApellido(){
+//         let apellido = prompt(`Por favor ingrese el apellido`)
+//         while(apellido == "" || isNaN(apellido) == false){
+//             if (apellido == ""){
+//                 apellido = prompt(`Atención! El apellido no puede estar vacio, por favor ingrese el apellido correctamente`)
+//             }else if(isNaN(apellido) == false){
+//                 apellido = prompt(`Atención! El apellido no puede ser un numero, por favor ingrese el apellido correctamente`)
+//             }
+//         }
+//         return apellido
+//     }
+//     // function tasarHora(){
+//     //     let valorHora = Number(prompt("Por favor ingrese el valor de la hora"))
+//     //     while(isNaN(valorHora) || valorHora <= 0 || valorHora == ""){
+//     //         valorHora = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese el valor de la hora"))
+//     //     }
+//     //     return valorHora
+//     // }
+//     // function ingresarHoras (){
+//     //     let horas = Number(prompt("Por favor ingrese la cantidad de horas trabajadas en el mes"))
+//     //     while(isNaN(horas) || horas <= 0 || horas == ""){
+//     //          horas = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese la cantidad de horas trabajadas en el mes correctamente"))
+//     //     }
+//     //     return horas
+//     // }
+//     function ingresarAntiguedad(){
+//         let antiguedad = Number(prompt(`Por favor ingrese los años de antigüedad`))
+//         while(isNaN(antiguedad) || antiguedad > 80 || antiguedad < 0 || antiguedad == ""){
+//             antiguedad = Number(prompt(`Atención, los años ingresados son incorrectos! Por favor ingrese los años de antigüedad`))
+//         }
+//         return antiguedad
+//     }
+//     function ingresarCiudad(){
+//         let ciudad = ""
+//         while (ciudad == ""){
+//             let ciudadOpcion = prompt(`Por favor ingrese el numero de la ciudad correspondiente
+// 1 - CABA
+// 2 - Buenos Aires
+// 3 - La Plata
+// 4 - Cordoba
+// 5 - Santa Fe`)
+//             switch(ciudadOpcion){
+//                 case "1": 
+//                     ciudad = "CABA"
+//                 break
+//                 case "2":
+//                     ciudad = "Buenos Aires"
+//                 break
+//                 case "3":
+//                     ciudad = "La Plata"
+//                 break
+//                 case "4":
+//                     ciudad = "Cordoba"
+//                 break
+//                 case "5":
+//                     ciudad = "Santa Fe"
+//                 break
+//                 default:
+//                     ciudad = ""
+//                     alert("El numero ingresado no corresponde a una ciudad")
+//                 break
+//             }
+//         }
+//         return ciudad
+//     }
+
+    
 }
 //ordenar empleados
 function ordenarMenorMayorSueldo(array){
@@ -119,7 +212,7 @@ function ordenarAlfaZa(array){
 
 
 //eventos
-busqueda.oninput= ()=>{
+busqueda.oninput= ()=>{ //oninput es = cada vez que cambie el valor de input 
     buscarEmpleado(arrayEmpleados,busqueda.value)
 }
 selectOrden.addEventListener("change", ()=>{
@@ -141,6 +234,11 @@ selectOrden.addEventListener("change", ()=>{
             ordenarAlfaZa(arrayEmpleados)
         break
     }
+})
+
+//evento de cargar empleado
+btnCargarEmpleado.addEventListener("click", ()=>{
+    cargarEmpleado(arrayEmpleados)
 })
 //codigo
 imprimirEmpleados(arrayEmpleados)
