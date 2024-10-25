@@ -21,12 +21,12 @@ function imprimirEmpleados(array){
                 <th>
                   <button id = "btnVerDetalle${empleado.id}" type="button" class="btn btn-outline-secondary">Ver detalle</button>
                 </th>
-                <th><img src="assets/img/empleados/${empleado.imagen}" alt="Foto perfil de ${empleado.nombre} ${empleado.apellido}" style="max-width:50px;"></th>
-                <th>${empleado.id}</th>
-                <th>${empleado.nombre} ${empleado.apellido}</th>
-                <th>${empleado.perfil}</th>
-                <th>$${empleado.valorHora}</th>
-                <th>${empleado.infoContratado()}</th>
+                <th id="filaImagen${empleado.id}"><img src="../assets/img/empleados/${empleado.imagen}" alt="Foto perfil de ${empleado.nombre} ${empleado.apellido}" style="max-width:50px;"></th>
+                <th id="filaid${empleado.id}">${empleado.id}</th>
+                <th id="filaNombre${empleado.id}">${empleado.nombre} ${empleado.apellido}</th>
+                <th id="filaApellido${empleado.id}">${empleado.perfil}</th>
+                <th id="filaValorHora${empleado.id}">$${empleado.valorHora}</th>
+                <th id="filaInfoContratado${empleado.id}">${empleado.infoContratado()}</th>
                 <th>
                   <button id = "btnEditar${empleado.id}" type="button" class="btn btn-outline.secondary" data-bs-toggle="tooltip" data-bs-title="Editar"><i class="fa-solid fa-pen-to-square"></i></button>
                 </th>
@@ -42,6 +42,8 @@ function imprimirEmpleados(array){
         // })
         })
 }
+
+
 
 function editarEmpleado(empleado){
 
@@ -235,6 +237,7 @@ function cargarEmpleado(array){
     
 }
 
+//function editar empleado
 
 
 
@@ -243,7 +246,8 @@ function cargarEmpleado(array){
 
 
 //eventos
-busqueda.oninput = ()=>{ //oninput es = cada vez que cambie el valor de input 
+//oninput es = cada vez que cambie el valor de input 
+busqueda.oninput = ()=>{ 
     let filterArray = buscarEmpleado(arrayEmpleados,busqueda.value)
     imprimirEmpleados(filterArray)
 }

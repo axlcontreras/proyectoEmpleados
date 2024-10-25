@@ -52,12 +52,19 @@ Realizar un sistema para sueldos de una empresa. Se le solicita que nombre y ape
 
 
 
-**********************PASAMOS AL DOM!!!!************************
+**********************PASAMOS AL DOM************************
 Ejercicios:
 1) Recorrer un array y mostrar la info en cards > 
 
-Volver a añadir las funciones de storage
+-Volver a añadir las funciones de storage >HECHO
+-Seleccionar ciudad correctamente, por ahora no se le asigna >
+-verificar el fusionado de filtrar/buscar y ordenar> HECHO
 
+para trabajar lo visto en clase. se puede sumar o restar cantidad de horas de 10 en 10. 
+Cuando se trata de realizar la contratacion tenemos que tener en cuenta que cuando agregar empleado
+tiene que cambiar la cantidad de horas. 
+Tenemos que crear un objeto que este en la lista arrayempleados y DUPLICARLO en la contratacion, cuando le damos OK
+a contratacion debemos cambiar el estado de no contratado a contratado!!!! tener en cuenta esto.
 
-IMPORTANTE! > agregar ciudad cuando 
-verificar el fusionado de filtrar/buscar y ordenar. 
+//TAREA 23/10/2024
+>Agregar el total del carrito.
