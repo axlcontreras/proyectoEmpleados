@@ -54,11 +54,12 @@ Realizar un sistema para sueldos de una empresa. Se le solicita que nombre y ape
 
 **********************PASAMOS AL DOM************************
 Ejercicios:
-1) Recorrer un array y mostrar la info en cards > 
+1) Recorrer un array y mostrar la info en cards > HECHO
 
 -Volver a añadir las funciones de storage >HECHO
--Seleccionar ciudad correctamente, por ahora no se le asigna >
+-Seleccionar ciudad correctamente, por ahora no se le asigna > HECHO
 -verificar el fusionado de filtrar/buscar y ordenar> HECHO
+-No pude cambiar una imagen por otra para los empleados en el menu editar> 
 
 para trabajar lo visto en clase. se puede sumar o restar cantidad de horas de 10 en 10. 
 Cuando se trata de realizar la contratacion tenemos que tener en cuenta que cuando agregar empleado

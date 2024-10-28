@@ -43,29 +43,142 @@
           <div class="row">
            <div class="col">
             <div class="d-grid gap-2 col-6 mx-auto">
-                <button class="btn btn-secondary" id="btnIniciarContrat" type="button">Iniciar Contratación</button>
+                <button class="btn btn-secondary mt-3" id="btnIniciarContrat" type="button" data-bs-toggle="modal" data-bs-target="#modalIniciarContrato">Iniciar Contratación</button>
                 <button class="btn btn-danger" id= "btnVerContrataciones" type="button">Ver Contrataciones</button>
             </div>
-            <table class="table table-hover table-light">
-                <thead>
-                  <tr>
-                    <th><!--ver detalle --></th>
-                    <th><!--foto>--></th>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Perfil</th>
-                    <th>Valor de hora</th>
-                    <th>Estado</th>
-                    <th><!--agregar al contrat --></th>
-                    <th><!--eliminar al contrat --></th>
-                  </tr>
-                </thead>
-                <tbody id="tablaEmpleadosContrat">
-                </tbody>
-              </table>
           </div>
         </div>
       </div>
+
+      <div class="container pt-2 mt-3 mb-3" id="contratacion">
+        <!-- <div class="row">
+          <div class="col d-flex justify-content-end" id="btnCerrarContrato">
+            <button class="btn btn-danger"> X </button>
+          </div>
+        </div>
+        <div class="row justify-content-between">
+          <div class="col">
+            <h4>Contratación N°: 1</h4>
+            <h5>Empresa: Empresa 1 S.A</h5>
+          </div>
+          <div class="col d-flex justify-content-end">
+            <h4>Fecha: 01/01/2025</h4>
+          </div>
+        </div>
+        <div class="m-5" id="listaEmpleadosEnContrato">
+          <table class="table table-hover table-light">
+            <thead>
+              <tr>
+                <th>detalle*</th>
+                <th>foto*</th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Perfil</th>
+                <th>Valor de hora</th>
+                <th>Horas mensuales</th>
+                <th>Sueldo</th>
+                <th>X</th>
+              </tr>
+            </thead>
+            <tbody id="tablaEmpleadosEnContrato">
+            </tbody>
+          </table>
+        </div>
+        <div class="" id="total">
+          <div class="row">
+            <div class="col">
+              <h3>Total</h3>
+            </div>
+            <div class="col d-flex justify-content-center">
+              <h3>$0000000,00</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="row pb-3 pt-5">
+          <div class="col d-grid gap-2 col-4 mx-auto">
+            <button class="btn btn-dark" id="agregarEmpleadoAlContrato" data-bs-toggle="modal" data-bs-target="#modalVerEmpleados">Añadir Empleado</button>
+          </div>
+          <div class="col d-grid gap-2 col-4 mx-auto">
+            <button class="btn btn-outline-danger">Confirmar Contrato</button>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- Modal Iniciar contrato -->
+      <div class="modal fade" id="modalIniciarContrato" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="iniciarContratoTitle">Iniciando Contratacion</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h5>Error al cargar Información</h5>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarIniciarContrato">Cerrar</button>
+              <button type="text" class="btn btn-dark" data-bs-dismiss="modal" id="btnIniciarContrato">Iniciar</button>
+            </div>
+          </div>
+         </div>
+      </div>
+
+      <!-- Modal Ver Empleados para agregar al contrato -->
+      <div class="modal fade" id="modalVerEmpleados" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="verEmpleadosTitle">Buscar empleados</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div id="listaEmpleadosParaAgregar">
+                <div class="container">
+                  <div class="col d-inline-flex p-2">
+                    <form class="">
+                    <input id="busqueda" class="form-control me-2 form-file-button-hover-bg" placeholder="Buscar" aria-label="Search">
+                    </form>
+                    <ul>
+                      <select id="selectOrden" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option selected value="0">Ordenar por:</option>
+                        <option value="1">Mayor sueldo</option>
+                        <option value="2">Menor sueldo</option>
+                        <option value="3">Alfabeticamente Apellido A-Z</option>
+                        <option value="4">Alfabeticamente Apellido Z-A</option>
+                      </select>
+                    </ul>
+                  </div>
+                </div>
+
+                <table class="table table-hover table-light">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Nombre</th>
+                      <th>Perfil</th>
+                      <th>Valor de hora</th>
+                      <th>Horas mensuales</th>
+                      <th>Agregar</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tablaEmpleadosAgregar">
+                    <tr>
+                      <th>4</th>
+                      <th>Axel Contreras</th>
+                      <th>Trainee</th>
+                      <th>$2500</th>
+                      <th><input placeholder="cant horas"></th>
+                      <th><button class="btn btn-danger">Agregar</button></th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+         </div>
+      </div>
+  
     </main>
 
     <footer id="footer" class="footer">

@@ -4,34 +4,41 @@ let busqueda = document.getElementById("busqueda")
 let coincidencias = document.getElementById("coincidencias")
 let selectOrden = document.getElementById("selectOrden")
 let btnCargarEmpleado = document.getElementById("btnCargarEmpleado")
+let modalVerDetalle = document.getElementById("modalVerDetalle")
+let modalEditarEmpleado = document.getElementById("modalEditarEmpleado")
+let modalBorrarEmpleado = document.getElementById("modalBorrarEmpleado")
 //capturas input cargar empleado
 let nombreInput = document.getElementById("nombreInput")
 let apellidoInput = document.getElementById("apellidoInput")
 let antiguedadInput = document.getElementById("antiguedadInput")
 let ciudadInput = document.getElementById("ciudadInput")
+
+
 //funciones para empleados: 
+
+//funcion IMPRIMIR
 function imprimirEmpleados(array){
     tablaEmpleados.innerHTML = ""
     array.forEach((empleado) => {
         //creo etiqueta
         let trNuevoEmpleado = document.createElement("tr")
-        trNuevoEmpleado.classList = "filaEmpleado"
+        trNuevoEmpleado.id = `filaEmpleado${empleado.id}`
         trNuevoEmpleado.innerHTML = `
-            <tr id="${empleado.id}">
+            <tr>
                 <th>
-                  <button id = "btnVerDetalle${empleado.id}" type="button" class="btn btn-outline-secondary">Ver detalle</button>
+                  <button id = "btnVerDetalle${empleado.id}" type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalVerDetalle">Ver detalle</button>
                 </th>
-                <th id="filaImagen${empleado.id}"><img src="../assets/img/empleados/${empleado.imagen}" alt="Foto perfil de ${empleado.nombre} ${empleado.apellido}" style="max-width:50px;"></th>
-                <th id="filaid${empleado.id}">${empleado.id}</th>
-                <th id="filaNombre${empleado.id}">${empleado.nombre} ${empleado.apellido}</th>
-                <th id="filaApellido${empleado.id}">${empleado.perfil}</th>
-                <th id="filaValorHora${empleado.id}">$${empleado.valorHora}</th>
-                <th id="filaInfoContratado${empleado.id}">${empleado.infoContratado()}</th>
+                <th id="celdaImagen${empleado.id}"><img src="../assets/img/empleados/${empleado.imagen}" alt="foto ${empleado.id}" style="max-width:50px;" class="rounded"></th>
+                <th id="celdaid${empleado.id}">${empleado.id}</th>
+                <th id="celdaNombre${empleado.id}">${empleado.nombre} ${empleado.apellido}</th>
+                <th id="celdaPerfil${empleado.id}">${empleado.perfil}</th>
+                <th id="celdaValorHora${empleado.id}">$${empleado.valorHora}</th>
+                <th id="celdaInfoContratado${empleado.id}">${empleado.infoContratado()}</th>
                 <th>
-                  <button id = "btnEditar${empleado.id}" type="button" class="btn btn-outline.secondary" data-bs-toggle="tooltip" data-bs-title="Editar"><i class="fa-solid fa-pen-to-square"></i></button>
+                  <button id = "btnEditar${empleado.id}" type="button" class="btn btn-outline.secondary" data-bs-toggle="modal" data-bs-target="#modalEditarEmpleado" data-bs-title="Editar"><i class="fa-solid fa-pen-to-square"></i></button>
                 </th>
                 <th>
-                  <button id = "btnBorrar${empleado.id}" type="button" class="btn btn-outline-link" data-bs-toggle="tooltip" data-bs-title="Eliminar"><i class="fa-solid fa-trash" style="color: #f00505;"></i></button>
+                  <button id = "btnBorrar${empleado.id}" type="button" class="btn btn-outline-link" data-bs-toggle="modal" data-bs-target="#modalBorrarEmpleado" data-bs-toggle="tooltip" data-bs-title="Eliminar"><i class="fa-solid fa-trash" style="color: #f00505;"></i></button>
                 </th>
 
             </tr>`
@@ -41,37 +48,192 @@ function imprimirEmpleados(array){
         //     editarEmpleado(empleado)
         // })
         })
+
+
+        
+        array.forEach((empleado)=>{
+
+
+        //VER DETALLE---------------------------  
+        //btn ver detalle -> con un modal
+        //capturamos boton de ver detalle 
+            let btnVerDetalle = document.getElementById(`btnVerDetalle${empleado.id}`)
+        //cuando hacemos click le damos formato al modal que nos muestre la info
+            btnVerDetalle.addEventListener("click", ()=>{
+            modalVerDetalle.innerHTML = `
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-3" id="verDetalleTitle">${empleado.nombre} ${empleado.apellido}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+                <div class="col">
+                    <div><img src="../assets/img/empleados/${empleado.imagen}" class="rounded" alt="Foto perfil de ${empleado.nombre} ${empleado.apellido}" style="max-width:150px"; ></div>
+                </div>
+                <div class="col pe-2">
+                    <b>ID: ${empleado.id}</b><br>   
+                    <b>Antigüedad: ${empleado.antiguedad} año/s</b><br>
+                    <b>Perfil: ${empleado.perfil}</b><br>
+                    <b>Valor de hora: $${empleado.valorHora.toFixed(2)}.-</b><br>
+                    <b>Salario(160hs): $${(empleado.sueldoTotal*160).toFixed(2)}.-</b><br>
+                    <b>Ciudad: ${empleado.ciudad}</b><br>
+                    
+                </div>
+            </div>
+            <div class="row d-flex pt-5">
+              <div class="col d-flex justify-content-center">
+                <div>
+                    <h5><span class="badge text-bg-danger">Estado: ${empleado.infoContratado()}</span></h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarVerDetalle">Cerrar</button>
+          </div>
+        </div>
+      </div>`
+            
+            
+            })
+        
+        
+
+            //EDITAR------------------------------
+        //btn editar -> un modal
+            let btnEditar = document.getElementById(`btnEditar${empleado.id}`)
+            btnEditar.addEventListener("click", ()=>{
+            modalEditarEmpleado.innerHTML=`
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="editarEmpleado">Editando empleado ID:${empleado.id} | ${empleado.nombre} ${empleado.apellido}</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="formEditarEmpleado">
+                    <div class="mb-3">
+                      <label for="nombreInputEditar" class="form-label">Nombre</label>
+                      <input type="email" class="form-control" id="nombreInputEditar" value="${empleado.nombre}">
+                    </div>
+                    <div class="mb-3">
+                      <label for="apellidoInputEditar" class="form-label">Apellido</label>
+                      <input type="email" class="form-control" id="apellidoInputEditar" value="${empleado.apellido}">
+                    </div>
+                    <div class="mb-3">
+                      <label for="antiguedadInputEditar" class="form-label">Antigüedad</label>
+                      <input type="email" class="form-control" id="antiguedadInputEditar" value="${empleado.antiguedad}">
+                    </div>
+                    <div class="mb-3">
+                      <label for="ciudadInputEditar" class="form-label">Ciudad</label>
+                      <select class="form-select" aria-label="Default select example" id="ciudadInputEditar">
+                        <option selected>Elija su ciudad</option>
+                        <option value="CABA">CABA</option>
+                        <option value="Buenos Aires">Buenos Aires</option>
+                        <option value="La Plata">La Plata</option>
+                        <option value="Cordoba">Cordoba</option>
+                        <option value="Santa Fe">Santa Fe</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="formFileDisable" class="form-label">Seleccione Foto de perfil</label>
+                        <input class="form-control" type="file" id="formFileDisable">
+                    </div>
+      
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarEditarEmpleado">Cerrar</button>
+                  <button type="button" class="btn btn-dark" data-bs-dismiss="modal" id="btnEditarEmpleado">Guardar cambios</button>
+                </div>
+              </div>
+            </div>
+            </div>
+            `
+                    //capturamos inputs de modal editar
+        let nombreInputEditar = document.getElementById("nombreInputEditar")   
+        let apellidoInputEditar = document.getElementById("apellidoInputEditar")
+        let antiguedadInputEditar = document.getElementById("antiguedadInputEditar")
+        let ciudadInputEditar = document.getElementById("ciudadInputEditar")
+        let imagenInputEditar = document.getElementById("imagenInputEditar")
+        
+        let btnEditarEmpleado = document.getElementById("btnEditarEmpleado")
+
+        btnEditarEmpleado.addEventListener("click", ()=>{
+          //si cambia nombre o apellido actualizar solo el nombre
+            if(nombreInputEditar.value != empleado.nombre || apellidoInputEditar.value != empleado.apellido){
+                empleado.nombre = nombreInputEditar.value
+                empleado.apellido = apellidoInputEditar.value
+                console.log(empleado.nombre)
+                document.getElementById(`celdaNombre${empleado.id}`).innerText = `${empleado.nombre} ${empleado.apellido}`
+            }
+           //si cambia la antiguedad tenemos que volver a asignar
+           //perfil, tambien valor de hora, sueldo aprox etc.  
+            if(antiguedadInputEditar.value != empleado.antiguedad){
+                empleado.antiguedad = antiguedadInputEditar.value
+                empleado.perfil = empleado.indicarPerfil()
+                empleado.bonoPorcentual = empleado.calcularBonoPorcentual()
+                empleado.valorHora = empleado.tasarHora()
+                empleado.sueldoMensual = empleado.calcularSueldoMensual()
+                empleado.sueldoTotal = empleado.calcularSueldoTotal()
+
+                document.getElementById(`celdaPerfil${empleado.id}`).innerText = empleado.perfil
+                document.getElementById(`celdaValorHora${empleado.id}`).innerText = `$${empleado.valorHora}`
+            }
+              empleado.imagen = "NuevoEmpleado.png"
+              document.getElementById(`celdaImagen${empleado.id}`) = empleado.imagen
+
+            localStorage.setItem("empleadosCargados", JSON.stringify(arrayEmpleados))
+            
+            })
+            
+
+          })
+          
+
+          //BORRAR---------------------------------
+          //btn eliminar -> confirmar
+  
+  
+          let btnBorrar = document.getElementById(`btnBorrar${empleado.id}`)
+          btnBorrar.addEventListener("click", ()=>{
+            modalBorrarEmpleado.innerHTML = `
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="borrarTitle">Borrar empleado</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <h5>Esta seguro que desea eliminar empleado ${empleado.nombre.toUpperCase()} ${empleado.apellido.toUpperCase()} con ID: ${empleado.id}?</h5>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarBorrarEmpleado">Cerrar</      button>
+                  <button type="text" class="btn btn-danger" data-bs-dismiss="modal" id="btnConfirmBorrarEmpleado">Borrar</      button>
+                </div>
+              </div>
+            </div>
+            `
+
+            let btnConfirmBorrarEmpleado = document.getElementById(`btnConfirmBorrarEmpleado`)
+            btnConfirmBorrarEmpleado.addEventListener("click", ()=>{
+              let index = buscarIndex(array,empleado.id)
+              array.splice(index, 1)
+              console.log(array)
+              let filaEmpleado = document.getElementById(`filaEmpleado${empleado.id}`)
+              console.log(filaEmpleado)
+              localStorage.setItem("empleadosCargados", JSON.stringify(array))
+              filaEmpleado.remove()
+            })
+          })
+
+        })
+        
+
+
 }
-
-
-
-function editarEmpleado(empleado){
-
-    const myModal = new bootstrap.Modal('#myModal', {
-        keyboard: false
-
-      })
-    // let formEditar = document.createElement("div")
-    formEditar.innerHTML = `
-        <div class="modal fade" id="formEditar" tabindex="-1" data-bs-backdrop="static"aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-            </div>
-        </div>
-        </div>
-    `
-}//no funciona aun
 
 
 
@@ -237,7 +399,7 @@ function cargarEmpleado(array){
     
 }
 
-//function editar empleado
+
 
 
 
@@ -251,6 +413,7 @@ busqueda.oninput = ()=>{
     let filterArray = buscarEmpleado(arrayEmpleados,busqueda.value)
     imprimirEmpleados(filterArray)
 }
+
 //evento ordenar
 selectOrden.addEventListener("change", ()=>{
     let arrayFilt = buscarEmpleado(arrayEmpleados, busqueda.value)
@@ -264,5 +427,7 @@ btnCargarEmpleado.addEventListener("click", ()=>{
 })
 
 
+
 //codigo
 imprimirEmpleados(arrayEmpleados)
+console.log(arrayEmpleados)
