@@ -60,6 +60,9 @@ Ejercicios:
 -Seleccionar ciudad correctamente, por ahora no se le asigna > HECHO
 -verificar el fusionado de filtrar/buscar y ordenar> HECHO
 -No pude cambiar una imagen por otra para los empleados en el menu editar> 
+-Agregar presupuesto inicial 
+-con los operadores avanzados cambiar el color de empleado si esta contratado o no. 
+
 
 para trabajar lo visto en clase. se puede sumar o restar cantidad de horas de 10 en 10. 
 Cuando se trata de realizar la contratacion tenemos que tener en cuenta que cuando agregar empleado
@@ -67,5 +70,11 @@ tiene que cambiar la cantidad de horas.
 Tenemos que crear un objeto que este en la lista arrayempleados y DUPLICARLO en la contratacion, cuando le damos OK
 a contratacion debemos cambiar el estado de no contratado a contratado!!!! tener en cuenta esto.
 
-//TAREA 23/10/2024
->Agregar el total del carrito.
+//TAREA 23/10/2024 
+>Agregar el total del carrito. (total empleados y horas)
+
+//TAREA 28/10/2024
+>Agregar finalizar carrito.
+
+
+para fechas tempo.formkit.com 

@@ -832,17 +832,17 @@ function mostrarEmpleadosLista(array){
     return info
 
 }
-function buscarEmpleado(array){
-    let infoBuscar = prompt(`Por favor ingrese el nombre o apellido del empleado`)
-    let busqueda = array.filter((empleado)=>empleado.nombre.toLowerCase().includes(infoBuscar.toLowerCase()) || empleado.apellido.toLowerCase().includes(infoBuscar.toLowerCase))
-    if (busqueda.length == 0){
-        alert(`No se encontraron coincidencias`)
-    }else{
-        alert(`Los empleados encontrados son:
+// function buscarEmpleado(array){
+//     let infoBuscar = prompt(`Por favor ingrese el nombre o apellido del empleado`)
+//     let busqueda = array.filter((empleado)=>empleado.nombre.toLowerCase().includes(infoBuscar.toLowerCase()) || empleado.apellido.toLowerCase().includes(infoBuscar.toLowerCase))
+//     if (busqueda.length == 0){
+//         alert(`No se encontraron coincidencias`)
+//     }else{
+//         alert(`Los empleados encontrados son:
 
-${mostrarEmpleadosLista(busqueda)}`)
-    }
-}
+// ${mostrarEmpleadosLista(busqueda)}`)
+//     }
+// }
 function borrarEmpleado(empleado, array){
     let preguntaBorrar = prompt(`Esta seguro que desea borrar el empleado ${empleado.nombre} ${empleado.apellido}?`)
     if (preguntaBorrar.toLowerCase() == "si"){
