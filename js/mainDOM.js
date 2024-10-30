@@ -77,7 +77,7 @@ function imprimirEmpleados(array){
                     <b>Antigüedad: ${empleado.antiguedad} año/s</b><br>
                     <b>Perfil: ${empleado.perfil}</b><br>
                     <b>Valor de hora: $${empleado.valorHora.toFixed(2)}.-</b><br>
-                    <b>Salario(160hs): $${(empleado.sueldoTotal*160).toFixed(2)}.-</b><br>
+                    <b>Salario(160hs): $${(empleado.valorHora*160).toFixed(2)}.-</b><br>
                     <b>Ciudad: ${empleado.ciudad}</b><br>
                     
                 </div>
@@ -85,7 +85,7 @@ function imprimirEmpleados(array){
             <div class="row d-flex pt-5">
               <div class="col d-flex justify-content-center">
                 <div>
-                    <h5><span class="badge text-bg-danger">Estado: ${empleado.infoContratado()}</span></h5>
+                    <h5><span ${empleado.contratado == true ? 'class = "badge text-bg-success"' : 'class = "badge text-bg-danger"'}>Estado: ${empleado.infoContratado()}</span></h5>
                 </div>
               </div>
             </div>
@@ -319,6 +319,7 @@ function cargarEmpleado(array){
     imprimirEmpleados(array)
     localStorage.setItem("empleadosCargados", JSON.stringify(arrayEmpleados))
     console.log("Se actualiza plantilla del storage")
+//validaciones sin funcionar todavia
 //     function ingresarNombre(){
 //         let nombre = prompt(`Por favor ingrese el nombre`)
 //         while(nombre == "" || isNaN(nombre) == false){

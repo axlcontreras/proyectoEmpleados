@@ -64,6 +64,7 @@ Ejercicios:
 -con los operadores avanzados cambiar el color de empleado si esta contratado o no. 
 
 
+
 para trabajar lo visto en clase. se puede sumar o restar cantidad de horas de 10 en 10. 
 Cuando se trata de realizar la contratacion tenemos que tener en cuenta que cuando agregar empleado
 tiene que cambiar la cantidad de horas. 

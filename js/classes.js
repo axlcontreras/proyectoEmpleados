@@ -3,14 +3,13 @@ class Empleado{
         this.id = id, //chequear como asignar una id mejor
         this.nombre = nombre,//this.ingresarNombre(),
         this.apellido = apellido, //this.ingresarApellido(),
-        this.cantHoras = 1, //this.ingresarHoras(),
+        this.cantHoras = 0, //this.ingresarHoras(),
         this.antiguedad = antiguedad,
         this.perfil = this.indicarPerfil(),
         this.bonoPorcentual = this.calcularBonoPorcentual(), // a partir de los 10 años de experiencia
         this.valorHora = this.tasarHora(),
         this.sueldoMensual = this.calcularSueldoMensual(),
-        this.sueldoTotal = this.calcularSueldoTotal(),
-        this.contratado = false,
+        this.contratado = false
         this.ciudad = ciudad,
         // this.contrato = 0
         // this.empresaAsignada = contrato.empresaContrato,
@@ -127,10 +126,6 @@ class Empleado{
         }
         return bonoPorcentual.toFixed(2)
 
-    }
-    calcularSueldoTotal(){
-        let sueldoTotal = this.sueldoMensual
-        return sueldoTotal
     }
     mostrarSueldo(){
         alert(`El sueldo bruto de ${this.nombre} ${this.apellido} por 160hs mensuales es: $${(this.sueldoTotal*160).toFixed(2)}.- `)

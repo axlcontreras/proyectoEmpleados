@@ -39,7 +39,7 @@
     </nav>
 
     <main>
-        <div class="container">
+        <div class="container" id="btnsContrataciones">
           <div class="row">
            <div class="col">
             <div class="d-grid gap-2 col-6 mx-auto">
@@ -127,6 +127,46 @@
       <!-- Modal Ver Empleado (vacio se carga en funcion iniciar contrato) -->
       <div id="modalVerEmpleadoDiv">
         <!-- Aca se vuelca el contenido del MOdalVerEmpleado -->
+      </div>
+
+      <!-- Modal Confirmar Cancelar Contrato -->
+      <div class="modal fade" id="modalCancelarContrato" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="cancelarContratoTitle">Cancelar Contrato</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h5>Se borrará el contrato y todos los datos</h5>
+              <h5>Esta seguro que desea cancelar el contrato?</h5>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarCancelarContrato">Cerrar</button>
+              <button type="text" class="btn btn-danger" data-bs-dismiss="modal" id="btnAceptarCancelarContrato">Aceptar</button>
+            </div>
+          </div>
+        </div>
+        </div>
+
+      <!-- Modal Ver Detalle en Contrato -->
+           <div class="modal fade" id="modalVerDetalleEnContrato" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="verDetalleTitle">Iniciando Contratación</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <h5>Información nuevo contrato</h5>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarCargarEmpleado">Cerrar</button>
+                  <button type="text" class="btn btn-dark" data-bs-dismiss="modal" id="btnCargarEmpleado">Cargar</button>
+                </div>
+              </div>
+            </div>
+
       </div>
 
       <!-- <div class="modal fade" id="modalVerEmpleados" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

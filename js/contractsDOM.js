@@ -1,7 +1,8 @@
 let btnIniciarContrat = document.getElementById("btnIniciarContrat")
 let tablaEmpleadosContrat = document.getElementById("tablaEmpleadosContrat")
 let contratacion = document.getElementById(`contratacion`)
-
+let btnAceptarCancelarContrato = document.getElementById(`btnAceptarCancelarContrato`)
+let modalVerDetalleEnContrato = document.getElementById(`modalVerDetalleEnContrato`)
 
 
 
@@ -9,11 +10,13 @@ function iniciarContrato(array){
 
     let idIniciar = arrayContrataciones.length + 1 //provisorio 
     let fechaIniciar = new Date().toLocaleDateString() //OK
+    let empresaIniciar = ""
     let fondosDisponibles = 0 //tenemos que crear el input que lo pida en el modal
-    let fondosIniciar = 0
+    let presupuestoDisponible = 0
     let empleado = ""
     const arrayAsignados = []
     const arrayContrato = [] //se creó para poder concat al array de empresa (daba error circular structure)
+    let total = calcularTotal(arrayAsignados)
 
 
     let modalIniciarContrato = document.getElementById(`modalIniciarContrato`)
@@ -45,7 +48,7 @@ function iniciarContrato(array){
               <div class="row">
                 <div class="col">
                   Presupuesto disponible
-                  <input class="form-control" id ="presupuestoDisponible" value="1000000" type="number">
+                  <input class="form-control" id="presupuestoDisponible" value="2000000" type="number">
                 </div>
               </div>
             </div>
@@ -59,14 +62,18 @@ function iniciarContrato(array){
 
     //ver ventana de contratacion
     let btnIniciarContrato = document.getElementById(`btnIniciarContrato`)
+    let btnsContrataciones = document.getElementById(`btnsContrataciones`)
     btnIniciarContrato.addEventListener("click", ()=>{
+    btnsContrataciones.setAttribute("hidden", "true")
     //capturamos valor de empresa 
-    let empresaIniciar = (document.getElementById("selectEmpresa")) //por ahora seleccionamos una empresa hardcodeada
+    empresaIniciar = (document.getElementById("selectEmpresa")) //por ahora seleccionamos una empresa hardcodeada
+    presupuestoDisponible = (document.getElementById("presupuestoDisponible"))
+    console.log(presupuestoDisponible.value)
     // let empresaIniciar = selectEmpresa.value
       contratacion.innerHTML=`
             <div class="container pt-2 mt-3 mb-3" id="contratacion" style="color: black; background-color: white; border-style: solid; border-color: rgb(253, 123, 123);">
         <div class="row">
-          <div class="col d-flex justify-content-end" id="btnCerrarContrato">
+          <div class="col d-flex justify-content-end" id="btnCerrarContrato" data-bs-target="#modalCancelarContrato" data-bs-toggle="modal">
             <button class="btn btn-danger"> X </button>
           </div>
         </div>
@@ -95,16 +102,28 @@ function iniciarContrato(array){
               </tr>
             </thead>
             <tbody id="tablaEmpleadosEnContrato">
+              
             </tbody>
           </table>
         </div>
-        <div class="" id="total">
+        <div class="" >
           <div class="row">
             <div class="col">
               <h3>Total</h3>
             </div>
             <div class="col d-flex justify-content-center">
-              <h3>$0000000,00</h3>
+              <h3 id="totalContratacion">$${Number("0000000").toFixed(2)}</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="">
+          <div class="row">
+            <div class="col">
+              <h3 style="color: red;">Presupuesto Disponible:</h3>
+            </div>
+            <div class="col d-flex justify-content-center">
+              <h3 id="presupuestoDisponibleMostrar" style="color: red;">$${Number((presupuestoDisponible.value)).toFixed(2)}</h3>
             </div>
           </div>
         </div>
@@ -161,14 +180,7 @@ function iniciarContrato(array){
                     </tr>
                   </thead>
                   <tbody id="tablaEmpleadosAgregar">
-                    <tr>
-                      <th>4</th>
-                      <th>Axel Contreras</th>
-                      <th>Trainee</th>
-                      <th>$2500</th>
-                      <th><input class="form-control" type="number" style="width: 80px;" placeholder=""></th>
-                      <th><button class="btn btn-danger">Agregar</button></th>
-                    </tr>
+
                   </tbody>
                 </table>
               </div>
@@ -179,7 +191,13 @@ function iniciarContrato(array){
 
       //agregamos el evento de que cuando empiece a buscar primero y luego ordenar se vean los empleados
       //para despues
-      impEmpleadosAContratar(arrayEmpleados)
+      let arrayAsignados = impEmpleadosAContratar(arrayEmpleados)
+      
+      btnAceptarCancelarContrato.addEventListener("click", ()=>{
+        contratacion.innerHTML=""
+        btnsContrataciones.removeAttribute("hidden")
+      })
+
 
 
 
@@ -187,8 +205,6 @@ function iniciarContrato(array){
       
     })
 }
-
-
 
 function impEmpleadosAContratar(array){
   let arrayAsignados = []
@@ -217,18 +233,146 @@ function impEmpleadosAContratar(array){
           //se puede crear un default (160hs)para cuando no se haya ingresado nada en el input 
         arrayEmpleados.forEach((empleado)=>{
         let btnAgregar = document.getElementById(`btnAgregar${empleado.id}`)
-        console.log(btnAgregar)
         let inputCantHoras = document.getElementById(`inputCantHoras${empleado.id}`)
         btnAgregar.addEventListener("click", ()=>{
-          console.log(`apretando btn agregar ${empleado.id}`)
+          //actualizamos valores de empleado y lo pusheamos al array
           empleado.cantHoras = inputCantHoras.value
+          empleado.sueldoMensual = empleado.calcularSueldoMensual()
           empleado.contratado = true
           arrayAsignados.push(empleado)
+          //capturamos la fila y la ocultamos asi no se puede agregar 2 veces
           let filaEmpleadoModal = document.getElementById(`filaEmpleadoModal${empleado.id}`)
-          filaEmpleadoModal.remove()
+          filaEmpleadoModal.setAttribute("hidden", "true")
+          impEmpleadosAsignados(arrayAsignados)
+          //actualizar total
+          let totalContratacion = document.getElementById(`totalContratacion`)
+          totalContratacion.innerText = `$${calcularTotal(arrayAsignados).toFixed(2)}`
+          //actualizar presupuesto
+          let presupuestoDisponible = document.getElementById(`presupuestoDisponible`)
+          let presupuestoDisponibleMostrar = document.getElementById(`presupuestoDisponibleMostrar`)
+          presupuestoDisponibleMostrar.innerText = `$${calcularPresupuesto(presupuestoDisponible.value, calcularTotal(arrayAsignados)).toFixed(2)}` //3m provisorio, hay que capturarlo desde el input del modal
+
         })
       })
-      console.log(arrayAsignados)
+
+      function impEmpleadosAsignados(array){
+        let tablaEmpleadosEnContrato = document.getElementById(`tablaEmpleadosEnContrato`)
+        tablaEmpleadosEnContrato.innerHTML = ""
+        array.forEach((empleado) => {
+            let trNuevoEmpleado = document.createElement("tr")
+            trNuevoEmpleado.id = `filaEmpleado${empleado.id}`
+            trNuevoEmpleado.innerHTML = `
+                <tr>
+                    <th>
+                      <button id = "btnVerDetalleEnContrato${empleado.id}" type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalVerDetalleEnContrato">Ver detalle</button>
+                    </th>
+                    <th id="celdaImagen${empleado.id}"><img src="../assets/img/empleados/${empleado.imagen}" alt="foto ${empleado.id}" style="max-width:50px;" class="rounded"></th>
+                    <th id="celdaid${empleado.id}">${empleado.id}</th>
+                    <th id="celdaNombre${empleado.id}">${empleado.nombre} ${empleado.apellido}</th>
+                    <th id="celdaPerfil${empleado.id}">${empleado.perfil}</th>
+                    <th id="celdaValorHora${empleado.id}">$${empleado.valorHora}</th>
+                    <th id="celdaCantHoras${empleado.id}">${empleado.cantHoras}</th>
+                    <th id="celdaSueldoMensual${empleado.id}">$${empleado.sueldoMensual}</th>
+                    <th>
+                      <button id = "btnBorrar${empleado.id}" type="button" class="btn btn-outline-link" data-bs-toggle="modal" data-bs-target="#modalBorrarEmpleado" data-bs-toggle="tooltip" data-bs-title="Eliminar"><i class="fa-solid fa-trash" style="color: #f00505;"></i></button>
+                    </th>
+      
+                </tr>`
+            tablaEmpleadosEnContrato.append(trNuevoEmpleado)
+            })
+      
+      
+            
+            array.forEach((empleado)=>{
+      
+      
+            //VER DETALLE---------------------------  
+            //btn ver detalle -> con un modal
+            //capturamos boton de ver detalle 
+                let btnVerDetalleEnContrato = document.getElementById(`btnVerDetalleEnContrato${empleado.id}`)
+            //cuando hacemos click le damos formato al modal que nos muestre la info
+                btnVerDetalleEnContrato.addEventListener("click", ()=>{
+                modalVerDetalleEnContrato.innerHTML = `
+                  <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-3" id="verDetalleTitle">${empleado.nombre} ${empleado.apellido}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+                <div class="col">
+                    <div><img src="../assets/img/empleados/${empleado.imagen}" class="rounded" alt="Foto perfil de ${empleado.nombre} ${empleado.apellido}" style="max-width:150px"; ></div>
+                </div>
+                <div class="col pe-2">
+                    <b>ID: ${empleado.id}</b><br>   
+                    <b>Antigüedad: ${empleado.antiguedad} año/s</b><br>
+                    <b>Perfil: ${empleado.perfil}</b><br>
+                    <b>Valor de hora: $${empleado.valorHora.toFixed(2)}.-</b><br>
+                    <b>Salario(160hs): $${(empleado.valorHora*160).toFixed(2)}.-</b><br>
+                    <b>Ciudad: ${empleado.ciudad}</b><br>
+                    
+                </div>
+            </div>
+            <div class="row d-flex pt-5">
+              <div class="col d-flex justify-content-center">
+                <div>
+                    <h5><span ${empleado.contratado == true ? 'class = "badge text-bg-success"' : 'class = "badge text-bg-danger"'}>Estado: ${empleado.infoContratado()}</span></h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarVerDetalle">Cerrar</button>
+          </div>
+        </div>
+      </div>
+          `
+                
+                
+                })
+            
+              
+      
+              //BORRAR---------------------------------
+              //btn eliminar
+      
+      
+              let btnBorrar = document.getElementById(`btnBorrar${empleado.id}`)
+              btnBorrar.addEventListener("click", ()=>{
+                  let index = buscarIndex(array,empleado.id)
+                  array.splice(index, 1)
+                  //sacamos del DOM el nodo con la fila
+                  let filaEmpleado = document.getElementById(`filaEmpleado${empleado.id}`)
+                  filaEmpleado.remove()
+                  //volvemos a agregar al modal la fila
+                  let filaEmpleadoModal = document.getElementById(`filaEmpleadoModal${empleado.id}`)
+                  filaEmpleadoModal.removeAttribute("hidden")
+                  //cambiamos valor de total contratacion
+                  let totalContratacion = document.getElementById(`totalContratacion`)
+                  totalContratacion.innerText = `$${calcularTotal(array).toFixed(2)}`
+                  //tambien se cambia valor de presupuesto disponible
+                  let presupuestoDisponibleMostrar = document.getElementById(`presupuestoDisponibleMostrar`)
+                  presupuestoDisponibleMostrar.innerText = `$${calcularPresupuesto(presupuestoDisponible.value, calcularTotal(array)).toFixed(2)}` //3m provisorio, hay que capturarlo desde el input del modal
+      
+              })
+      
+            })
+            
+      
+      
+      }
+}
+
+
+function calcularTotal(array){
+  let total = array.reduce((total, empleado)=> total += empleado.sueldoMensual,0)
+  return total
+}
+
+function calcularPresupuesto(presupuesto ,total){
+  return presupuesto - total
+
 }
 
 btnIniciarContrat.addEventListener("click", ()=>{

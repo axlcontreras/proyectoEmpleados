@@ -1,5 +1,3 @@
-
-
 //carga de arrays. 
 const arrayEmpleados = []
 const arrayEmpresas = []
@@ -12,6 +10,7 @@ const empleado3 = new Empleado (3, "Gustavo", "Kupinski", 2, "CABA", "Gustavo Ku
 const empleado4 = new Empleado (4, "Daniel", "Buira", 5, "Buenos Aires", "Daniel Buira.png")
 const empleado5 = new Empleado (5, "Miguel", "Rodriguez", 8, "Cordoba", "Miguel Rodriguez.png")
 const empleado6 = new Empleado (6, "Sebastian", "Cardero", 15, "Santa Fe", "Sebastian Cardero.png")
+empleado6.contratado = true
 
 //carga desde storage o main
 if (arrayEmpleados.length == 0){
@@ -30,43 +29,6 @@ if (arrayEmpleados.length == 0){
 //         localStorage.setItem("empresasCargadas", JSON.stringify(arrayEmpresas))
 //     }
 // }
-//POR EL MOMENTO NO EJECUTAMOS EL MENU POR PROMPT NI TAMPOCO CARGAMOS ARRAY POR STORAGE 
 
-// menuPrincipal()
-// arrayEmpleados.push(empleado1, empleado2, empleado3, empleado4, empleado5, empleado6)
-// console.log(`Los empleados cargados son:`)
-// console.log(arrayEmpleados)
-// console.log(`Las empresas cargadas son: `)
-// console.log(arrayEmpresas)
-// console.log(`Las contrataciones relizadas son:`)
-// console.log(arrayContrataciones)
-
-
-// //agregar empleados a la tabla
-// let tablaEmpleados = document.getElementById("tablaEmpleados")
-
-// for(let empleado of arrayEmpleados){
-//     let empleadoNuevoDiv = document.createElement("tr")
-//     empleadoNuevoDiv.innerHTML = `
-//             <tr id="${empleado.id}">
-//                 <th>
-//                   <button type="button" class="btn btn-outline-secondary">Ver detalle</button>
-//                 </th>
-//                 <th><img src="assets/img/${empleado.imagen}" alt="Foto perfil de ${empleado.nombre} ${empleado.apellido}" style="max-width:50px;"></th>
-//                 <th>${empleado.id}</th>
-//                 <th>${empleado.nombre} ${empleado.apellido}</th>
-//                 <th>${empleado.perfil}</th>
-//                 <th>$${empleado.valorHora}</th>
-//                 <th>${empleado.infoContratado()}</th>
-//                 <th>
-//                   <button type="button" class="btn btn-secondary">Editar</button>
-//                 </th>
-//                 <th>
-//                   <button type="button" class="btn btn-danger">Eliminar</button>
-//                 </th>
-
-//             </tr>`
-//     tablaEmpleados.append(empleadoNuevoDiv)
-// }
 
 
