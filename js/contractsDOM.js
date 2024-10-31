@@ -98,7 +98,7 @@ function iniciarContrato(array){
                 <th>Valor de hora</th>
                 <th>Horas mensuales</th>
                 <th>Sueldo</th>
-                <th>X</th>
+                <th><!--eliminar--></th>
               </tr>
             </thead>
             <tbody id="tablaEmpleadosEnContrato">
@@ -193,6 +193,7 @@ function iniciarContrato(array){
       //para despues
       let arrayAsignados = impEmpleadosAContratar(arrayEmpleados)
       
+      //confirmar el 'cancelar contrato'
       btnAceptarCancelarContrato.addEventListener("click", ()=>{
         contratacion.innerHTML=""
         btnsContrataciones.removeAttribute("hidden")

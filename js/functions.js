@@ -904,7 +904,9 @@ function instanciarStorageEmpleados(array){
         let empleadosStorage = JSON.parse(localStorage.getItem("empleadosCargados"))
         empleadosStorage.forEach((empleado) => 
             {
+            let contratadoStorage = empleado.contratado
             const empConClass = new Empleado (empleado.id, empleado.nombre, empleado.apellido, empleado.antiguedad, empleado.ciudad, empleado.imagen)
+            empConClass.contratado = contratadoStorage
             array.push(empConClass)
             }
         )

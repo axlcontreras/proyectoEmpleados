@@ -62,7 +62,7 @@ Ejercicios:
 -No pude cambiar una imagen por otra para los empleados en el menu editar> 
 -Agregar presupuesto inicial 
 -con los operadores avanzados cambiar el color de empleado si esta contratado o no. 
-
+-no mostrar si esta contratado o no, 
 
 
 para trabajar lo visto en clase. se puede sumar o restar cantidad de horas de 10 en 10. 
@@ -79,3 +79,4 @@ a contratacion debemos cambiar el estado de no contratado a contratado!!!! tener
 
 
 para fechas tempo.formkit.com 
+para alerts sweetalert2.github.io 
