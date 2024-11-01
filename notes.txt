@@ -35,7 +35,7 @@ Realizar un sistema para sueldos de una empresa. Se le solicita que nombre y ape
     >SOLUCIÓN: se creó una array para pushearle el contrato y despues ese array se concatena con el array de los contratos en la empresa.CONSULTAR UNA MEJOR SOLUCION. 
 }
 - Empleado se puede agregar varias veces en el contrato >SOLUCIONADO
-- Sueldo total de empleado se muestra mal en detalle >
+- Sueldo total de empleado se muestra mal en detalle >SOLUCIONADO
 
 
 
@@ -60,9 +60,9 @@ Ejercicios:
 -Seleccionar ciudad correctamente, por ahora no se le asigna > HECHO
 -verificar el fusionado de filtrar/buscar y ordenar> HECHO
 -No pude cambiar una imagen por otra para los empleados en el menu editar> 
--Agregar presupuesto inicial 
--con los operadores avanzados cambiar el color de empleado si esta contratado o no. 
--no mostrar si esta contratado o no, 
+-Agregar presupuesto inicial >HECHO
+-con los operadores avanzados cambiar el color de empleado si esta contratado o no. >HECHO
+-no mostrar si esta contratado o no>
 
 
 para trabajar lo visto en clase. se puede sumar o restar cantidad de horas de 10 en 10. 

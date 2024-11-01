@@ -248,7 +248,7 @@ class Contratacion{
         this.empresaContrato = empresa,
         this.fondos = fondos,
         this.empleadosAsignados = arrayContratados,
-        this.presupuestoTotal = calcularPresupuesto(arrayContratados)
+        this.presupuestoTotal = 0
     }
     exponerContrato(){
         let infoContrato = (`Contrato N°: ${this.id.toString().padStart(6, '0')}  Fecha ${this.fechaContrato}`)

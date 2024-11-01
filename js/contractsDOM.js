@@ -1,4 +1,5 @@
 let btnIniciarContrat = document.getElementById("btnIniciarContrat")
+let btnVerContrataciones = document.getElementById("btnVerContrataciones") 
 let tablaEmpleadosContrat = document.getElementById("tablaEmpleadosContrat")
 let contratacion = document.getElementById(`contratacion`)
 let btnAceptarCancelarContrato = document.getElementById(`btnAceptarCancelarContrato`)
@@ -11,12 +12,9 @@ function iniciarContrato(array){
     let idIniciar = arrayContrataciones.length + 1 //provisorio 
     let fechaIniciar = new Date().toLocaleDateString() //OK
     let empresaIniciar = ""
-    let fondosDisponibles = 0 //tenemos que crear el input que lo pida en el modal
     let presupuestoDisponible = 0
-    let empleado = ""
     const arrayAsignados = []
-    const arrayContrato = [] //se creó para poder concat al array de empresa (daba error circular structure)
-    let total = calcularTotal(arrayAsignados)
+    const arrayContrato = [] //se creó para poder concat al array de empresa (daba error circular structure) sin usar en DOM aun
 
 
     let modalIniciarContrato = document.getElementById(`modalIniciarContrato`)
@@ -134,7 +132,7 @@ function iniciarContrato(array){
             
           </div>
           <div class="col d-grid gap-2 col-4 mx-auto">
-            <button class="btn btn-outline-danger">Confirmar Contrato</button>
+            <button class="btn btn-outline-danger" id="btnConfirmarContrato">Confirmar Contrato</button>
           </div>
         </div>
       </div>`
@@ -189,8 +187,6 @@ function iniciarContrato(array){
          </div>
       </div>`
 
-      //agregamos el evento de que cuando empiece a buscar primero y luego ordenar se vean los empleados
-      //para despues
       let arrayAsignados = impEmpleadosAContratar(arrayEmpleados)
       
       //confirmar el 'cancelar contrato'
@@ -199,7 +195,24 @@ function iniciarContrato(array){
         btnsContrataciones.removeAttribute("hidden")
       })
 
-
+      //CONFIRMAR CONTRATO
+      let btnConfirmarContrato = document.getElementById("btnConfirmarContrato")
+      btnConfirmarContrato.addEventListener("click", ()=>{
+        //creamos el objeto contratacion
+        const contrato = new Contratacion(idIniciar, empresaIniciar.value, Number(presupuestoDisponible.value), arrayAsignados)
+        contrato.fechaContrato = fechaIniciar
+        contrato.presupuestoTotal = calcularTotal(contrato.empleadosAsignados)
+        arrayContrataciones.push(contrato)
+        // arrayContrato.push(contrato) //se creo para duplicar la informacion de contrato por error de circular structure con empresas
+        // empresaIniciar.contratos.concat(arrayContrato) //se aplicará cuando esten cargadas las empresas
+        //buscar todos los empleado que esten el arraycontrataciones y arrayempelados y asignarle contratado = true
+        actualizarEstadoTrue(contrato.empleadosAsignados, arrayEmpleados)
+        localStorage.setItem("contratosCargados", JSON.stringify(arrayContrataciones))
+        alert(`Se ha generado el contrato exitosamente, se actualiza storage de contratos`)
+        contratacion.innerHTML = `<div class="container pt-2 mt-3 mb-3" id="contratacion">
+        </div>`
+        btnsContrataciones.removeAttribute("hidden")
+      })
 
 
 
@@ -363,6 +376,41 @@ function impEmpleadosAContratar(array){
       
       
       }
+      return arrayAsignados
+}
+
+function imprimirContratos(array){
+  contratacion.innerHTML=`
+      <table class="table table-hover table-light">
+            <thead>
+              <tr>
+                <th>Empresa</th>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Presupuesto</th>
+                <th>Cantidad Empleados</th>
+              </tr>
+            </thead>
+            <tbody id="tablaContrataciones">
+              
+            </tbody>
+      </table>
+  `
+  let tablaContrataciones = document.getElementById(`tablaContrataciones`)
+  array.forEach((contrato)=>{
+    let filaContrato = document.createElement("tr")
+    filaContrato.id = `filaContrato${contrato.id}`
+    filaContrato.innerHTML = `
+    <tr>
+        <th id="celdaid${contrato.id}">${contrato.id.toString().padStart(6, '0')}</th>
+        <th id="celdaEmpresa${contrato.id}">${contrato.empresaContrato}</th>
+        <th id="celdaFecha${contrato.id}">${contrato.fechaContrato}</th>
+        <th id="celdaPresupuesto${contrato.id}">$${(contrato.presupuestoTotal).toFixed(2)}</th>
+        <th id="celdaCantEmpleados${contrato.id}">${contrato.empleadosAsignados.length}</th>
+    </tr>`
+    tablaContrataciones.append(filaContrato)
+  })
+  console.log(arrayContrataciones)
 }
 
 
@@ -380,4 +428,7 @@ btnIniciarContrat.addEventListener("click", ()=>{
     iniciarContrato(arrayContrataciones)
 })
 
+btnVerContrataciones.addEventListener("click", ()=>{
+  imprimirContratos(arrayContrataciones)
+})
 

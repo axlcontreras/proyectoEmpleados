@@ -41,6 +41,7 @@
           </div>
         </div>
     </nav>
+
     <main>
       <h3 id="coincidencias" ></h3>
     
@@ -86,122 +87,121 @@
       </div>
       </div>
     
-    <!-- Modal CARGAR EMPLEADO-->
-     
+      <!-- Modal CARGAR EMPLEADO-->
       <div class="modal fade" id="modalCargarEmpleado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="agregarEmpleado">Cargar nuevo empleado</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form id="formCargarEmpleado">
-              <div class="mb-3">
-                <label for="nombreInput" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="nombreInput" placeholder="Ingrese su nombre">
-              </div>
-              <div class="mb-3">
-                <label for="apellidoInput" class="form-label">Apellido</label>
-                <input type="text" class="form-control" id="apellidoInput" placeholder="Ingrese su apellido">
-              </div>
-              <div class="mb-3">
-                <label for="antiguedadInput" class="form-label">Antigüedad</label>
-                <input type="email" class="form-control" id="antiguedadInput" placeholder="Ingrese antiguedad en años">
-              </div>
-              <div class="mb-3">
-                <label for="ciudadInput" class="form-label">Ciudad</label>
-                <select class="form-select" aria-label="Default select example" id="ciudadInput">
-                  <option selected value="0">Seleccione su ciudad</option>
-                  <option value="CABA">CABA</option>
-                  <option value="Buenos Aires">Buenos Aires</option>
-                  <option value="La Plata">La Plata</option>
-                  <option value="Cordoba">Cordoba</option>
-                  <option value="Santa Fe">Santa Fe</option>
-                </select>
-              </div>
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="agregarEmpleado">Cargar nuevo empleado</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="formCargarEmpleado">
+                <div class="mb-3">
+                  <label for="nombreInput" class="form-label">Nombre</label>
+                  <input type="text" class="form-control" id="nombreInput" placeholder="Ingrese su nombre">
+                </div>
+                <div class="mb-3">
+                  <label for="apellidoInput" class="form-label">Apellido</label>
+                  <input type="text" class="form-control" id="apellidoInput" placeholder="Ingrese su apellido">
+                </div>
+                <div class="mb-3">
+                  <label for="antiguedadInput" class="form-label">Antigüedad</label>
+                  <input type="email" class="form-control" id="antiguedadInput" placeholder="Ingrese antiguedad en años">
+                </div>
+                <div class="mb-3">
+                  <label for="ciudadInput" class="form-label">Ciudad</label>
+                  <select class="form-select" aria-label="Default select example" id="ciudadInput">
+                    <option selected value="0">Seleccione su ciudad</option>
+                    <option value="CABA">CABA</option>
+                    <option value="Buenos Aires">Buenos Aires</option>
+                    <option value="La Plata">La Plata</option>
+                    <option value="Cordoba">Cordoba</option>
+                    <option value="Santa Fe">Santa Fe</option>
+                  </select>
+                </div>
 
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarCargarEmpleado">Cerrar</button>
-            <button type="text" class="btn btn-dark" data-bs-dismiss="modal" id="btnCargarEmpleado">Cargar</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarCargarEmpleado">Cerrar</button>
+              <button type="text" class="btn btn-dark" data-bs-dismiss="modal" id="btnCargarEmpleado">Cargar</button>
+            </div>
           </div>
         </div>
       </div>
-      </div>
-
-    <!-- Modal VER DETALLE EMPLEADO-->
-     
-    <div class="modal fade" id="modalVerDetalle" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="verDetalleTitle">Iniciando Contratación</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <h5>Información nuevo contrato</h5>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarCargarEmpleado">Cerrar</button>
-            <button type="text" class="btn btn-dark" data-bs-dismiss="modal" id="btnCargarEmpleado">Cargar</button>
-          </div>
-        </div>
-      </div>
-      </div>
-
-    <!-- Modal EDITAR EMPLEADO-->
-
-    <div class="modal fade" id="modalEditarEmpleado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="editarEmpleado">Editar empleado</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form id="formCargarEmpleado">
-              <div class="mb-3">
-                <label for="nombreInput" class="form-label">Nombre</label>
-                <input type="email" class="form-control" id="nombreInput" placeholder="Ingrese su nombre">
-              </div>
-              <div class="mb-3">
-                <label for="apellidoInput" class="form-label">Apellido</label>
-                <input type="email" class="form-control" id="apellidoInput" placeholder="Ingrese su apellido">
-              </div>
-              <div class="mb-3">
-                <label for="antiguedadInput" class="form-label">Antigüedad</label>
-                <input type="email" class="form-control" id="antiguedadInput" placeholder="Ingrese antiguedad en años">
-              </div>
-              <div class="mb-3">
-                <label for="ciudadInput" class="form-label">Ciudad</label>
-                <select class="form-select" aria-label="Default select example" id="ciudadInput">
-                  <option selected value="0">Seleccione su ciudad</option>
-                  <option value="CABA">CABA</option>
-                  <option value="Buenos Aires">Buenos Aires</option>
-                  <option value="La Plata">La Plata</option>
-                  <option value="Cordoba">Cordoba</option>
-                  <option value="Santa Fe">Santa Fe</option>
-                </select>
-              </div>
-
-            </form>
-          </div>
 
 
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarEditarEmpleado">Cerrar</button>
-            <button type="text" class="btn btn-dark" data-bs-dismiss="modal" id="btnEditarEmpleado">Cargar</button>
+      <!-- Modal VER DETALLE EMPLEADO-->
+      <div class="modal fade" id="modalVerDetalle" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="verDetalleTitle">Iniciando Contratación</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h5>Información nuevo contrato</h5>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarCargarEmpleado">Cerrar</button>
+              <button type="text" class="btn btn-dark" data-bs-dismiss="modal" id="btnCargarEmpleado">Cargar</button>
+            </div>
           </div>
         </div>
       </div>
+
+
+      <!-- Modal EDITAR EMPLEADO-->
+      <div class="modal fade" id="modalEditarEmpleado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="editarEmpleado">Editar empleado</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="formCargarEmpleado">
+                <div class="mb-3">
+                  <label for="nombreInput" class="form-label">Nombre</label>
+                  <input type="email" class="form-control" id="nombreInput" placeholder="Ingrese su nombre">
+                </div>
+                <div class="mb-3">
+                  <label for="apellidoInput" class="form-label">Apellido</label>
+                  <input type="email" class="form-control" id="apellidoInput" placeholder="Ingrese su apellido">
+                </div>
+                <div class="mb-3">
+                  <label for="antiguedadInput" class="form-label">Antigüedad</label>
+                  <input type="email" class="form-control" id="antiguedadInput" placeholder="Ingrese antiguedad en años">
+                </div>
+                <div class="mb-3">
+                  <label for="ciudadInput" class="form-label">Ciudad</label>
+                  <select class="form-select" aria-label="Default select example" id="ciudadInput">
+                    <option selected value="0">Seleccione su ciudad</option>
+                    <option value="CABA">CABA</option>
+                    <option value="Buenos Aires">Buenos Aires</option>
+                    <option value="La Plata">La Plata</option>
+                    <option value="Cordoba">Cordoba</option>
+                    <option value="Santa Fe">Santa Fe</option>
+                  </select>
+                </div>
+
+              </form>
+            </div>
+
+
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarEditarEmpleado">Cerrar</button>
+              <button type="text" class="btn btn-dark" data-bs-dismiss="modal" id="btnEditarEmpleado">Cargar</button>
+            </div>
+          </div>
+        </div>
       </div>
   
-    <!-- Modal BORRAR EMPLEADO -->
-     
-    <div class="modal fade" id="modalBorrarEmpleado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+      <!-- Modal BORRAR EMPLEADO -->
+      <div class="modal fade" id="modalBorrarEmpleado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -272,6 +272,7 @@
         </div>
     </div>
     </div>
+    
     <script src="../js/classes.js"></script>
     <script src="../js/functions.js"></script>
     <script src="../js/main.js"></script>

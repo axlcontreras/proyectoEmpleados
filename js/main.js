@@ -21,6 +21,13 @@ if (arrayEmpleados.length == 0){
         localStorage.setItem("empleadosCargados", JSON.stringify(arrayEmpleados))
     }
 }
+
+if (arrayContrataciones.length == 0){
+    instanciarStorageContratos(arrayContrataciones)
+    if (arrayEmpleados.length ==0){
+        console.log("No hay contrataciones previas")
+    }
+}
 // if (arrayEmpresas.length == 0){
 //     instanciarStorageEmpresas(arrayEmpresas)
 //     if(arrayEmpresas.length == 0){

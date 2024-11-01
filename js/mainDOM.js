@@ -1,4 +1,4 @@
-//capturas de DOM 
+//***************CAPTURAS DEL DOM********************/
 let tablaEmpleados = document.getElementById("tablaEmpleados")
 let busqueda = document.getElementById("busqueda")
 let coincidencias = document.getElementById("coincidencias")
@@ -7,14 +7,15 @@ let btnCargarEmpleado = document.getElementById("btnCargarEmpleado")
 let modalVerDetalle = document.getElementById("modalVerDetalle")
 let modalEditarEmpleado = document.getElementById("modalEditarEmpleado")
 let modalBorrarEmpleado = document.getElementById("modalBorrarEmpleado")
-//capturas input cargar empleado
+
+//Capturas del input Cargar empleado
 let nombreInput = document.getElementById("nombreInput")
 let apellidoInput = document.getElementById("apellidoInput")
 let antiguedadInput = document.getElementById("antiguedadInput")
 let ciudadInput = document.getElementById("ciudadInput")
 
 
-//funciones para empleados: 
+//***************FUNCIONES*****************/
 
 //funcion IMPRIMIR
 function imprimirEmpleados(array){
@@ -43,10 +44,6 @@ function imprimirEmpleados(array){
 
             </tr>`
         tablaEmpleados.append(trNuevoEmpleado)
-        //capturar dentro del forEah y pasarle evento. 
-        // document.getElementById(`btnEditar${empleado.id}`).addEventListener("click", ()=>{
-        //     editarEmpleado(empleado)
-        // })
         })
 
 
@@ -199,44 +196,48 @@ function imprimirEmpleados(array){
   
           let btnBorrar = document.getElementById(`btnBorrar${empleado.id}`)
           btnBorrar.addEventListener("click", ()=>{
-            modalBorrarEmpleado.innerHTML = `
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="borrarTitle">Borrar empleado</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <h5>Esta seguro que desea eliminar empleado ${empleado.nombre.toUpperCase()} ${empleado.apellido.toUpperCase()} con ID: ${empleado.id}?</h5>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarBorrarEmpleado">Cerrar</      button>
-                  <button type="text" class="btn btn-danger" data-bs-dismiss="modal" id="btnConfirmBorrarEmpleado">Borrar</      button>
-                </div>
-              </div>
-            </div>
-            `
-
+            imprimirModalEliminar(empleado)
             let btnConfirmBorrarEmpleado = document.getElementById(`btnConfirmBorrarEmpleado`)
             btnConfirmBorrarEmpleado.addEventListener("click", ()=>{
-              let index = buscarIndex(array,empleado.id)
+              borrarEmpleado(empleado)
+            })
+          })
+
+        })
+        function imprimirModalEliminar(empleado){
+          modalBorrarEmpleado.innerHTML = `
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="borrarTitle">Borrar empleado</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <h5>Esta seguro que desea eliminar empleado ${empleado.nombre.toUpperCase()} ${empleado.apellido.toUpperCase()} con ID: ${empleado.id}?</h5>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarBorrarEmpleado">Cerrar</      button>
+                <button type="text" class="btn btn-danger" data-bs-dismiss="modal" id="btnConfirmBorrarEmpleado">Borrar</      button>
+              </div>
+            </div>
+          </div>
+          `
+        }
+        
+        function borrarEmpleado(empleado){
+          let index = buscarIndex(array,empleado.id)
               array.splice(index, 1)
               console.log(array)
               let filaEmpleado = document.getElementById(`filaEmpleado${empleado.id}`)
               console.log(filaEmpleado)
               localStorage.setItem("empleadosCargados", JSON.stringify(array))
               filaEmpleado.remove()
-            })
-          })
-
-        })
-        
-
+        }
 
 }
 
 
-
+//Funciones Buscar Empleado
 function buscarEmpleado(array,valor){
     let busqueda = array.filter((empleado)=> empleado.nombre.toLowerCase().includes(valor.toLowerCase()) || empleado.apellido.toLowerCase().includes(valor.toLowerCase()))
     switch(selectOrden.value){
@@ -267,7 +268,7 @@ function buscarEmpleado(array,valor){
     return busqueda
 }
 
-//ordenar empleados
+//Funciones Ordenar Empleado
 function ordenarMenorMayorSueldo(array){
     let arrayMenorMayor = [].concat(array)
     arrayMenorMayor.sort((a,b)=>a.sueldoTotal - b.sueldoTotal)
@@ -408,27 +409,25 @@ function cargarEmpleado(array){
 
 
 
-//eventos
+//****************EVENTOS***************/
 //oninput es = cada vez que cambie el valor de input 
 busqueda.oninput = ()=>{ 
     let filterArray = buscarEmpleado(arrayEmpleados,busqueda.value)
     imprimirEmpleados(filterArray)
 }
 
-//evento ordenar
+//Evento Ordenar Empleados
 selectOrden.addEventListener("change", ()=>{
     let arrayFilt = buscarEmpleado(arrayEmpleados, busqueda.value)
     imprimirEmpleados(arrayFilt)
 })
 
-
-//evento de cargar empleado
+//Evento Cargar Empleado
 btnCargarEmpleado.addEventListener("click", ()=>{
     cargarEmpleado(arrayEmpleados)
 })
 
 
 
-//codigo
+//**************CODIGO******************/
 imprimirEmpleados(arrayEmpleados)
-console.log(arrayEmpleados)

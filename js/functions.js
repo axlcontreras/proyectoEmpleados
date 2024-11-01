@@ -502,11 +502,13 @@ function actualizarFondos(fondos, arrayContratados){
 //     }
 //     return fondos
 // }
-function calcularPresupuesto(array){
+function calcularPresupuestoTotal(array){
     let presupuesto = 0
-    array.forEach((empleado)=>presupuesto += empleado.sueldoTotal)
+    array.forEach((empleado)=>presupuesto += empleado.sueldoMensual)
     return presupuesto
 }
+
+//funcion utilizada en DOM 
 function actualizarEstadoTrue(arrayEmpleadosEnContrato, arrayEmpleadosCargados){
     arrayEmpleadosEnContrato.forEach((empleadoEnContrato) => {
         arrayEmpleadosCargados.forEach((empleadoCargado) => {
@@ -914,6 +916,7 @@ function instanciarStorageEmpleados(array){
         console.log("No hay empleados cargados en el storage")
     )
 }
+
 function instanciarStorageEmpresas(array){
     if (localStorage.getItem("empresasCargadas")){
         console.log("Se cargan empresas desde Storage")
@@ -928,6 +931,24 @@ function instanciarStorageEmpresas(array){
         console.log("No hay empresas cargadas en el storage")
     )
 }
+
+function instanciarStorageContratos(array){
+    if (localStorage.getItem("contratosCargados")){
+        console.log("Se cargan contrato/s desde Storage")
+        let contratosStorage = JSON.parse(localStorage.getItem("contratosCargados"))
+        contratosStorage.forEach((contrato) =>
+            {
+                const contratoConClass = new Contratacion (contrato.id, contrato.empresaContrato, contrato.fondos, contrato.empleadosAsignados)
+                contratoConClass.fechaContrato = contrato.fechaContrato
+                contratoConClass.presupuestoTotal = contrato.presupuestoTotal
+                array.push(contratoConClass)
+            }
+        )
+    }else{
+        console.log("No hay contrataciones previas")
+    }
+}
+
 function precargarContratados(array){ //sin terminar
     let consulta = prompt("Desea continuar con las contrataciones realizadas?")
     if (consulta.toLowerCase() == "si"){
