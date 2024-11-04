@@ -7,6 +7,7 @@ let btnCargarEmpleado = document.getElementById("btnCargarEmpleado")
 let modalVerDetalle = document.getElementById("modalVerDetalle")
 let modalEditarEmpleado = document.getElementById("modalEditarEmpleado")
 let modalBorrarEmpleado = document.getElementById("modalBorrarEmpleado")
+let spinnerCargaEmpleados = document.getElementById(`spinnerCargaEmpleados`)
 
 //Capturas del input Cargar empleado
 let nombreInput = document.getElementById("nombreInput")
@@ -401,7 +402,21 @@ function cargarEmpleado(array){
     
 }
 
+function imprimiendoEmpleados(){
+  spinnerCargaEmpleados.innerHTML=`
+          <div class="container d-flex justify-content-center m-5" id="spinnerCargaEmpleados">
+              <div class="spinner-grow text-dark" role="status">
+                <span class="visually-hidden">Cargando</span>
+              </div>
+          </div>
+            
+`
 
+  setTimeout(()=>{
+    spinnerCargaEmpleados.innerHTML = ""
+    imprimirEmpleados(arrayEmpleados)
+  }, 3000)
+}
 
 
 
@@ -430,4 +445,5 @@ btnCargarEmpleado.addEventListener("click", ()=>{
 
 
 //**************CODIGO******************/
-imprimirEmpleados(arrayEmpleados)
+
+imprimiendoEmpleados()
