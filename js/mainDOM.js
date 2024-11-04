@@ -228,9 +228,7 @@ function imprimirEmpleados(array){
         function borrarEmpleado(empleado){
           let index = buscarIndex(array,empleado.id)
               array.splice(index, 1)
-              console.log(array)
               let filaEmpleado = document.getElementById(`filaEmpleado${empleado.id}`)
-              console.log(filaEmpleado)
               localStorage.setItem("empleadosCargados", JSON.stringify(array))
               filaEmpleado.remove()
         }
@@ -321,86 +319,55 @@ function cargarEmpleado(array){
     imprimirEmpleados(array)
     localStorage.setItem("empleadosCargados", JSON.stringify(arrayEmpleados))
     console.log("Se actualiza plantilla del storage")
-//validaciones sin funcionar todavia
-//     function ingresarNombre(){
-//         let nombre = prompt(`Por favor ingrese el nombre`)
-//         while(nombre == "" || isNaN(nombre) == false){
-//             if (nombre == ""){
-//                 nombre = prompt(`Atención! El nombre no puede estar vacio, por favor ingrese el nombre correctamente`)
-//             }else if(isNaN(nombre) == false){
-//                 nombre = prompt(`Atención! El nombre no puede ser un numero, por favor ingrese el nombre correctamente`)
-//             }
-//         }
-//         return nombre
-//     }
-//     function ingresarApellido(){
-//         let apellido = prompt(`Por favor ingrese el apellido`)
-//         while(apellido == "" || isNaN(apellido) == false){
-//             if (apellido == ""){
-//                 apellido = prompt(`Atención! El apellido no puede estar vacio, por favor ingrese el apellido correctamente`)
-//             }else if(isNaN(apellido) == false){
-//                 apellido = prompt(`Atención! El apellido no puede ser un numero, por favor ingrese el apellido correctamente`)
-//             }
-//         }
-//         return apellido
-//     }
-//     // function tasarHora(){
-//     //     let valorHora = Number(prompt("Por favor ingrese el valor de la hora"))
-//     //     while(isNaN(valorHora) || valorHora <= 0 || valorHora == ""){
-//     //         valorHora = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese el valor de la hora"))
-//     //     }
-//     //     return valorHora
-//     // }
-//     // function ingresarHoras (){
-//     //     let horas = Number(prompt("Por favor ingrese la cantidad de horas trabajadas en el mes"))
-//     //     while(isNaN(horas) || horas <= 0 || horas == ""){
-//     //          horas = Number(prompt("Atención, el valor ingresado no es válido! Por favor ingrese la cantidad de horas trabajadas en el mes correctamente"))
-//     //     }
-//     //     return horas
-//     // }
-//     function ingresarAntiguedad(){
-//         let antiguedad = Number(prompt(`Por favor ingrese los años de antigüedad`))
-//         while(isNaN(antiguedad) || antiguedad > 80 || antiguedad < 0 || antiguedad == ""){
-//             antiguedad = Number(prompt(`Atención, los años ingresados son incorrectos! Por favor ingrese los años de antigüedad`))
-//         }
-//         return antiguedad
-//     }
-//     function ingresarCiudad(){
-//         let ciudad = ""
-//         while (ciudad == ""){
-//             let ciudadOpcion = prompt(`Por favor ingrese el numero de la ciudad correspondiente
-// 1 - CABA
-// 2 - Buenos Aires
-// 3 - La Plata
-// 4 - Cordoba
-// 5 - Santa Fe`)
-//             switch(ciudadOpcion){
-//                 case "1": 
-//                     ciudad = "CABA"
-//                 break
-//                 case "2":
-//                     ciudad = "Buenos Aires"
-//                 break
-//                 case "3":
-//                     ciudad = "La Plata"
-//                 break
-//                 case "4":
-//                     ciudad = "Cordoba"
-//                 break
-//                 case "5":
-//                     ciudad = "Santa Fe"
-//                 break
-//                 default:
-//                     ciudad = ""
-//                     alert("El numero ingresado no corresponde a una ciudad")
-//                 break
-//             }
-//         }
-//         return ciudad
-//     }
+
 
     
 }
+
+// validaciones sin funcionar todavia
+function validarNombre(input){
+      let valido = false
+      let mje = ""
+      if (input == ""){
+          mje = `Se necesita nombre`
+      }else if(isNaN(input) == false){
+          mje = `El nombre no puede ser un numero`
+      }else{
+        valido = true
+      }
+      document.getElementById("nombreInvalido").innerHTML = `${mje}`
+
+      return valido
+  }
+function validarApellido(){
+  let apellido = prompt(`Por favor ingrese el apellido`)
+  while(apellido == "" || isNaN(apellido) == false){
+      if (apellido == ""){
+          apellido = prompt(`Atención! El apellido no puede estar vacio, por favor ingrese el apellido correctamente`)
+      }else if(isNaN(apellido) == false){
+          apellido = prompt(`Atención! El apellido no puede ser un numero, por favor ingrese el apellido correctamente`)
+      }
+  }
+  return apellido
+}
+function validarAntiguedad(){
+  let antiguedad = Number(prompt(`Por favor ingrese los años de antigüedad`))
+  while(isNaN(antiguedad) || antiguedad > 80 || antiguedad < 0 || antiguedad == ""){
+      antiguedad = Number(prompt(`Atención, los años ingresados son incorrectos! Por favor ingrese los años de antigüedad`))
+  }
+  return antiguedad
+}
+
+function cargarValidado(array){
+    if (validarNombre(nombreInput) == false){
+      console.log("No se carga empleado por no valido")
+      validarNombre(nombreInput)
+    }else{
+      cargarEmpleado(array)
+      console.log("Se carga empleado")
+    }
+}
+
 
 function imprimiendoEmpleados(){
   spinnerCargaEmpleados.innerHTML=`
@@ -423,7 +390,6 @@ function imprimiendoEmpleados(){
 
 
 
-
 //****************EVENTOS***************/
 //oninput es = cada vez que cambie el valor de input 
 busqueda.oninput = ()=>{ 
@@ -439,7 +405,9 @@ selectOrden.addEventListener("change", ()=>{
 
 //Evento Cargar Empleado
 btnCargarEmpleado.addEventListener("click", ()=>{
-    cargarEmpleado(arrayEmpleados)
+    cargarValidado(arrayEmpleados)
+    // validarNombre(nombreInput)
+    // cargarEmpleado(arrayEmpleados)
 })
 
 
@@ -447,3 +415,6 @@ btnCargarEmpleado.addEventListener("click", ()=>{
 //**************CODIGO******************/
 
 imprimiendoEmpleados()
+
+
+
