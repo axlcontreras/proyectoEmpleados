@@ -190,6 +190,7 @@ function iniciarContrato(array){
       let arrayAsignados = impEmpleadosAContratar(arrayEmpleados)
       
       //confirmar el 'cancelar contrato'
+      
       btnAceptarCancelarContrato.addEventListener("click", ()=>{
         contratacion.innerHTML=""
         btnsContrataciones.removeAttribute("hidden")
@@ -208,7 +209,14 @@ function iniciarContrato(array){
         //buscar todos los empleado que esten el arraycontrataciones y arrayempelados y asignarle contratado = true
         actualizarEstadoTrue(contrato.empleadosAsignados, arrayEmpleados)
         localStorage.setItem("contratosCargados", JSON.stringify(arrayContrataciones))
-        alert(`Se ha generado el contrato exitosamente, se actualiza storage de contratos`)
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Se ha creado contrato exitosamente",
+          confirmButtonColor: "#d33",
+          showConfirmButton: true,
+          timer: 3000
+        });;
         contratacion.innerHTML = `<div class="container pt-2 mt-3 mb-3" id="contratacion">
         </div>`
         btnsContrataciones.removeAttribute("hidden")

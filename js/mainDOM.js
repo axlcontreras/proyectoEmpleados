@@ -40,7 +40,7 @@ function imprimirEmpleados(array){
                   <button id = "btnEditar${empleado.id}" type="button" class="btn btn-outline.secondary" data-bs-toggle="modal" data-bs-target="#modalEditarEmpleado" data-bs-title="Editar"><i class="fa-solid fa-pen-to-square"></i></button>
                 </th>
                 <th>
-                  <button id = "btnBorrar${empleado.id}" type="button" class="btn btn-outline-link" data-bs-toggle="modal" data-bs-target="#modalBorrarEmpleado" data-bs-toggle="tooltip" data-bs-title="Eliminar"><i class="fa-solid fa-trash" style="color: #f00505;"></i></button>
+                  <button id = "btnBorrar${empleado.id}" type="button" class="btn btn-outline-link" data-bs-toggle="tooltip" data-bs-title="Eliminar"><i class="fa-solid fa-trash" style="color: #f00505;"></i></button>
                 </th>
 
             </tr>`
@@ -197,33 +197,29 @@ function imprimirEmpleados(array){
   
           let btnBorrar = document.getElementById(`btnBorrar${empleado.id}`)
           btnBorrar.addEventListener("click", ()=>{
-            imprimirModalEliminar(empleado)
-            let btnConfirmBorrarEmpleado = document.getElementById(`btnConfirmBorrarEmpleado`)
-            btnConfirmBorrarEmpleado.addEventListener("click", ()=>{
-              borrarEmpleado(empleado)
-            })
+            Swal.fire({
+              title: `Eliminando empleado`,
+              text: `Esta seguro que desea eliminar empleado ${empleado.nombre.toUpperCase()} ${empleado.apellido.toUpperCase()} con ID: ${empleado.id}?`,
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#ff1d00",
+              cancelButtonColor: "#4d4747",
+              confirmButtonText: "Eliminar"
+            }).then((result) => {
+              if (result.isConfirmed) {
+                borrarEmpleado(empleado)
+              
+                Swal.fire({
+                  title: "Eliminado",
+                  text: "Se ha elimado empleado correctamente",
+                  icon: "success",
+                  confirmButtonColor: "#ff1d00"
+                });
+              }
+            });
           })
 
         })
-        function imprimirModalEliminar(empleado){
-          modalBorrarEmpleado.innerHTML = `
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="borrarTitle">Borrar empleado</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <h5>Esta seguro que desea eliminar empleado ${empleado.nombre.toUpperCase()} ${empleado.apellido.toUpperCase()} con ID: ${empleado.id}?</h5>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarBorrarEmpleado">Cerrar</      button>
-                <button type="text" class="btn btn-danger" data-bs-dismiss="modal" id="btnConfirmBorrarEmpleado">Borrar</      button>
-              </div>
-            </div>
-          </div>
-          `
-        }
         
         function borrarEmpleado(empleado){
           let index = buscarIndex(array,empleado.id)
@@ -316,6 +312,17 @@ function cargarEmpleado(array){
     antiguedadInput.value=""
     ciudadInput.value="0"
     array.push(empleado)
+    Toastify({
+
+      text: `Se ha agregado empleado correctamente`,
+      gravity: "top",
+      position: 'center',
+      style: {
+        background: "linear-gradient(to right, #ff5f6d, #ffc371)"
+      },
+      duration: 1500
+      
+      }).showToast();
     imprimirEmpleados(array)
     localStorage.setItem("empleadosCargados", JSON.stringify(arrayEmpleados))
     console.log("Se actualiza plantilla del storage")
@@ -358,15 +365,27 @@ function validarAntiguedad(){
   return antiguedad
 }
 
-function cargarValidado(array){
-    if (validarNombre(nombreInput) == false){
-      console.log("No se carga empleado por no valido")
-      validarNombre(nombreInput)
-    }else{
-      cargarEmpleado(array)
-      console.log("Se carga empleado")
-    }
-}
+
+(() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+
+
 
 
 function imprimiendoEmpleados(){
@@ -405,9 +424,7 @@ selectOrden.addEventListener("change", ()=>{
 
 //Evento Cargar Empleado
 btnCargarEmpleado.addEventListener("click", ()=>{
-    cargarValidado(arrayEmpleados)
-    // validarNombre(nombreInput)
-    // cargarEmpleado(arrayEmpleados)
+    cargarEmpleado(arrayEmpleados)
 })
 
 
