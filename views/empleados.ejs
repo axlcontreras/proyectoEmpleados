@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="icon" href="../assets/img/brandRRHH.jpg.png">
+    <link rel="icon" href="../assets/img/brandRRHH.png">
     <!-- Link css tostify -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <!--Link boostrap -->
@@ -17,7 +17,7 @@
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary navbar sticky-top text-primary text-opacity-50">
         <div class="container">
-          <a class="navbar-brand mb-1 h1" href="index.html">
+          <a class="navbar-brand mb-1 h1" href="/">
             <img src="../assets/img/brand/brandRRHH.png" alt="Logo" width="40" height="35" class="d-inline-block align-text-top">
           <h4 class="d-inline-block align-text-top">Consultora RRHH</h4> 
           </a>
@@ -31,13 +31,13 @@
                 
               </form> 
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="empleados.html"><h5>Empleados</h5></a>
+                <a class="nav-link active" aria-current="page" href="empleados"><h5>Empleados</h5></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="empresas.html"><h5>Empresas</h5></a>
+                <a class="nav-link active" aria-current="page" href="empresas"><h5>Empresas</h5></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="contrataciones.html"><h5>Contrataciones</h5></a>
+                <a class="nav-link active" aria-current="page" href="contratos"><h5>Contrataciones</h5></a>
               </li>
             </ul>
           </div>
@@ -46,7 +46,9 @@
 
     <main>
       <h3 id="coincidencias" ></h3>
-    
+
+      
+
       <div class="container">
       <div class="row ">
         <div class="col">
@@ -100,31 +102,22 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form class="needs-validation" id="formCargarEmpleado" novalidate>
+              <form action = "/cargarEmpleado" method="post" id="formCargarEmpleado">
                 <div class="mb-3">
-                  <label for="nombreInput" class="form-label">Nombre</label>
-                  <input type="text" class="form-control" id="nombreInput" placeholder="Ingrese su nombre" required>
-                  <div class="invalid-feedback">
-                    Campo obligatorio
-                  </div>
+                  <label for="nombre" class="form-label">Nombre</label>
+                  <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingrese su nombre">
                 </div>
                 <div class="mb-3">
-                  <label for="apellidoInput" class="form-label">Apellido</label>
-                  <input type="text" class="form-control" id="apellidoInput" placeholder="Ingrese su apellido" required>
-                  <div class="invalid-feedback">
-                    Campo obligatorio
-                  </div>
+                  <label for="apellido" class="form-label">Apellido</label>
+                  <input type="text" name="apellido" class="form-control" id="apellido" placeholder="Ingrese su apellido">
                 </div>
                 <div class="mb-3">
-                  <label for="antiguedadInput" class="form-label">Antigüedad</label>
-                  <input type="email" class="form-control" id="antiguedadInput" placeholder="Ingrese antiguedad en años" required>
-                  <div class="invalid-feedback">
-                    Campo obligatorio
-                  </div>
+                  <label for="antiguedad" class="form-label">Antigüedad</label>
+                  <input type="number" name="antiguedad" class="form-control" id="antiguedad" placeholder="Ingrese antiguedad en años">
                 </div>
                 <div class="mb-3">
-                  <label for="ciudadInput" class="form-label">Ciudad</label>
-                  <select class="form-select" id="ciudadInput" required>
+                  <label for="ciudad" class="form-label">Ciudad</label>
+                  <select class="form-select" name="ciudad" id="ciudad">
                     <option selected disabled value="">Seleccione su ciudad</option>
                     <option value="CABA">CABA</option>
                     <option value="Buenos Aires">Buenos Aires</option>
@@ -136,12 +129,9 @@
                     Campo obligatorio
                   </div>
                 </div>
-
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarCargarEmpleado">Cerrar</button>
+                  <input type="submit" class="btn btn-dark" data-bs-dismiss="modal" href="/views/empleados.ejs" id="btnCargarEmpleado" value="Cargar">
               </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarCargarEmpleado">Cerrar</button>
-              <button type="submit" class="btn btn-dark" data-bs-dismiss="modal" id="btnCargarEmpleado">Cargar</button>
             </div>
           </div>
         </div>
@@ -222,7 +212,7 @@
     <div id="footer"  class="footer">
     <div class="row p-5 pb-2 bg-dark text-secondary">
       <div class="col-xs-12 col-md-6 col-lg-3">
-        <a class="navbar-brand mb-1 h1" href="index.html">
+        <a class="navbar-brand mb-1 h1" href="/">
           <img src="../assets/img/brand/brandRRHH.png" alt="Logo" width="40" height="35" class="d-inline-block align-text-top">
         <h4 class="mt-3">Consultora RRHH</h4> 
         </a>
@@ -282,7 +272,7 @@
     <script src="../js/classes.js"></script>
     <script src="../js/functions.js"></script>
     <script src="../js/main.js"></script>
-    <script src="../js/mainDOM.js"></script>
+    <script src="../js/empleadosDOM.js"></script>
 
 </body>
 

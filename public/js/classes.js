@@ -1,6 +1,6 @@
 class Empleado{
     constructor(id, nombre, apellido, antiguedad, ciudad, img){
-        this.id = id, //chequear como asignar una id mejor
+        this.id= id,//el id será dado por la base de datos.
         this.nombre = nombre,//this.ingresarNombre(),
         this.apellido = apellido, //this.ingresarApellido(),
         this.cantHoras = 0, //this.ingresarHoras(),

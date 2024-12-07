@@ -13,7 +13,7 @@ function iniciarContrato(array){
     let fechaIniciar = new Date().toLocaleDateString() //OK
     let empresaIniciar = ""
     let presupuestoDisponible = 0
-    const arrayAsignados = []
+    let arrayAsignados = []
     const arrayContrato = [] //se creó para poder concat al array de empresa (daba error circular structure) sin usar en DOM aun
 
 
@@ -187,7 +187,10 @@ function iniciarContrato(array){
          </div>
       </div>`
 
-      let arrayAsignados = impEmpleadosAContratar(arrayEmpleados)
+      cargarEmpleadosAsync(empleadosDB).then((array)=>{
+        arrayAsignados = impEmpleadosAContratar(empleadosDB)
+      })
+      
       
       //confirmar el 'cancelar contrato'
       
@@ -198,12 +201,29 @@ function iniciarContrato(array){
 
       //CONFIRMAR CONTRATO
       let btnConfirmarContrato = document.getElementById("btnConfirmarContrato")
-      btnConfirmarContrato.addEventListener("click", ()=>{
+        
+      btnConfirmarContrato.addEventListener("click", async()=>{
         //creamos el objeto contratacion
         const contrato = new Contratacion(idIniciar, empresaIniciar.value, Number(presupuestoDisponible.value), arrayAsignados)
-        contrato.fechaContrato = fechaIniciar
         contrato.presupuestoTotal = calcularTotal(contrato.empleadosAsignados)
+        contrato.fechaContrato = fechaIniciar
         arrayContrataciones.push(contrato)
+        if(contrato && contrato.empleadosAsignados.length > 0){
+          const res = await fetch("http://localhost:3000/contrataciones/confirmar",
+          {
+              method: "POST",
+              body: JSON.stringify(contrato),
+              headers: {
+                  "Content-Type": "application/json"
+              }
+          })
+          console.log(res)
+          if(res.ok){
+              console.log(`Se creo contrato exitosamente`)
+          }
+      }else{
+        console.error("No estamos entrando en el if del post")
+      }
         // arrayContrato.push(contrato) //se creo para duplicar la informacion de contrato por error de circular structure con empresas
         // empresaIniciar.contratos.concat(arrayContrato) //se aplicará cuando esten cargadas las empresas
         //buscar todos los empleado que esten el arraycontrataciones y arrayempelados y asignarle contratado = true
@@ -253,7 +273,7 @@ function impEmpleadosAContratar(array){
 
           //capturamos el boton agregar del empleado que necesitamos, tambien el value del input sobre la cantidad de horas.
           //se puede crear un default (160hs)para cuando no se haya ingresado nada en el input 
-        arrayEmpleados.forEach((empleado)=>{
+        array.forEach((empleado)=>{
         let btnAgregar = document.getElementById(`btnAgregar${empleado.id}`)
         let inputCantHoras = document.getElementById(`inputCantHoras${empleado.id}`)
         btnAgregar.addEventListener("click", ()=>{
@@ -288,7 +308,7 @@ function impEmpleadosAContratar(array){
                     <th>
                       <button id = "btnVerDetalleEnContrato${empleado.id}" type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalVerDetalleEnContrato">Ver detalle</button>
                     </th>
-                    <th id="celdaImagen${empleado.id}"><img src="../assets/img/empleados/${empleado.imagen}" alt="foto ${empleado.id}" style="max-width:50px;" class="rounded"></th>
+                    <th id="celdaImagen${empleado.id}"><img src="../assets/img/empleados/NuevoEmpleado.png" alt="foto ${empleado.id}" style="max-width:50px;" class="rounded"></th>
                     <th id="celdaid${empleado.id}">${empleado.id}</th>
                     <th id="celdaNombre${empleado.id}">${empleado.nombre} ${empleado.apellido}</th>
                     <th id="celdaPerfil${empleado.id}">${empleado.perfil}</th>
@@ -384,6 +404,7 @@ function impEmpleadosAContratar(array){
       
       
       }
+      console.log(arrayAsignados)
       return arrayAsignados
 }
 

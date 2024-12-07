@@ -1,0 +1,26 @@
+{
+  "name": "misempleados",
+  "version": "1.0.0",
+  "description": "Proyecto principal para CFP 41 2024",
+  "main": "empleadosDOM.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "html",
+    "css",
+    "js"
+  ],
+  "author": "Axel Contreras",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "mysql": "^2.18.1",
+    "promise-mysql": "^5.2.0",
+    "sweetalert2": "^11.14.5",
+    "toastify-js": "^1.12.0"
+  }
+}

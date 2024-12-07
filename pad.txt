@@ -80,3 +80,6 @@ a contratacion debemos cambiar el estado de no contratado a contratado!!!! tener
 
 para fechas tempo.formkit.com 
 para alerts sweetalert2.github.io 
+
+EJS es un visor de vistas para que el sitio sea dinamico
+creamos carpeta 

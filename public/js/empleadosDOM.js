@@ -10,7 +10,7 @@ let modalBorrarEmpleado = document.getElementById("modalBorrarEmpleado")
 let spinnerCargaEmpleados = document.getElementById(`spinnerCargaEmpleados`)
 
 //Capturas del input Cargar empleado
-let nombreInput = document.getElementById("nombreInput")
+let nombreInput = document.getElementById("nombreInput") //sin uso actualmente chequear para borrar!!
 let apellidoInput = document.getElementById("apellidoInput")
 let antiguedadInput = document.getElementById("antiguedadInput")
 let ciudadInput = document.getElementById("ciudadInput")
@@ -30,7 +30,7 @@ function imprimirEmpleados(array){
                 <th>
                   <button id = "btnVerDetalle${empleado.id}" type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalVerDetalle">Ver detalle</button>
                 </th>
-                <th id="celdaImagen${empleado.id}"><img src="../assets/img/empleados/${empleado.imagen}" alt="foto ${empleado.id}" style="max-width:50px;" class="rounded"></th>
+                <th id="celdaImagen${empleado.id}"><img src="../assets/img/empleados/NuevoEmpleado.png" alt="foto ${empleado.id}" style="max-width:50px;" class="rounded"></th>
                 <th id="celdaid${empleado.id}">${empleado.id}</th>
                 <th id="celdaNombre${empleado.id}">${empleado.nombre} ${empleado.apellido}</th>
                 <th id="celdaPerfil${empleado.id}">${empleado.perfil}</th>
@@ -305,14 +305,8 @@ function ordenarAlfaZa(array){
 
 
 //cargar empleado
-function cargarEmpleado(array){
-    const empleado = new Empleado (array.length+1, nombreInput.value, apellidoInput.value, antiguedadInput.value, ciudadInput.value, "NuevoEmpleado.png")
-    nombreInput.value=""
-    apellidoInput.value=""
-    antiguedadInput.value=""
-    ciudadInput.value="0"
-    array.push(empleado)
-    Toastify({
+function cargarEmpleado(){
+  Toastify({
 
       text: `Se ha agregado empleado correctamente`,
       gravity: "top",
@@ -323,12 +317,7 @@ function cargarEmpleado(array){
       duration: 1500
       
       }).showToast();
-    imprimirEmpleados(array)
-    localStorage.setItem("empleadosCargados", JSON.stringify(arrayEmpleados))
-    console.log("Se actualiza plantilla del storage")
-
-
-    
+    imprimiendoEmpleados()
 }
 
 // validaciones sin funcionar todavia
@@ -366,29 +355,12 @@ function validarAntiguedad(){
 }
 
 
-(() => {
-  'use strict'
-
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  const forms = document.querySelectorAll('.needs-validation')
-
-  // Loop over them and prevent submission
-  Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-
-      form.classList.add('was-validated')
-    }, false)
-  })
-})()
 
 
 
 
-function imprimiendoEmpleados(){
+function imprimiendoEmpleados(array){
+  tablaEmpleados.innerHTML=""
   spinnerCargaEmpleados.innerHTML=`
           <div class="container d-flex justify-content-center m-5" id="spinnerCargaEmpleados">
               <div class="spinner-grow text-dark" role="status">
@@ -397,11 +369,12 @@ function imprimiendoEmpleados(){
           </div>
             
 `
-
-  setTimeout(()=>{
+//.then() para manipular el fetch(el fetch nos devuelve una promesa)
+  cargarEmpleadosAsync(empleadosDB).then((array)=>{
     spinnerCargaEmpleados.innerHTML = ""
-    imprimirEmpleados(arrayEmpleados)
-  }, 3000)
+    imprimirEmpleados(array)
+  })
+  .catch()
 }
 
 
@@ -412,26 +385,26 @@ function imprimiendoEmpleados(){
 //****************EVENTOS***************/
 //oninput es = cada vez que cambie el valor de input 
 busqueda.oninput = ()=>{ 
-    let filterArray = buscarEmpleado(arrayEmpleados,busqueda.value)
+    let filterArray = buscarEmpleado(empleadosDB,busqueda.value)
     imprimirEmpleados(filterArray)
 }
 
 //Evento Ordenar Empleados
 selectOrden.addEventListener("change", ()=>{
-    let arrayFilt = buscarEmpleado(arrayEmpleados, busqueda.value)
+    let arrayFilt = buscarEmpleado(empleadosDB, busqueda.value)
     imprimirEmpleados(arrayFilt)
 })
 
 //Evento Cargar Empleado
 btnCargarEmpleado.addEventListener("click", ()=>{
-    cargarEmpleado(arrayEmpleados)
+    cargarEmpleado(empleadosDB)
 })
 
 
 
 //**************CODIGO******************/
 
-imprimiendoEmpleados()
+imprimiendoEmpleados(empleadosDB)
 
 
 
