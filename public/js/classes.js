@@ -9,7 +9,7 @@ class Empleado{
         this.bonoPorcentual = this.calcularBonoPorcentual(), // a partir de los 10 años de experiencia
         this.valorHora = this.tasarHora(),
         this.sueldoMensual = this.calcularSueldoMensual(),
-        this.contratado = false
+        this.contratado = false,
         this.ciudad = ciudad,
         // this.contrato = 0
         // this.empresaAsignada = contrato.empresaContrato,

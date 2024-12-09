@@ -102,11 +102,6 @@ app.get("/empleadosDB", async  (req, res)=>{
     // return resultado
 )
 
-//darle formato de clase a datonuevoempleado
-function formatearClaseEmpleado(empleadoSinClase){
-    const empleadoConClase = new Empleado ('null', empleadoSinClase.nombre, empleadoSinClase.apellido, empleadoSinClase.antiguedad, empleadoSinClase.ciudad, 'null')
-    return empleadoConClase
-}
 
 
 //********************************conexion BD *******************/
@@ -141,7 +136,7 @@ function actualizarEmpleado(actualizar, id){
 
 async function insertarEmpleado(nombre, apellido, antiguedad, ciudad){
     const connection = await database.getConnection()
-    const insert = `INSERT INTO empleados (nombre, apellido, antiguedad, ciudad) VALUES ("${nombre}", "${apellido}", "${antiguedad}", "${ciudad}")`
+    const insert = `INSERT INTO empleados (nombre, apellido, antiguedad, ciudad, efectivo) VALUES ("${nombre}", "${apellido}", "${antiguedad}", "${ciudad}", "0")`
     connection.query(insert, function(err, resultado){
         if (err){
             throw err
@@ -153,7 +148,6 @@ async function insertarEmpleado(nombre, apellido, antiguedad, ciudad){
 
 }
 
-let instruccionTest = `SELECT * FROM empleados`
 
 
 

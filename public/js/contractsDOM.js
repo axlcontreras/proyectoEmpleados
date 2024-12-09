@@ -188,7 +188,9 @@ function iniciarContrato(array){
       </div>`
 
       cargarEmpleadosAsync(empleadosDB).then((array)=>{
-        arrayAsignados = impEmpleadosAContratar(empleadosDB)
+        arrayAsignados = impEmpleadosAContratar(array)
+        console.log(`Imprimiendo empleados cuando lo capturamos`)
+        console.log(arrayAsignados)
       })
       
       
@@ -204,7 +206,10 @@ function iniciarContrato(array){
         
       btnConfirmarContrato.addEventListener("click", async()=>{
         //creamos el objeto contratacion
-        const contrato = new Contratacion(idIniciar, empresaIniciar.value, Number(presupuestoDisponible.value), arrayAsignados)
+        console.log("imprimiendo empleados cuando le damos al boton de confirmar")
+        console.log(arrayAsignados)
+        let empleadosConfirmados = await arrayAsignados
+        const contrato = new Contratacion(idIniciar, empresaIniciar.value, Number(presupuestoDisponible.value), empleadosConfirmados)
         contrato.presupuestoTotal = calcularTotal(contrato.empleadosAsignados)
         contrato.fechaContrato = fechaIniciar
         arrayContrataciones.push(contrato)
@@ -219,7 +224,8 @@ function iniciarContrato(array){
           })
           console.log(res)
           if(res.ok){
-              console.log(`Se creo contrato exitosamente`)
+              console.log(`Se creo contrato exitosamente`);
+              
           }
       }else{
         console.error("No estamos entrando en el if del post")
@@ -229,6 +235,7 @@ function iniciarContrato(array){
         //buscar todos los empleado que esten el arraycontrataciones y arrayempelados y asignarle contratado = true
         actualizarEstadoTrue(contrato.empleadosAsignados, arrayEmpleados)
         localStorage.setItem("contratosCargados", JSON.stringify(arrayContrataciones))
+        arrayAsignados.length = 0; //vaciamos el array asi no duplica la info si creamos otro contrato
         Swal.fire({
           position: "top-center",
           icon: "success",
@@ -249,7 +256,7 @@ function iniciarContrato(array){
 }
 
 function impEmpleadosAContratar(array){
-  let arrayAsignados = []
+  let empleadosSinConfirmar = []
     let tablaEmpleadosAgregar = document.getElementById(`tablaEmpleadosAgregar`)
     tablaEmpleadosAgregar.innerHTML = ""
     array.forEach((empleado) => {
@@ -281,19 +288,20 @@ function impEmpleadosAContratar(array){
           empleado.cantHoras = inputCantHoras.value
           empleado.sueldoMensual = empleado.calcularSueldoMensual()
           empleado.contratado = true
-          arrayAsignados.push(empleado)
+          empleadosSinConfirmar.push(empleado)
           //capturamos la fila y la ocultamos asi no se puede agregar 2 veces
           let filaEmpleadoModal = document.getElementById(`filaEmpleadoModal${empleado.id}`)
           filaEmpleadoModal.setAttribute("hidden", "true")
-          impEmpleadosAsignados(arrayAsignados)
+          impEmpleadosAsignados(empleadosSinConfirmar)
           //actualizar total
           let totalContratacion = document.getElementById(`totalContratacion`)
-          totalContratacion.innerText = `$${calcularTotal(arrayAsignados).toFixed(2)}`
+          totalContratacion.innerText = `$${calcularTotal(empleadosSinConfirmar).toFixed(2)}`
           //actualizar presupuesto
           let presupuestoDisponible = document.getElementById(`presupuestoDisponible`)
           let presupuestoDisponibleMostrar = document.getElementById(`presupuestoDisponibleMostrar`)
-          presupuestoDisponibleMostrar.innerText = `$${calcularPresupuesto(presupuestoDisponible.value, calcularTotal(arrayAsignados)).toFixed(2)}` //3m provisorio, hay que capturarlo desde el input del modal
-
+          presupuestoDisponibleMostrar.innerText = `$${calcularPresupuesto(presupuestoDisponible.value, calcularTotal(empleadosSinConfirmar)).toFixed(2)}` //3m provisorio, hay que capturarlo desde el input del modal
+          console.log("Imprimiendo empleados sin comfirmar despues de agregarlo")
+          console.log(empleadosSinConfirmar)
         })
       })
 
@@ -404,8 +412,9 @@ function impEmpleadosAContratar(array){
       
       
       }
-      console.log(arrayAsignados)
-      return arrayAsignados
+      console.log("imprimiendo empleados s/confirmar cuando cierra la funcion impempleadoacontratar")
+      console.log(empleadosSinConfirmar)
+      return empleadosSinConfirmar
 }
 
 function imprimirContratos(array){

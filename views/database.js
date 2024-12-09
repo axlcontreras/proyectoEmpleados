@@ -12,3 +12,5 @@ const getConnection = async () => await connection
 module.exports={
     getConnection
 }
+
+//este archivo se crea para exportar el metod getConnection 

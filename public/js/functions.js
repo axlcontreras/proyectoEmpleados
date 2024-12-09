@@ -30,6 +30,11 @@ function asignarContrato(arrayEmpleadosEnContrato, arrayEmpleadosCargados){
     })
 }
 
+function buscarIndex(array, id){
+    let index = array.findIndex(empleado=>empleado.id == id)
+    return index
+  }
+
 //-------------------------------------------------------------------------------------------------------
 
 //Funciones para cargar desde STORAGE

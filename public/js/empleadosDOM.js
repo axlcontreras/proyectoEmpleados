@@ -317,6 +317,7 @@ function cargarEmpleado(){
       duration: 1500
       
       }).showToast();
+    tablaEmpleados.innerHTML = ""
     imprimiendoEmpleados()
 }
 
@@ -354,6 +355,9 @@ function validarAntiguedad(){
   return antiguedad
 }
 
+//funciones (ex Functions)
+
+
 
 
 
@@ -370,7 +374,7 @@ function imprimiendoEmpleados(array){
             
 `
 //.then() para manipular el fetch(el fetch nos devuelve una promesa)
-  cargarEmpleadosAsync(empleadosDB).then((array)=>{
+    cargarEmpleadosAsync(empleadosDB).then((array)=>{
     spinnerCargaEmpleados.innerHTML = ""
     imprimirEmpleados(array)
   })
