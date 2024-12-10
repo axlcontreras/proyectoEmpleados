@@ -46,7 +46,7 @@ function iniciarContrato(array){
               <div class="row">
                 <div class="col">
                   Presupuesto disponible
-                  <input class="form-control" id="presupuestoDisponible" value="2000000" type="number">
+                  <input class="form-control" id="presupuestoDisponible" value="10000000" type="number">
                 </div>
               </div>
             </div>
@@ -66,10 +66,9 @@ function iniciarContrato(array){
     //capturamos valor de empresa 
     empresaIniciar = (document.getElementById("selectEmpresa")) //por ahora seleccionamos una empresa hardcodeada
     presupuestoDisponible = (document.getElementById("presupuestoDisponible"))
-    console.log(presupuestoDisponible.value)
     // let empresaIniciar = selectEmpresa.value
       contratacion.innerHTML=`
-            <div class="container pt-2 mt-3 mb-3" id="contratacion" style="color: black; background-color: white; border-style: solid; border-color: rgb(253, 123, 123);">
+            <div class="container pt-2 mt-3 mb-3" id="contratacion" style="color: black; background-color: white;">
         <div class="row">
           <div class="col d-flex justify-content-end" id="btnCerrarContrato" data-bs-target="#modalCancelarContrato" data-bs-toggle="modal">
             <button class="btn btn-danger"> X </button>
@@ -118,22 +117,31 @@ function iniciarContrato(array){
         <div class="">
           <div class="row">
             <div class="col">
-              <h3 style="color: red;">Presupuesto Disponible:</h3>
+              <h3 style="color: rgb(238, 59, 21);">Presupuesto Disponible:</h3>
             </div>
             <div class="col d-flex justify-content-center">
-              <h3 id="presupuestoDisponibleMostrar" style="color: red;">$${Number((presupuestoDisponible.value)).toFixed(2)}</h3>
+              <h3 id="presupuestoDisponibleMostrar" style="color: rgb(238, 59, 21);">$${Number((presupuestoDisponible.value)).toFixed(2)}</h3>
             </div>
           </div>
         </div>
 
+        <div class="">
+          <div class="row">
+            <div class="col d-flex justify-content-center">
+              <h6 id="presupuestoError" style="color: red;" hidden=true>Presupuesto insuficiente, por favor revise el contrato o inicie otro contrato con un presupuesto diferente</h6>
+            </div>
+          </div>
+        </div>
+        
+        <div>
         <div class="row pb-3 pt-5">
           <div class="col d-grid gap-2 col-4 mx-auto">
             <button class="btn btn-dark" id="agregarEmpleadoAlContrato" data-bs-toggle="modal" data-bs-target="#modalVerEmpleados">Añadir Empleado</button>
-            
           </div>
           <div class="col d-grid gap-2 col-4 mx-auto">
             <button class="btn btn-outline-danger" id="btnConfirmarContrato">Confirmar Contrato</button>
           </div>
+        </div>
         </div>
       </div>`
 
@@ -187,13 +195,12 @@ function iniciarContrato(array){
          </div>
       </div>`
 
-      cargarEmpleadosAsync(empleadosDB).then((array)=>{
-
-        arrayAsignados = impEmpleadosAContratar(empleadosDB)
+      cargarEmpleadosNoEfectivos(empleadosNoEfectivos).then((array)=>{
+          arrayAsignados = impEmpleadosAContratar(empleadosNoEfectivos)
       })
       
       
-      //confirmar el 'cancelar contrato'
+      //Confirmación del CANCELAR CONTRATO
       
       btnAceptarCancelarContrato.addEventListener("click", ()=>{
         contratacion.innerHTML=""
@@ -219,30 +226,24 @@ function iniciarContrato(array){
               }
           })
           console.log(res)
-          if(res.ok){
+            if(res.ok){
               console.log(`Se creo contrato exitosamente`);
-              
+              Swal.fire({
+                position: "top",
+                icon: "success",
+                title: "Se ha creado contrato exitosamente",
+                confirmButtonColor: "#d33",
+                showConfirmButton: true,
+                timer: 3000
+              });;
+              contratacion.innerHTML = `<div class="container pt-2 mt-3 mb-3" id="contratacion">
+              </div>`
+              btnsContrataciones.removeAttribute("hidden")
           }
       }else{
-        console.error("No se aplicaran cambios en la base de datos, revise el contrato")
+          console.error("No se aplicaran cambios en la base de datos, revise el contrato")
       }
-        // arrayContrato.push(contrato) //se creo para duplicar la informacion de contrato por error de circular structure con empresas
-        // empresaIniciar.contratos.concat(arrayContrato) //se aplicará cuando esten cargadas las empresas
-        //buscar todos los empleado que esten el arraycontrataciones y arrayempelados y asignarle contratado = true
-        actualizarEstadoTrue(contrato.empleadosAsignados, arrayEmpleados)
-        localStorage.setItem("contratosCargados", JSON.stringify(arrayContrataciones))
-        // arrayAsignados.length = 0; //vaciamos el array asi no duplica la info si creamos otro contrato
-        Swal.fire({
-          position: "top",
-          icon: "success",
-          title: "Se ha creado contrato exitosamente",
-          confirmButtonColor: "#d33",
-          showConfirmButton: true,
-          timer: 3000
-        });;
-        contratacion.innerHTML = `<div class="container pt-2 mt-3 mb-3" id="contratacion">
-        </div>`
-        btnsContrataciones.removeAttribute("hidden")
+        
       })
 
 
@@ -274,16 +275,19 @@ function impEmpleadosAContratar(array){
         tablaEmpleadosAgregar.append(trNuevoEmpleado)
         })
 
+
+          //BOTON AGREGAR EMPLEADO
+
           //capturamos el boton agregar del empleado que necesitamos, tambien el value del input sobre la cantidad de horas.
           //se puede crear un default (160hs)para cuando no se haya ingresado nada en el input 
         array.forEach((empleado)=>{
         let btnAgregar = document.getElementById(`btnAgregar${empleado.id}`)
         let inputCantHoras = document.getElementById(`inputCantHoras${empleado.id}`)
         btnAgregar.addEventListener("click", ()=>{
+          
           //actualizamos valores de empleado y lo pusheamos al array
           empleado.cantHoras = inputCantHoras.value
           empleado.sueldoMensual = empleado.calcularSueldoMensual()
-          empleado.contratado = true
           empleadosSinConfirmar.push(empleado)
           //capturamos la fila y la ocultamos asi no se puede agregar 2 veces
           let filaEmpleadoModal = document.getElementById(`filaEmpleadoModal${empleado.id}`)
@@ -295,9 +299,14 @@ function impEmpleadosAContratar(array){
           //actualizar presupuesto
           let presupuestoDisponible = document.getElementById(`presupuestoDisponible`)
           let presupuestoDisponibleMostrar = document.getElementById(`presupuestoDisponibleMostrar`)
-          presupuestoDisponibleMostrar.innerText = `$${calcularPresupuesto(presupuestoDisponible.value, calcularTotal(empleadosSinConfirmar)).toFixed(2)}` //3m provisorio, hay que capturarlo desde el input del modal
-          console.log("Imprimiendo empleados sin comfirmar despues de agregarlo")
-          console.log(empleadosSinConfirmar)
+          presupuestoDisponibleMostrar.innerText = `$${calcularPresupuesto(presupuestoDisponible.value, calcularTotal(empleadosSinConfirmar)).toFixed(2)}` //3m provisorio, hay que //desactivamos boton de confirmar si presupuesto es menor que total
+          if(presupuestoDisponible.value < calcularTotal(empleadosSinConfirmar)){
+            btnConfirmarContrato.setAttribute("disabled", "true")
+            //tenemos que dejar un mensaje de porque no nos deja
+            //capturo el div con el mje
+            presupuestoError = document.getElementById("presupuestoError")
+            presupuestoError.removeAttribute("hidden")
+          }
         })
       })
 
@@ -400,6 +409,13 @@ function impEmpleadosAContratar(array){
                   //tambien se cambia valor de presupuesto disponible
                   let presupuestoDisponibleMostrar = document.getElementById(`presupuestoDisponibleMostrar`)
                   presupuestoDisponibleMostrar.innerText = `$${calcularPresupuesto(presupuestoDisponible.value, calcularTotal(array)).toFixed(2)}` //3m provisorio, hay que capturarlo desde el input del modal
+                  if(presupuestoDisponible.value > calcularTotal(empleadosSinConfirmar)){
+                    btnConfirmarContrato.removeAttribute("disabled")
+                    //tenemos que dejar un mensaje de porque no nos deja
+                    //capturo el div con el mje
+                    presupuestoError = document.getElementById("presupuestoError")
+                    presupuestoError.setAttribute("hidden", "true")
+                  }
       
               })
       
@@ -408,8 +424,6 @@ function impEmpleadosAContratar(array){
       
       
       }
-      console.log("imprimiendo empleados s/confirmar cuando cierra la funcion f() impempleadoacontratar")
-      console.log(empleadosSinConfirmar)
       return empleadosSinConfirmar
 }
 

@@ -65,22 +65,28 @@
         </div>
       </div>
 
-      <div id="contacto" class="d-flex align-items-center" >
-        <h1>contacto form</h1>
+      <div id="contacto" class="d-flex justify-content-center p-5">
 
-        <form action="/cargarInfo2" method="post">
-          DNI: 
-          <input type="text" name="dni" id="dni"><br><br>
-          NOMBRE: 
-          <input type="text" name="nombre" id="nombre"><br><br>
-          APELLIDO:
-          <input type="text" name="apellido" id="apellido"><br><br>
-          CORREO:
-          <input type="email" name="correo" id="correo"><br><br>
-          CONTRASEÑA:
-          <input type="password" name="contraseña" id="contraseña"><br><br>
+        <form action="/cargarInfo2" method="post" style="width: 70%;" >
+          <h1>CONTACTO</h1>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Nombre y Apellido</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Ingrese nombre">
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput2" class="form-label">Telefono</label>
+            <input type="email" class="form-control" id="exampleFormControlInput2" placeholder="ingrese telefono">
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput3" class="form-label">Email</label>
+            <input type="email" class="form-control" id="exampleFormControlInput3" placeholder="name@example.com">
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Descripción</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
 
-          <input type="submit" value="REGISTRAR"> 
+          <input type="submit" class="btn btn-danger" value="ENVIAR"> 
          </form>
       </div>
     </main>
@@ -111,7 +117,7 @@
           <div class="col-xs-12 col-md-6 col-lg-3">
               <p class="h5">Para empresas</p>
               <div>
-                <a class="text-white text-decoration-none" href="#">Contactanos</a>
+                <a class="text-white text-decoration-none" href="#contacto">Contactanos</a>
               </div>
               <div>
                 <a class="text-white text-decoration-none" href="#">Partners</a>
@@ -141,7 +147,6 @@
 
     <!--JS Boostrap-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="../js/utilitiesbs.js"></script>
 
     <!-- <script src="DOMTeoria.js"></script> -->
 </body>

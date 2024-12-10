@@ -1,4 +1,4 @@
-//***************CAPTURAS DEL DOM********************/
+//************************************CAPTURAS DEL DOM**********************/
 let tablaEmpleados = document.getElementById("tablaEmpleados")
 let busqueda = document.getElementById("busqueda")
 let coincidencias = document.getElementById("coincidencias")
@@ -9,14 +9,14 @@ let modalEditarEmpleado = document.getElementById("modalEditarEmpleado")
 let modalBorrarEmpleado = document.getElementById("modalBorrarEmpleado")
 let spinnerCargaEmpleados = document.getElementById(`spinnerCargaEmpleados`)
 
-//Capturas del input Cargar empleado
-let nombreInput = document.getElementById("nombreInput") //sin uso actualmente chequear para borrar!!
+//Capturas del input Cargar empleado (//sin uso actualmente chequear para borrar!!)
+let nombreInput = document.getElementById("nombreInput") 
 let apellidoInput = document.getElementById("apellidoInput")
 let antiguedadInput = document.getElementById("antiguedadInput")
 let ciudadInput = document.getElementById("ciudadInput")
 
 
-//***************FUNCIONES*****************/
+//**********************************FUNCTIONS*******************************/
 
 //funcion IMPRIMIR
 function imprimirEmpleados(array){
@@ -52,7 +52,10 @@ function imprimirEmpleados(array){
         array.forEach((empleado)=>{
 
 
-        //VER DETALLE---------------------------  
+        
+        //BOTON VER DETALLE
+
+
         //btn ver detalle -> con un modal
         //capturamos boton de ver detalle 
             let btnVerDetalle = document.getElementById(`btnVerDetalle${empleado.id}`)
@@ -75,7 +78,7 @@ function imprimirEmpleados(array){
                     <b>Antigüedad: ${empleado.antiguedad} año/s</b><br>
                     <b>Perfil: ${empleado.perfil}</b><br>
                     <b>Valor de hora: $${empleado.valorHora.toFixed(2)}.-</b><br>
-                    <b>Salario(160hs): $${(empleado.valorHora*160).toFixed(2)}.-</b><br>
+                    ${empleado.efectivo == 0 ? `<b>Salario(160hs): $${(empleado.valorHora*160).toFixed(2)}.-</b>` : `<b>Salario (${empleado.cantHoras}hs): $${(empleado.valorHora*empleado.cantHoras).toFixed(2)}.-</b>`}<br>
                     <b>Ciudad: ${empleado.ciudad}</b><br>
                     
                 </div>
@@ -83,7 +86,7 @@ function imprimirEmpleados(array){
             <div class="row d-flex pt-5">
               <div class="col d-flex justify-content-center">
                 <div>
-                    <h5><span ${empleado.contratado == true ? 'class = "badge text-bg-success"' : 'class = "badge text-bg-danger"'}>Estado: ${empleado.infoContratado()}</span></h5>
+                    <h5><span ${empleado.efectivo == 1 ? 'class = "badge text-bg-success"' : 'class = "badge text-bg-danger"'}>Estado: ${empleado.infoContratado()}</span></h5>
                 </div>
               </div>
             </div>
@@ -235,14 +238,17 @@ function imprimirEmpleados(array){
 //Funciones Buscar Empleado
 function buscarEmpleado(array,valor){
     let busqueda = array.filter((empleado)=> empleado.nombre.toLowerCase().includes(valor.toLowerCase()) || empleado.apellido.toLowerCase().includes(valor.toLowerCase()))
+    console.log(busqueda)
     switch(selectOrden.value){
         case "0":
             imprimirEmpleados(busqueda)
         break
         case "1":
+            busqueda=buscarContratados(busqueda)
             busqueda=ordenarMayorMenorSueldo(busqueda)
         break
         case "2":
+            busqueda=buscarContratados(busqueda)
             busqueda=ordenarMenorMayorSueldo(busqueda)
         break
         case "3":
@@ -251,6 +257,13 @@ function buscarEmpleado(array,valor){
         case "4":
             busqueda=ordenarAlfaZa(busqueda)
         break
+        case "5":
+            busqueda=ordenarMayorHoras(busqueda)
+        break
+        case "6":
+            busqueda=ordenarMenorHoras(busqueda)
+        break
+
     }
     //CONDICIONAL COINCIDENCIAS
     if(busqueda.length == 0){
@@ -266,8 +279,16 @@ function buscarEmpleado(array,valor){
 //Funciones Ordenar Empleado
 function ordenarMenorMayorSueldo(array){
     let arrayMenorMayor = [].concat(array)
-    arrayMenorMayor.sort((a,b)=>a.sueldoTotal - b.sueldoTotal)
-    imprimirEmpleados(arrayMenorMayor)    
+    arrayMenorMayor.sort((a,b)=>a.sueldoMensual - b.sueldoMensual)
+    imprimirEmpleados(arrayMenorMayor)
+    return arrayMenorMayor    
+}
+
+function ordenarMayorMenorSueldo(array){
+    let arrayMayorMenor = [].concat(array)
+    arrayMayorMenor.sort((b,a)=>a.sueldoMensual - b.sueldoMensual)
+    imprimirEmpleados(arrayMayorMenor)
+    return arrayMayorMenor
 }
 
 function ordenarAlfaAz(array){
@@ -283,12 +304,6 @@ function ordenarAlfaAz(array){
     imprimirEmpleados(arrayAlfabetico)
 }
 
-function ordenarMayorMenorSueldo(array){
-    let arrayMenorMayor = [].concat(array)
-    arrayMenorMayor.sort((b,a)=>a.sueldoTotal - b.sueldoTotal)
-    imprimirEmpleados(arrayMenorMayor)
-}
-
 function ordenarAlfaZa(array){
     let arrayAlfabetico = [].concat(array)
     arrayAlfabetico.sort((b, a)=>{
@@ -302,9 +317,29 @@ function ordenarAlfaZa(array){
     imprimirEmpleados(arrayAlfabetico)
 }
 
+function ordenarMayorHoras(array){
+  let arrayMayorHoras = [].concat(array)
+  arrayMayorHoras.sort((b,a)=>a.valorHora - b.valorHora)
+  imprimirEmpleados(arrayMayorHoras)
+  return arrayMayorHoras    
+}
+
+function ordenarMenorHoras(array){
+  let arrayMenorHoras = [].concat(array)
+  arrayMenorHoras.sort((a,b)=>a.valorHora - b.valorHora)
+  imprimirEmpleados(arrayMenorHoras)
+  return arrayMenorHoras
+}
+
+//funcion para filtar solo contratados
+function buscarContratados(array){
+    let filtro = array.filter((empleado) => empleado.efectivo == 1)
+    return filtro
+}
 
 
-//cargar empleado
+
+//Funcion para iniciar un nuevo empleado
 function cargarEmpleado(){
   Toastify({
 
@@ -355,15 +390,13 @@ function validarAntiguedad(){
   return antiguedad
 }
 
-//funciones (ex Functions)
 
 
 
 
 
 
-
-function imprimiendoEmpleados(array){
+function imprimiendoEmpleados(array){ //se agrega un spinner para la carga de empleados
   tablaEmpleados.innerHTML=""
   spinnerCargaEmpleados.innerHTML=`
           <div class="container d-flex justify-content-center m-5" id="spinnerCargaEmpleados">
@@ -376,7 +409,7 @@ function imprimiendoEmpleados(array){
 //.then() para manipular el fetch(el fetch nos devuelve una promesa)
     cargarEmpleadosAsync(empleadosDB).then((array)=>{
     spinnerCargaEmpleados.innerHTML = ""
-    imprimirEmpleados(array)
+    imprimirEmpleados(empleadosDB)
   })
   .catch()
 }
@@ -386,10 +419,10 @@ function imprimiendoEmpleados(array){
 
 
 
-//****************EVENTOS***************/
+//*********************************EVENTS*************************************/
 //oninput es = cada vez que cambie el valor de input 
 busqueda.oninput = ()=>{ 
-    let filterArray = buscarEmpleado(empleadosDB,busqueda.value)
+    let filterArray = buscarEmpleado(empleadosDB, busqueda.value)
     imprimirEmpleados(filterArray)
 }
 
@@ -406,7 +439,7 @@ btnCargarEmpleado.addEventListener("click", ()=>{
 
 
 
-//**************CODIGO******************/
+//*********************************CODE************************************/
 
 imprimiendoEmpleados(empleadosDB)
 

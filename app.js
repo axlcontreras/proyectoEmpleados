@@ -11,14 +11,6 @@ const database = require ("./views/database")
 
 const cors = require("cors") 
 
-// let mysql = require("mysql")
-//     const dataBase = mysql.createConnection({ 
-//     host: "localhost",
-//     database: "proyectoempleados",
-//     user: "root",
-//     password: ""
-// }) 
-
 
 //use para poder tomar los datos --tambien esta la opcion de usar bodyParser
 app.use(express.json())
@@ -73,10 +65,15 @@ app.post("/cargarEmpleado", function(req, res){
 
     
 app.post("/contrataciones/confirmar", async(req, res)=>{
+        const connection = await database.getConnection();
+        let contrato = req.body; //capturamos el body para obtener el numero de contrato y asignarlo a los empleados
+        let empleadosEfectivizar = req.body.empleadosAsignados; //Lo capturamos de esta manera porque req.body nos devuelve arraycontrat
+        console.log(empleadosEfectivizar)
+        actualizarEfectivos(empleadosEfectivizar, contrato.id);
+
         if(req.body && req.body.length > 0){
             return res.sendStatus(400)
         }
-        console.log("cargo algo")
         res.sendStatus(200)
 })
 
@@ -97,10 +94,16 @@ app.get("/empleadosDB", async  (req, res)=>{
             const connection = await database.getConnection()
             const result = await connection.query(`select * from empleados`)
             res.json(result)
-            console.log(result)
-
         }
-    // return resultado
+)
+
+//.get para traernos todos los empleados que no esten contratados
+app.get("/empleadosNoEfectivos", async  (req, res)=>{
+            const connection = await database.getConnection()
+            const result = await connection.query(`select * from empleados where efectivo = "0"`)
+            res.json(result)
+            console.log(result)
+        }
 )
 
 
@@ -122,17 +125,38 @@ function consulta(instruccion){
     )
 }
 
-function actualizarEmpleado(actualizar, id){
-    connection.query(
-        actualizar, (fail, info)=>{
-            if (fail){
-                throw fail
+async function actualizarEfectivos(array, idContrato){
+    const connection = await database.getConnection();
+    for(let empleado of array){
+        const actualizar = `UPDATE empleados SET efectivo = '1' WHERE empleados.id = ${empleado.id};`
+        const asignarContrato = `UPDATE empleados SET contrato = ${idContrato} WHERE empleados.id = ${empleado.id}`
+        const actualizarHoras = `UPDATE empleados SET horas = ${empleado.cantHoras} WHERE empleados.id = ${empleado.id}`
+        connection.query(actualizar, (err, info)=>{
+                if (err){
+                    throw err
+                }else{
+                    console.log(`Se aplicará:  ${actualizar} en empleado ${empleado.id}`)
+                    console.log(info)
+                }
+        })
+        connection.query(asignarContrato, (err, info)=>{
+            if (err){
+                throw err
             }else{
-                console.log(`Se aplicará una intruccion de actualizar: ${actualizar} en empleado ${id}`)
+                console.log(`Se aplicará:  ${asignarContrato} en empleado ${empleado.id}`)
                 console.log(info)
             }
-        }
-    )
+        })
+        connection.query(actualizarHoras, (err, info)=>{
+            if (err){
+                throw err
+            }else{
+                console.log(`Se aplicará:  ${actualizarHoras} en empleado ${empleado.id}`)
+                console.log(info)
+            }
+        })
+
+    }
 }
 
 async function insertarEmpleado(nombre, apellido, antiguedad, ciudad){

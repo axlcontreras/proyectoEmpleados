@@ -90,3 +90,20 @@ ENTREGA DE TP final
 
 agregar la validacion de contratado si o no? 
 si hay tiempo tambien validar el tema de la ciudad con la empresa(No creamos las empresas todavia)
+
+
+Martes 10/12
+
+Tareas a realizar para entrega final: 
+
+>>>Configurar la como se muestra la información de estado contratado en 'VER DETALLES' : Realizado! <<<
+>>>Asignar Empresa y Cantidad de horas al empleado contratado: Realizado! <<<
+>>>Comprobar que sucede despues de agregar otro empleado (DOM Empleados):
+>>>No funciona el ordenar: Realizado!<<<
+>>>Creando filtro para ordenar sueldos a solo contratados, y crear ordenar por cant de horas: Realizado!<<<
+>>>Modo oscuro:
+>>>Ajustar contacto en index: Realizado! <<<
+>>>Poder editar empleado (imposibilitar esta opción si empleado está contratado):
+>>>Poder Eliminar empleado (imposibilitar esta opción si empleado está contratado):
+>>>Imposibilitar si presupuesto disponible es menor que el total(desactivar boton de confirmar y dar una advertencia): Realizado!<<<
+>>>No funcionan el buscar y ordenar en el modal ver empleados para agregarlos al contrato: 
