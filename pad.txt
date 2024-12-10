@@ -83,3 +83,10 @@ para alerts sweetalert2.github.io
 
 EJS es un visor de vistas para que el sitio sea dinamico
 creamos carpeta 
+
+
+
+ENTREGA DE TP final
+
+agregar la validacion de contratado si o no? 
+si hay tiempo tambien validar el tema de la ciudad con la empresa(No creamos las empresas todavia)

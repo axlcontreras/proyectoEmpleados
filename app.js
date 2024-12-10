@@ -76,6 +76,7 @@ app.post("/contrataciones/confirmar", async(req, res)=>{
         if(req.body && req.body.length > 0){
             return res.sendStatus(400)
         }
+        console.log("cargo algo")
         res.sendStatus(200)
 })
 

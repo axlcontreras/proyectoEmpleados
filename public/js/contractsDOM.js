@@ -61,7 +61,7 @@ function iniciarContrato(array){
     //ver ventana de contratacion
     let btnIniciarContrato = document.getElementById(`btnIniciarContrato`)
     let btnsContrataciones = document.getElementById(`btnsContrataciones`)
-    btnIniciarContrato.addEventListener("click", ()=>{
+    btnIniciarContrato.addEventListener("click", ()=> {
     btnsContrataciones.setAttribute("hidden", "true")
     //capturamos valor de empresa 
     empresaIniciar = (document.getElementById("selectEmpresa")) //por ahora seleccionamos una empresa hardcodeada
@@ -188,9 +188,8 @@ function iniciarContrato(array){
       </div>`
 
       cargarEmpleadosAsync(empleadosDB).then((array)=>{
-        arrayAsignados = impEmpleadosAContratar(array)
-        console.log(`Imprimiendo empleados cuando lo capturamos`)
-        console.log(arrayAsignados)
+
+        arrayAsignados = impEmpleadosAContratar(empleadosDB)
       })
       
       
@@ -206,10 +205,7 @@ function iniciarContrato(array){
         
       btnConfirmarContrato.addEventListener("click", async()=>{
         //creamos el objeto contratacion
-        console.log("imprimiendo empleados cuando le damos al boton de confirmar")
-        console.log(arrayAsignados)
-        let empleadosConfirmados = await arrayAsignados
-        const contrato = new Contratacion(idIniciar, empresaIniciar.value, Number(presupuestoDisponible.value), empleadosConfirmados)
+        const contrato = new Contratacion(idIniciar, empresaIniciar.value, Number(presupuestoDisponible.value), arrayAsignados)
         contrato.presupuestoTotal = calcularTotal(contrato.empleadosAsignados)
         contrato.fechaContrato = fechaIniciar
         arrayContrataciones.push(contrato)
@@ -228,16 +224,16 @@ function iniciarContrato(array){
               
           }
       }else{
-        console.error("No estamos entrando en el if del post")
+        console.error("No se aplicaran cambios en la base de datos, revise el contrato")
       }
         // arrayContrato.push(contrato) //se creo para duplicar la informacion de contrato por error de circular structure con empresas
         // empresaIniciar.contratos.concat(arrayContrato) //se aplicará cuando esten cargadas las empresas
         //buscar todos los empleado que esten el arraycontrataciones y arrayempelados y asignarle contratado = true
         actualizarEstadoTrue(contrato.empleadosAsignados, arrayEmpleados)
         localStorage.setItem("contratosCargados", JSON.stringify(arrayContrataciones))
-        arrayAsignados.length = 0; //vaciamos el array asi no duplica la info si creamos otro contrato
+        // arrayAsignados.length = 0; //vaciamos el array asi no duplica la info si creamos otro contrato
         Swal.fire({
-          position: "top-center",
+          position: "top",
           icon: "success",
           title: "Se ha creado contrato exitosamente",
           confirmButtonColor: "#d33",
@@ -412,7 +408,7 @@ function impEmpleadosAContratar(array){
       
       
       }
-      console.log("imprimiendo empleados s/confirmar cuando cierra la funcion impempleadoacontratar")
+      console.log("imprimiendo empleados s/confirmar cuando cierra la funcion f() impempleadoacontratar")
       console.log(empleadosSinConfirmar)
       return empleadosSinConfirmar
 }
@@ -467,6 +463,6 @@ btnIniciarContrat.addEventListener("click", ()=>{
 })
 
 btnVerContrataciones.addEventListener("click", ()=>{
-  imprimirContratos(arrayContrataciones)
+    imprimirContratos(arrayContrataciones)
 })
 
