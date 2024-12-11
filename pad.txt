@@ -98,12 +98,12 @@ Tareas a realizar para entrega final:
 
 >>>Configurar la como se muestra la información de estado contratado en 'VER DETALLES' : Realizado! <<<
 >>>Asignar Empresa y Cantidad de horas al empleado contratado: Realizado! <<<
->>>Comprobar que sucede despues de agregar otro empleado (DOM Empleados):
+>>>Comprobar que sucede despues de agregar otro empleado (DOM Empleados) y de actualizar = problemas con reenvio de formulario
 >>>No funciona el ordenar: Realizado!<<<
 >>>Creando filtro para ordenar sueldos a solo contratados, y crear ordenar por cant de horas: Realizado!<<<
 >>>Modo oscuro:
 >>>Ajustar contacto en index: Realizado! <<<
->>>Poder editar empleado (imposibilitar esta opción si empleado está contratado):
->>>Poder Eliminar empleado (imposibilitar esta opción si empleado está contratado): se puede deshabilitar los botones y cuando se presiona tirar un tosti
+>>>Poder editar empleado (imposibilitar esta opción si empleado está contratado): Realizado!<<<
+>>>Poder Eliminar empleado (imposibilitar esta opción si empleado está contratado): Realizado!<<<
 >>>Imposibilitar si presupuesto disponible es menor que el total(desactivar boton de confirmar y dar una advertencia): Realizado!<<<
->>>No funcionan el buscar y ordenar en el modal ver empleados para agregarlos al contrato: 
+>>>No funcionan el buscar y ordenar en el modal ver empleados para agregarlos al contrato:  

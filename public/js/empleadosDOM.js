@@ -174,6 +174,7 @@ function imprimirEmpleados(array){
   
           let btnBorrar = document.getElementById(`btnBorrar${empleado.id}`)
           btnBorrar.addEventListener("click", ()=>{
+            
             Swal.fire({
               title: `Eliminando empleado`,
               text: `Esta seguro que desea eliminar empleado ${empleado.nombre.toUpperCase()} ${empleado.apellido.toUpperCase()} con ID: ${empleado.id}?`,
@@ -182,29 +183,43 @@ function imprimirEmpleados(array){
               confirmButtonColor: "#ff1d00",
               cancelButtonColor: "#4d4747",
               confirmButtonText: "Eliminar"
-            }).then((result) => {
+            }).then( async (result) => {
               if (result.isConfirmed) {
-                borrarEmpleado(empleado)
+                if (empleado.efectivo == 0){
+                  const res = await fetch("http://localhost:3000/eliminarEmpleado",
+                    {
+                        method: "POST",
+                        body: JSON.stringify(empleado), //en este parentesis enviamos a eliminarempleado el empleado seleccionado
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    console.log(res)
+                    Swal.fire({
+                      title: "Eliminado",
+                      text: "Se ha elimado empleado correctamente",
+                      icon: "success",
+                      confirmButtonColor: "#ff1d00"
+                    });
+                    setTimeout(()=>{
+                      location.reload(); //reload para recargar pagina y mostrar los cambios
+                    }, 1500)
+                    
+                }else{
+                  Swal.fire({
+                    title: "Error",
+                    text: "No se ha podido eliminar empleado",
+                    icon: "error",
+                    confirmButtonColor: "#4d4747"
+                  });
+
+                }
               
-                Swal.fire({
-                  title: "Eliminado",
-                  text: "Se ha elimado empleado correctamente",
-                  icon: "success",
-                  confirmButtonColor: "#ff1d00"
-                });
               }
             });
           })
 
         })
-        
-        function borrarEmpleado(empleado){
-          let index = buscarIndex(array,empleado.id)
-              array.splice(index, 1)
-              let filaEmpleado = document.getElementById(`filaEmpleado${empleado.id}`)
-              localStorage.setItem("empleadosCargados", JSON.stringify(array))
-              filaEmpleado.remove()
-        }
 
 }
 

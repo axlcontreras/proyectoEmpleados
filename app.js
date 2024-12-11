@@ -2,29 +2,33 @@
 
 //importamos libreria
 const express = require("express")
-//se crea un objeto app 
 const app = express()
-// console.log(app)
-
-
-const database = require ("./views/database")
-
+const database = require ("./config/database")
 const cors = require("cors") 
 
 
 //use para poder tomar los datos --tambien esta la opcion de usar bodyParser
 app.use(express.json())
-app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({extended:false})) //no sirve para contener los datos que recibimos desde html
+app.set("view engine", "ejs"); //permitir utilizar el motor de vistas
+app.use(express.static('public')); //public es la carpeta en la cual estarian todos los archivos html, js, etc
+
+
+//**********************ROUTES**********************************
+app.use(require("./routes/index"));
+app.use(require("./routes/empleados"));
+// app.use(require("./routes/cargarEmpleado"));
+
 
 //0btener una ruta
 //dos parametros, una ruta y una function
-app.get("/", function(req, res){
-    res.render("index")    //.send nos permite mostrar en el html
-})
+// app.get("/", function(req, res){
+//     res.render("index")    //.send nos permite mostrar en el html
+// })
  
-app.get("/empleados", (req, res)=>{
-    res.render("empleados")
-})
+// app.get("/empleados", (req, res)=>{
+//     res.render("empleados")
+// })
 
 app.get("/contratos", (req, res)=>{
     res.render("contrataciones")
@@ -34,9 +38,8 @@ app.get("/empresas", (req, res)=>{
     res.render("empresas")
 })
 
-app.use(express.static('public')); //public es la carpeta en la cual estarian todos los archivos html, js, etc
-//permitir utilizar el motor de vistas
-app.set("view engine", "ejs")
+
+
 
 
 //usar metodo para form de index
@@ -46,24 +49,24 @@ app.post("/cargarInfo2", function(req, res){
     console.log(datos)
 })
 
-app.post("/cargarEmpleado", function(req, res){
+// app.post("/cargarEmpleado", async function(req, res){
 
-            const datoNuevoEmpleado = req.body
-            let nombre = datoNuevoEmpleado.nombre
-            console.log(nombre)
-            let apellido = datoNuevoEmpleado.apellido
-            console.log(apellido)
-            let antiguedad = datoNuevoEmpleado.antiguedad
-            console.log(antiguedad)
-            let ciudad = datoNuevoEmpleado.ciudad
-            console.log(ciudad)
-            insertarEmpleado(nombre,apellido,antiguedad,ciudad)
- 
-    
-        }
-    )
+//             const datoNuevoEmpleado = req.body
+//             let nombre = datoNuevoEmpleado.nombre
+//             console.log(nombre)
+//             let apellido = datoNuevoEmpleado.apellido
+//             console.log(apellido)
+//             let antiguedad = datoNuevoEmpleado.antiguedad
+//             console.log(antiguedad)
+//             let ciudad = datoNuevoEmpleado.ciudad
+//             console.log(ciudad)
+//             // insertarEmpleado(nombre,apellido,antiguedad,ciudad)
+//             res.render("empleados", ) //de esta manera se cargan todos los empleados.
+            
+//         }
+//     )
 
-app.post("/actualizarEmpleado", function(req, res){
+app.post("/actualizarEmpleado", async function(req, res){
 
     const datosActualesEmpleado = req.body
     console.log(datosActualesEmpleado)
@@ -78,8 +81,15 @@ app.post("/actualizarEmpleado", function(req, res){
     let ciudad = datosActualesEmpleado.ciudad
     console.log(ciudad)
     actualizarEmpleado(nombre, apellido, antiguedad, ciudad, id)
+       
+    res.render("empleados")
+}) 
 
-})    
+app.post("/eliminarEmpleado", async function (req, res) {
+    const empleado = req.body
+    eliminarEmpleado(empleado.id, res)
+    
+})
     
 app.post("/contrataciones/confirmar", async(req, res)=>{
         const connection = await database.getConnection();
@@ -129,7 +139,7 @@ app.get("/empleadosNoEfectivos", async  (req, res)=>{
 
 
 
-//********************************conexion BD *******************/
+//********************************FUNCIONES *******************/
 
 //funcion que retorna si el empleado esta efectivo o no
 function consultaEfectivo(id){
@@ -184,17 +194,24 @@ async function actualizarEfectivos(array, idContrato){
     }
 }
 
-async function insertarEmpleado(nombre, apellido, antiguedad, ciudad){
-    const connection = await database.getConnection()
-    const insert = `INSERT INTO empleados (nombre, apellido, antiguedad, ciudad, efectivo) VALUES ("${nombre}", "${apellido}", "${antiguedad}", "${ciudad}", "0")`
-    connection.query(insert, function(err, resultado){
-        if (err){
-            throw err
-        }else{
-            console.log(resultado)
-        }
-    })
-}
+// async function insertarEmpleado(nombre, apellido, antiguedad, ciudad){
+//     const connection = await database.getConnection()
+//     const insert = `INSERT INTO empleados (nombre, apellido, antiguedad, ciudad, efectivo) VALUES ("${nombre}", "${apellido}", "${antiguedad}", "${ciudad}", "0")`
+//     connection.query(insert, function(err, resultado){
+//         if (err){
+//             throw err
+//         }else{
+//             console.log(resultado)
+//         }
+//     })
+//     connection.query("SELECT * FROM empleados", (error, data)=>{
+//         if(error){
+//             throw error
+//         }else{
+//             console.log(data)
+//         }
+//     })
+// }
 
 async function actualizarEmpleado(nombre, apellido, antiguedad, ciudad, id){
     const connection = await database.getConnection()
@@ -206,7 +223,38 @@ async function actualizarEmpleado(nombre, apellido, antiguedad, ciudad, id){
             console.log(resultado)
         }
     })
+    connection.query("SELECT * FROM empleados", (error, data)=>{
+        if(error){
+            throw error
+        }else{
+            console.log(data)
+        }
+    })
 }
+
+async function eliminarEmpleado(id, res){
+    const connection = await database.getConnection()
+    const del = `DELETE FROM empleados WHERE empleados.id = ${id}`
+    connection.query(del, function(err, resultado){
+        if (err){
+            throw err
+        }else{
+            console.log(`Aplicando: ${del}`)
+            console.log(resultado)
+            res.redirect("http://localhost:3000/empleados")
+        }
+    })
+    connection.query("SELECT * FROM empleados", (error, data)=>{
+        if(error){
+            throw error
+        }else{
+            console.log("obteniendo data de from empleados")
+        }
+    })
+    
+}
+
+
 
 
 
