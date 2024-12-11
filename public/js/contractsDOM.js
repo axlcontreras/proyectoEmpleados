@@ -128,7 +128,7 @@ function iniciarContrato(array){
         <div class="">
           <div class="row">
             <div class="col d-flex justify-content-center">
-              <h6 id="presupuestoError" style="color: red;" hidden=true>Presupuesto insuficiente, por favor revise el contrato o inicie otro contrato con un presupuesto diferente</h6>
+              <h6 id="presupuestoError" style="color: red;" hidden=true>Presupuesto insuficiente, por favor revise el contrato o inicie uno nuevo con un presupuesto diferente</h6>
             </div>
           </div>
         </div>
@@ -472,6 +472,7 @@ function calcularPresupuesto(presupuesto ,total){
 
 }
 
+//****************************EVENTOS*****************/
 btnIniciarContrat.addEventListener("click", ()=>{
     iniciarContrato(arrayContrataciones)
 })

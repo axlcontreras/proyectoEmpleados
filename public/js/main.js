@@ -165,7 +165,7 @@ class EmpresaCliente{ //Sin desarrollar el ejs
     }
 }
 
-class Contratacion{
+class Contratacion{ //tenemos que hacer la tabla en db
     constructor(id, empresa, fondos, arrayContratados){
         this.id = id,
         this.fechaContrato = ""

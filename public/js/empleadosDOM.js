@@ -102,35 +102,39 @@ function imprimirEmpleados(array){
         
         
 
-            //EDITAR------------------------------
-        //btn editar -> un modal
+            //BOTON EDITAR
+            //btn editar -> ABRE un modal 
             let btnEditar = document.getElementById(`btnEditar${empleado.id}`)
             btnEditar.addEventListener("click", ()=>{
             modalEditarEmpleado.innerHTML=`
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="editarEmpleado">Editando empleado ID:${empleado.id} | ${empleado.nombre} ${empleado.apellido}</h1>
+                  <h1 class="modal-title fs-5" id="editarEmpleado">Editar empleado</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <form id="formEditarEmpleado">
-                    <div class="mb-3">
-                      <label for="nombreInputEditar" class="form-label">Nombre</label>
-                      <input type="email" class="form-control" id="nombreInputEditar" value="${empleado.nombre}">
+                  <form action = "/actualizarEmpleado" method="post" id="formEditarEmpleado">
+                  <div class="mb-3">
+                      <label for="id" class="form-label">ID</label>
+                      <input type="text" name="id" class="form-control" id="id" value="${empleado.id}" readonly>
                     </div>
                     <div class="mb-3">
-                      <label for="apellidoInputEditar" class="form-label">Apellido</label>
-                      <input type="email" class="form-control" id="apellidoInputEditar" value="${empleado.apellido}">
+                      <label for="nombre" class="form-label">Nombre</label>
+                      <input type="text" name="nombre" class="form-control" id="nombre" value="${empleado.nombre}">
                     </div>
                     <div class="mb-3">
-                      <label for="antiguedadInputEditar" class="form-label">Antigüedad</label>
-                      <input type="email" class="form-control" id="antiguedadInputEditar" value="${empleado.antiguedad}">
+                      <label for="apellido" class="form-label">Apellido</label>
+                      <input type="text" class="form-control" id="apellido" name="apellido" value="${empleado.apellido}">
+                    </div>
+                    <div class="mb-3">
+                      <label for="antiguedad"class="form-label">Antigüedad</label>
+                      <input type="number" class="form-control" id="antiguedad" name="antiguedad" value="${empleado.antiguedad}">
                     </div>
                     <div class="mb-3">
                       <label for="ciudadInputEditar" class="form-label">Ciudad</label>
-                      <select class="form-select" aria-label="Default select example" id="ciudadInputEditar">
-                        <option selected>Elija su ciudad</option>
+                      <select class="form-select" aria-label="Default select example" id="ciudad" name ="ciudad">
+                        <option value="${empleado.ciudad}"selected>${empleado.ciudad}</option>
                         <option value="CABA">CABA</option>
                         <option value="Buenos Aires">Buenos Aires</option>
                         <option value="La Plata">La Plata</option>
@@ -138,60 +142,30 @@ function imprimirEmpleados(array){
                         <option value="Santa Fe">Santa Fe</option>
                       </select>
                     </div>
-                    <div class="mb-3">
-                        <label for="formFileDisable" class="form-label">Seleccione Foto de perfil</label>
-                        <input class="form-control" type="file" id="formFileDisable">
-                    </div>
+                    
       
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarEditarEmpleado">Cerrar</button>
+                      <button type="submit" class="btn btn-dark" data-bs-dismiss="modal" id="btnEditarEmpleado">Guardar cambios</button>
+                    </div>
                   </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarEditarEmpleado">Cerrar</button>
-                  <button type="button" class="btn btn-dark" data-bs-dismiss="modal" id="btnEditarEmpleado">Guardar cambios</button>
                 </div>
               </div>
             </div>
             </div>
             `
-                    //capturamos inputs de modal editar
-        let nombreInputEditar = document.getElementById("nombreInputEditar")   
-        let apellidoInputEditar = document.getElementById("apellidoInputEditar")
-        let antiguedadInputEditar = document.getElementById("antiguedadInputEditar")
-        let ciudadInputEditar = document.getElementById("ciudadInputEditar")
-        let imagenInputEditar = document.getElementById("imagenInputEditar")
-        
-        let btnEditarEmpleado = document.getElementById("btnEditarEmpleado")
 
-        btnEditarEmpleado.addEventListener("click", ()=>{
-          //si cambia nombre o apellido actualizar solo el nombre
-            if(nombreInputEditar.value != empleado.nombre || apellidoInputEditar.value != empleado.apellido){
-                empleado.nombre = nombreInputEditar.value
-                empleado.apellido = apellidoInputEditar.value
-                console.log(empleado.nombre)
-                document.getElementById(`celdaNombre${empleado.id}`).innerText = `${empleado.nombre} ${empleado.apellido}`
-            }
-           //si cambia la antiguedad tenemos que volver a asignar
-           //perfil, tambien valor de hora, sueldo aprox etc.  
-            if(antiguedadInputEditar.value != empleado.antiguedad){
-                empleado.antiguedad = antiguedadInputEditar.value
-                empleado.perfil = empleado.indicarPerfil()
-                empleado.bonoPorcentual = empleado.calcularBonoPorcentual()
-                empleado.valorHora = empleado.tasarHora()
-                empleado.sueldoMensual = empleado.calcularSueldoMensual()
-                empleado.sueldoTotal = empleado.calcularSueldoTotal()
+                let btnEditarEmpleado = document.getElementById("btnEditarEmpleado")
 
-                document.getElementById(`celdaPerfil${empleado.id}`).innerText = empleado.perfil
-                document.getElementById(`celdaValorHora${empleado.id}`).innerText = `$${empleado.valorHora}`
-            }
-              empleado.imagen = "NuevoEmpleado.png"
-              document.getElementById(`celdaImagen${empleado.id}`) = empleado.imagen
+                //BOTON CONFIRMAR EDITAR EN EL MODAL
 
-            localStorage.setItem("empleadosCargados", JSON.stringify(arrayEmpleados))
+                btnEditarEmpleado.addEventListener("click", ()=>{
+                  actualizarEmpleado()
+                  
+                })
             
+
             })
-            
-
-          })
           
 
           //BORRAR---------------------------------
@@ -238,7 +212,6 @@ function imprimirEmpleados(array){
 //Funciones Buscar Empleado
 function buscarEmpleado(array,valor){
     let busqueda = array.filter((empleado)=> empleado.nombre.toLowerCase().includes(valor.toLowerCase()) || empleado.apellido.toLowerCase().includes(valor.toLowerCase()))
-    console.log(busqueda)
     switch(selectOrden.value){
         case "0":
             imprimirEmpleados(busqueda)
@@ -302,6 +275,7 @@ function ordenarAlfaAz(array){
         return 0
     })
     imprimirEmpleados(arrayAlfabetico)
+    return arrayAlfabetico
 }
 
 function ordenarAlfaZa(array){
@@ -315,6 +289,7 @@ function ordenarAlfaZa(array){
         return 0
     })
     imprimirEmpleados(arrayAlfabetico)
+    return arrayAlfabetico
 }
 
 function ordenarMayorHoras(array){
@@ -339,11 +314,27 @@ function buscarContratados(array){
 
 
 
-//Funcion para iniciar un nuevo empleado
+//Funcion para iniciar un nuevo empleado(solo muestra tosty, la funciona la tiene el back)
 function cargarEmpleado(){
   Toastify({
 
       text: `Se ha agregado empleado correctamente`,
+      gravity: "top",
+      position: 'center',
+      style: {
+        background: "linear-gradient(to right, #ff5f6d, #ffc371)"
+      },
+      duration: 1500
+      
+      }).showToast();
+    tablaEmpleados.innerHTML = ""
+    imprimiendoEmpleados()
+}
+
+function actualizarEmpleado(){
+  Toastify({
+
+      text: `Se ha actualizado empleado correctamente`,
       gravity: "top",
       position: 'center',
       style: {
@@ -434,7 +425,7 @@ selectOrden.addEventListener("change", ()=>{
 
 //Evento Cargar Empleado
 btnCargarEmpleado.addEventListener("click", ()=>{
-    cargarEmpleado(empleadosDB)
+    cargarEmpleado()
 })
 
 

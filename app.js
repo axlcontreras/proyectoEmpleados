@@ -63,6 +63,23 @@ app.post("/cargarEmpleado", function(req, res){
         }
     )
 
+app.post("/actualizarEmpleado", function(req, res){
+
+    const datosActualesEmpleado = req.body
+    console.log(datosActualesEmpleado)
+    let id = datosActualesEmpleado.id
+    console.log(id)
+    let nombre = datosActualesEmpleado.nombre
+    console.log(nombre)
+    let apellido = datosActualesEmpleado.apellido
+    console.log(apellido)
+    let antiguedad = datosActualesEmpleado.antiguedad
+    console.log(antiguedad)
+    let ciudad = datosActualesEmpleado.ciudad
+    console.log(ciudad)
+    actualizarEmpleado(nombre, apellido, antiguedad, ciudad, id)
+
+})    
     
 app.post("/contrataciones/confirmar", async(req, res)=>{
         const connection = await database.getConnection();
@@ -76,6 +93,10 @@ app.post("/contrataciones/confirmar", async(req, res)=>{
         }
         res.sendStatus(200)
 })
+
+
+
+
 
 
 
@@ -110,7 +131,10 @@ app.get("/empleadosNoEfectivos", async  (req, res)=>{
 
 //********************************conexion BD *******************/
 
-function consulta(instruccion){
+//funcion que retorna si el empleado esta efectivo o no
+function consultaEfectivo(id){
+    let efectivo = false;
+    const consulta = ``
     connection.query(
         instruccion, (error, data)=>{
             if (error){
@@ -125,6 +149,7 @@ function consulta(instruccion){
     )
 }
 
+//esta funcion realiza la tarea de actualizar el estado(contratado o no), el contrato y las horas asignadas a los empleados que se confirmaron en el contrato. 
 async function actualizarEfectivos(array, idContrato){
     const connection = await database.getConnection();
     for(let empleado of array){
@@ -169,8 +194,18 @@ async function insertarEmpleado(nombre, apellido, antiguedad, ciudad){
             console.log(resultado)
         }
     })
+}
 
-
+async function actualizarEmpleado(nombre, apellido, antiguedad, ciudad, id){
+    const connection = await database.getConnection()
+    const update = `UPDATE empleados SET nombre = "${nombre}", apellido = "${apellido}", antiguedad = "${antiguedad}", ciudad = "${ciudad}" WHERE empleados.id = ${id}`
+    connection.query(update, function(err, resultado){
+        if (err){
+            throw err
+        }else{
+            console.log(resultado)
+        }
+    })
 }
 
 
