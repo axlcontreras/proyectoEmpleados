@@ -67,7 +67,7 @@ app.post("/cargarInfo2", function(req, res){
 //     )
 
 app.post("/actualizarEmpleado", async function(req, res){
-
+    console.log(req)
     const datosActualesEmpleado = req.body
     console.log(datosActualesEmpleado)
     let id = datosActualesEmpleado.id
@@ -227,7 +227,6 @@ async function actualizarEmpleado(nombre, apellido, antiguedad, ciudad, id){
         if(error){
             throw error
         }else{
-            console.log(data)
         }
     })
 }
@@ -248,7 +247,6 @@ async function eliminarEmpleado(id, res){
         if(error){
             throw error
         }else{
-            console.log("obteniendo data de from empleados")
         }
     })
     
